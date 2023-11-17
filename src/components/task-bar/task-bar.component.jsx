@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NewTaskButton from './new-task-button/new-task-button.component';
-
+import { useTaskContext } from '../../contexts/tasks.context';
+import TaskInfoBar from '../task-info-bar/task-info-bar.component';
 
 const TaskBar = () => {
+  const { state, dispatch } = useTaskContext();
+
+  const handleOpenTaskTab = () => {
+    dispatch({ type: 'OPEN_TASK_TAB' });
+  };
+
   return (
     <div className='task-bar'>
       <div className='heading'>
@@ -11,12 +18,15 @@ const TaskBar = () => {
       </div>
       
       <NewTaskButton />
-
-      <div className='current-task'>
-        <input type="checkbox" />
-        <p>Task Description</p>
-        <button>Show More Button</button>
+      {state.tasks.map((task) => (
+      <div className='current-task' key={task.id}>
+      <input type="checkbox" />
+      <p>{task.taskName}</p>
+      <button onClick={handleOpenTaskTab}>Show More Button</button>
       </div>
+    ))}
+
+      
     </div>
   )
 }
