@@ -6,9 +6,10 @@ import TaskInfoBar from '../task-info-bar/task-info-bar.component';
 const TaskBar = () => {
   const { state, dispatch } = useTaskContext();
 
-  const handleOpenTaskTab = () => {
-    dispatch({ type: 'OPEN_TASK_TAB' });
+  const handleOpenTaskTab = (taskId) => {
+    dispatch({ type: 'OPEN_TASK_TAB', payload: taskId });
   };
+
 
   return (
     <div className='task-bar'>
@@ -18,11 +19,12 @@ const TaskBar = () => {
       </div>
       
       <NewTaskButton />
+
       {state.tasks.map((task) => (
       <div className='current-task' key={task.id}>
       <input type="checkbox" />
       <p>{task.taskName}</p>
-      <button onClick={handleOpenTaskTab}>Show More Button</button>
+      <button onClick={() => {handleOpenTaskTab(task.id)}}>Show More Button</button>
       </div>
     ))}
 

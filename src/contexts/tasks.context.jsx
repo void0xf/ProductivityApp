@@ -5,6 +5,7 @@ export const TasksContext = createContext();
 const initialState = {
   tasks: [],
   isTaskTabOpen: false,
+  activeTaskId: 0,
 };
 
 // const taskInformation = {
@@ -23,9 +24,25 @@ const taskReducer = (state, action) => {
       tasks:[...state.tasks, action.payload]
     }
     case 'OPEN_TASK_TAB':
-      return{
+      console.log(action.payload);
+      if(action.payload != state.activeTaskId){
+        return{
+          ...state,
+          activeTaskId: action.payload,
+          isTaskTabOpen: true
+        }
+      }
+      else{
+        return{
+          ...state,
+          isTaskTabOpen: !state.isTaskTabOpen
+        }
+      }
+      
+    case 'SET_TASK_ID':
+      return {
         ...state,
-        isTaskTabOpen: !state.isTaskTabOpen
+        activeTaskId: action.payload
       }
     default:
       return state;

@@ -4,6 +4,7 @@ import { useTaskContext } from '../../../contexts/tasks.context';
 
 const NewTaskButton = () => {
   const { state, dispatch } = useTaskContext();
+  const [ counter, setCounter ] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {
@@ -13,9 +14,9 @@ const NewTaskButton = () => {
 
   const addnewtask = () => {
     const newTask = {
-      id: 1,
+      id: counter,
       taskName: inputValue,
-      description: '',
+      description: 'desc',
       date: '',
       type: '',
       tags: [],
@@ -23,11 +24,10 @@ const NewTaskButton = () => {
 
 
     dispatch({ type: 'ADD_TASK', payload: newTask });
+    setCounter(counter+1);
+    console.log(state);
   };
 
-  useEffect(() => {
-    console.log(state.isTaskTabOpen)
-  }, [state])
 
   return (
     <div>
