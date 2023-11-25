@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useTaskContext } from '../../../contexts/tasks.context';
+import Button from '@mui/joy/Button';
+import { Plus } from 'lucide-react';
 
 
 const NewTaskButton = () => {
@@ -11,12 +13,17 @@ const NewTaskButton = () => {
     setInputValue(e.target.value);
   };
 
+  const handleKeyPress = (key) => {
+    if(key === 'Enter') {
+      addnewtask();
+    }
+  }
 
   const addnewtask = () => {
     const newTask = {
       id: counter,
       taskName: inputValue,
-      description: 'desc',
+      description: '',
       date: '',
       type: '',
       tags: [],
@@ -25,22 +32,28 @@ const NewTaskButton = () => {
 
     dispatch({ type: 'ADD_TASK', payload: newTask });
     setCounter(counter+1);
-    console.log(state);
   };
 
 
   return (
     <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder='Add New Task'
-      />
+      <div className="relative">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleInputChange(e)}
+          onKeyDown={(e) => handleKeyPress(e.key)}
+          placeholder='Add New Task'
+          className='pl-10 pr-4 py-2 border rounded-lg border-gray-400'
+        />
+       <div class="absolute inset-y-0 left-0 pl-3  
+                    flex items-center  
+                    pointer-events-none"> 
+             <Plus />
+        </div> 
+      </div>
+      
 
-      <button type="button" onClick={addnewtask}>
-        Add New Task
-      </button>
     </div>
   );
 }

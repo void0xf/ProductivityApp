@@ -2,30 +2,24 @@ import React, { useEffect, useState } from 'react'
 import NewTaskButton from './new-task-button/new-task-button.component';
 import { useTaskContext } from '../../contexts/tasks.context';
 import TaskInfoBar from '../task-info-bar/task-info-bar.component';
+import NewTask from './new-task/new-task.component';
 
 const TaskBar = () => {
   const { state, dispatch } = useTaskContext();
 
-  const handleOpenTaskTab = (taskId) => {
-    dispatch({ type: 'OPEN_TASK_TAB', payload: taskId });
-  };
-
-
   return (
     <div className='task-bar'>
-      <div className='heading'>
-        <h1>Today </h1>
-        <h2>Tasks Number</h2>
+      <div className='heading flex flex-row'>
+        <span className='text-xl'>Today</span>
+        <h2 className='p-2 text-xl'>{state.tasks.length}</h2>
       </div>
       
       <NewTaskButton />
 
       {state.tasks.map((task) => (
-      <div className='current-task' key={task.id}>
-      <input type="checkbox" />
-      <p>{task.taskName}</p>
-      <button onClick={() => {handleOpenTaskTab(task.id)}}>Show More Button</button>
-      </div>
+        <ul>
+          <NewTask taskTitle={task.taskName} taskId={task.id}/>
+        </ul>
     ))}
 
       
