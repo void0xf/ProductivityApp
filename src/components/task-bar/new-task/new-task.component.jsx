@@ -18,12 +18,12 @@ const NewTask = ({taskTitle, taskId}) => {
               <input type="checkbox"  />
             </div>
             <div className='p-2'>
-              <span>{taskTitle}</span>
+              <span className='text-gray-700 font-semibold'>{taskTitle}</span>
             </div>
           </div>
           
           <div className='p-2'>
-            <button onClick={() => {handleOpenTaskTab(taskId)}}><ChevronRight /></button>
+            <button onClick={() => {handleOpenTaskTab(taskId)}}><ChevronRight color='grey' /></button>
           </div>
         </div>
         

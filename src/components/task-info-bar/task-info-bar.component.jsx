@@ -19,7 +19,7 @@ const TaskInfoBar = () => {
   };
 
   if (!activeTask) {
-    return <div className='task-info-bar'>No active task selected</div>;
+    return <div className='mr-10'>No active task selected</div>;
   }
 
   const handleSaveChangesClick = () => {
@@ -35,22 +35,56 @@ const TaskInfoBar = () => {
   };
 
   return (
-    <div className='task-info-bar'>
-      <h3>Task:</h3>
-      <input type="text" placeholder={taskName} ref={taskNameRef}/>
-      <br />
-      <input type="text" placeholder={description ==='' ? 'Type Your Description Here' : description} ref={descRef}/>
-      <p>List: </p> 
-      <select name="" id="">
-        {state.lists.map((listName) => (
-          <option value={listName}>{listName}</option>
-        ))}
-      </select>
-      <p>Date: </p> <input type="date" ref={dateRef}/>
+    <div className='task-info-bar border-l-2 p-2 w-1/5 ml-5 flex flex-col justify-between'>
       <div>
-        <button onClick={() => {handleSaveChangesClick()}}>Save Changes</button>
-        <button onClick={handleOnDeleteTaskClick}>Delete Task</button>
+        <span className='text-2xl text-gray-700'> Task: </span>
+        <div>
+          <input type="text"
+            placeholder={taskName} 
+            ref={taskNameRef}
+            className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
+          />
+        </div>
+        <div>
+          <input 
+            type="text" 
+            placeholder={description ==='' ? 'Type Your Description Here' : description} 
+            ref={descRef}
+            className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
+          />
+        </div>
+
+        <div className='grid grid-cols-2'>
+          <div>List: </div> 
+          <div>
+              <select name="" id="">
+              {state.lists.map((listName) => (
+                <option value={listName}>{listName}</option>
+              ))}
+            </select>
+          </div>
+
+          <div> <p>Date: </p> </div>
+          <div> <input type="date" ref={dateRef}/> </div>
+        </div>
       </div>
+      
+
+      <div className='flex justify-between mb-2'>
+        <div>
+          <button
+            className='py-2 px-5 border-2 rounded-lg border-gray-200 font-semibold' 
+            onClick={handleOnDeleteTaskClick}>
+            Delete Task
+          </button>
+        </div>
+        <div>
+          <button 
+          className='py-2 px-5  rounded-lg  bg-yellow-300 font-semibold' 
+          onClick={handleSaveChangesClick}>Save Changes</button>
+        </div>
+      </div>
+     
     </div>
   )
 }

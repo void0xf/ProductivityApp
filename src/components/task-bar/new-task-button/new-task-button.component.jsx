@@ -15,11 +15,11 @@ const NewTaskButton = () => {
 
   const handleKeyPress = (key) => {
     if(key === 'Enter') {
-      addnewtask();
+      addNewTask();
     }
   }
 
-  const addnewtask = () => {
+  const addNewTask = () => {
     const newTask = {
       id: counter,
       taskName: inputValue,
@@ -36,20 +36,20 @@ const NewTaskButton = () => {
 
 
   return (
-    <div>
-      <div className="relative">
+    <div className=''>
+      <div className="relative w-full">
         <input
           type="text"
           value={inputValue}
           onChange={(e) => handleInputChange(e)}
           onKeyDown={(e) => handleKeyPress(e.key)}
           placeholder='Add New Task'
-          className='pl-10 pr-4 py-2 border rounded-lg border-gray-400'
+          className='pl-10 pr-4 py-2 border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40'
         />
        <div class="absolute inset-y-0 left-0 pl-3  
                     flex items-center  
                     pointer-events-none"> 
-             <Plus />
+             <Plus color='grey'/>
         </div> 
       </div>
       

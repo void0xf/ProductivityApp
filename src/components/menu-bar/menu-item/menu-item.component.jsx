@@ -1,12 +1,11 @@
 
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
-import { SidebarContext } from "../menu-bar/menu-bar.component"
+import { SidebarContext } from '../menu-bar.component'
 
 export function SidebarItem({ icon, text, active, alert }) {
 
   const { expanded } = useContext(SidebarContext)
-  console.log(expanded);
   return (
     <li
       className={`

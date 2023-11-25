@@ -1,11 +1,9 @@
-import './App.css';
 import TaskBar from './components/task-bar/task-bar.component';
 import TaskInfoBar from './components/task-info-bar/task-info-bar.component';
 import { TaskProvider, useTaskContext } from './contexts/tasks.context';
-import { Button } from '@mui/joy';
 import { BarChart } from 'lucide-react';
 import Sidebar from './components/menu-bar/menu-bar.component';
-import { SidebarItem } from './components/menu-item/menu-item.component';
+import { SidebarItem } from './components/menu-bar/menu-item/menu-item.component';
 
 function App() {
   const { state, dispatch } = useTaskContext();
@@ -18,7 +16,7 @@ function App() {
         <SidebarItem 
           icon={<BarChart size={20}/>} 
           text="Statistics" 
-          active/>
+          />
       </Sidebar>
         <TaskBar />
       <TaskInfoBar/>
