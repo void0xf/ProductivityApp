@@ -18,6 +18,7 @@ const initialState = {
 //   tags,
 // }
 
+
 const updateTaskInfo = (tasksElements, newTaskInfo) => {
   const newTaskElements = tasksElements.map((taskElement) => {
     if (taskElement.id === newTaskInfo.id) {

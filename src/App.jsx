@@ -4,7 +4,8 @@ import { TaskProvider, useTaskContext } from './contexts/tasks.context';
 import Sidebar from './components/menu-bar/menu-bar.component';
 import { SidebarItem } from './components/menu-bar/menu-item/menu-item.component';
 import { ChevronsRight, ListChecks, CalendarDays, StickyNote, User, Briefcase } from 'lucide-react';
-
+import { GetTodayTasks } from './contexts/tasks.context';
+import { useEffect, useState } from 'react';
 const componentMap = {
   'Personal': User,
   'Work': Briefcase
@@ -13,7 +14,24 @@ const componentMap = {
 
 function App() {
   const { state, dispatch } = useTaskContext();
+  const [ todayTasksCount, setTodayTasksCount] = useState(0);
 
+  useEffect(() => {
+    setTodayTasksCount(0);
+    const date = new Date();
+  
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+  
+    const currentDate = `${year}-${month}-${day}`;
+    state.tasks.forEach((task) => { // Use forEach instead of map
+      if (currentDate === task.date) {
+        console.log(task);
+        setTodayTasksCount((prevCount) => prevCount + 1); // Update state based on previous state
+      }
+    });
+  }, [state.tasks]);
 
   return (
     <div className='app-container'>
@@ -25,13 +43,16 @@ function App() {
           text="Upcoming" 
           />
         <SidebarItem 
-          icon={<ListChecks size={15}/>} 
-          text="Today" 
+          icon={<ListChecks size={15} alert/>} 
+          text="Today"
+          alert
+          numberOfAlerts={todayTasksCount}
           />
         <SidebarItem 
           icon={<CalendarDays size={15}/>} 
           text="Calendar" 
           alert
+          numberOfAlerts={10}
           />
         <SidebarItem 
           icon={<StickyNote size={15}/>} 

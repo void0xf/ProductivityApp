@@ -26,7 +26,6 @@ const NewTask = ({ taskId, task }) => {
     if (task.list !== 'None') {
       const icon = getIcon(task.list);
       setIconComponent(icon);
-      console.log(icon);
     } else {
       setIconComponent(null);
     }

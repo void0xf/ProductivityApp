@@ -3,7 +3,7 @@ import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
 import { SidebarContext } from '../menu-bar.component'
 
-export function SidebarItem({ icon, text, active, alert }) {
+export function SidebarItem({ icon, text, active, alert, numberOfAlerts }) {
 
   const { expanded } = useContext(SidebarContext)
   return (
@@ -28,11 +28,11 @@ export function SidebarItem({ icon, text, active, alert }) {
         {text}
       </span>
       {alert && (
-        <div
-          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-            expanded ? "" : "top-2"
-          }`}
-        />
+        <div className={` bg-indigo-300 w-6 h-6 rounded-xl ${
+          expanded ? "" : "top-2"
+        }`}>
+          <div className="relative bottom-0.3 left-1 ">{numberOfAlerts}</div>
+        </div>
       )}
 
       {!expanded && (

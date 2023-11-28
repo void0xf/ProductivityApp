@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTaskContext } from '../../contexts/tasks.context';
 
 const TaskInfoBar = () => {
   const { state, dispatch } = useTaskContext();
   const [ newDescription, setDescription] = useState('');
   const [ newTaskName, setTaskName] = useState('');
+  const [ newDate, setNewDate] = useState('');
   const taskNameRef = useRef();
   const descRef = useRef();
   const listRef = useRef();
@@ -14,6 +15,9 @@ const TaskInfoBar = () => {
 
   const { taskName = '', description = '', date='' } = activeTask || {};
 
+  useEffect(()=>{
+    setNewDate(date);
+  }, [date])
 
   const handleOnDeleteTaskClick = () => {
     if (activeTask) {
@@ -33,6 +37,10 @@ const TaskInfoBar = () => {
     const selectedValue = event.target.value
     listRef.current.value = selectedValue;
     console.log(listRef.current.value)
+  }
+
+  const handleDateChange = (event) => {
+    setNewDate(event.target.value)
   }
 
   if (!activeTask) {
@@ -91,7 +99,7 @@ const TaskInfoBar = () => {
           </div>
 
           <div> <p>Date: </p> </div>
-          <div> <input type="date" ref={dateRef}/> </div>
+          <div> <input type="date" value={newDate} ref={dateRef} onChange={handleDateChange}/> </div>
         </div>
       </div>
       
