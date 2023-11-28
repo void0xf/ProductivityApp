@@ -10,7 +10,7 @@ const TaskBar = () => {
   return (
     <div className='task-bar w-1/3'>
       <div className='heading flex flex-row py-2'>
-        <span className='text-3xl pr-5'>Today</span>
+        <span className='text-3xl pr-5 font-semibold'>Today</span>
         <h2 className='p-1 px-3 text-2xl border-2 rounded-lg bg-gray-100'>{state.tasks.length}</h2>
       </div>
       
@@ -18,7 +18,7 @@ const TaskBar = () => {
 
       {state.tasks.map((task) => (
         <ul className='my-1'>
-          <NewTask taskTitle={task.taskName} taskId={task.id}/>
+          <NewTask taskTitle={task.taskName} taskId={task.id} task={task}/>
         </ul>
     ))}
 

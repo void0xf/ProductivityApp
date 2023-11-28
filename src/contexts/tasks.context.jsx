@@ -6,7 +6,7 @@ const initialState = {
   tasks: [],
   isTaskTabOpen: false,
   activeTaskId: 0,
-  lists: [],
+  lists: [{name:'Personal', icon:'User'}, {name:'Work', icon: 'Briefcase'}],
   tags: [],
 };
 
@@ -26,6 +26,7 @@ const updateTaskInfo = (tasksElements, newTaskInfo) => {
         taskName: newTaskInfo.taskName,
         description: newTaskInfo.description,
         date: newTaskInfo.date,
+        list: newTaskInfo.list
       };
     } else {
       return taskElement;

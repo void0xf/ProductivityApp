@@ -25,7 +25,7 @@ const NewTaskButton = () => {
       taskName: inputValue,
       description: '',
       date: '',
-      type: '',
+      list: 'None',
       tags: [],
     };
 
