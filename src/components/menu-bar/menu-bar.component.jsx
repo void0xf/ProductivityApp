@@ -1,6 +1,7 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
 // import SidebarContext from "../../contexts/sidebar.context"
+import Logo from '../../assets/logo.svg';
 
 export const SidebarContext = createContext();
 
@@ -12,11 +13,11 @@ export default function Sidebar({ children }) {
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
-            src="https://img.logoipsum.com/243.svg"
+            src={Logo}
             className={`overflow-hidden transition-all ${
               expanded ? "w-32" : "w-0"
             }`}
-            alt=""
+            alt="logo"
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}

@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { TaskProvider } from './contexts/tasks.context';
+import { FilterProvider } from './contexts/filter.context';
 import '@fontsource/inter';
 
 
@@ -11,9 +12,13 @@ import '@fontsource/inter';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <FilterProvider>
     <TaskProvider>
-      <App />
+      
+        <App />
+      
     </TaskProvider>
+    </FilterProvider>
   </React.StrictMode>
 );
 

@@ -17,7 +17,9 @@ const TaskInfoBar = () => {
 
   useEffect(()=>{
     setNewDate(date);
-  }, [date])
+    setDescription(description);
+    setTaskName(taskName);
+  }, [date, description, taskName])
 
   const handleOnDeleteTaskClick = () => {
     if (activeTask) {
@@ -25,12 +27,12 @@ const TaskInfoBar = () => {
     }
   };
 
-  const handleTaskNameChange = (e) => {
-    setTaskName(e.target.value);
+  const handleTaskNameChange = (event) => {
+    setTaskName(event.target.value)
   }
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value)
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value)
   }
 
   const handleListChange = (event) => {
@@ -59,6 +61,7 @@ const TaskInfoBar = () => {
       }
     });
   };
+  
 
   return (
     <div className='task-info-bar border-l-2 p-2 w-1/5 ml-5 flex flex-col justify-between'>
@@ -67,7 +70,7 @@ const TaskInfoBar = () => {
         <div>
           <input type="text"
             value={newTaskName}
-            placeholder={taskName}
+            placeholder={'Type your name for this Task'}
             onChange={handleTaskNameChange}
             ref={taskNameRef}
             className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
