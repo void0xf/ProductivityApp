@@ -7,17 +7,16 @@ const initialState = {
   isTaskTabOpen: false,
   activeTaskId: 0,
   lists: [{name:'Personal', icon:'User'}, {name:'Work', icon: 'Briefcase'}],
-  tags: [],
 };
 
 // const taskInformation = {
+//   id,
 //   taskName,
 //   description,
 //   date,
 //   type,
-//   tags,
+//   priority,
 // }
-
 
 const updateTaskInfo = (tasksElements, newTaskInfo) => {
   const newTaskElements = tasksElements.map((taskElement) => {
@@ -78,15 +77,15 @@ const taskReducer = (state, action) => {
         ...state,
         tasks: updateTaskInfo(state.tasks, action.payload),
       }
+      case 'CLOSE_TASK_TAB':
+        return {
+          ...state,
+          isTaskTabOpen: false
+        }
     case 'ADD_LIST':
       return {
         ...state,
-        lists: [...state.lists, action.payload]
-      }
-    case 'ADD_TAG':
-      return {
-        ...state,
-        tags: [...state.tags, action.payload]
+        lists: [...state.lists, {name: action.payload, icon:'User'}]
       }
     default:
       return state;

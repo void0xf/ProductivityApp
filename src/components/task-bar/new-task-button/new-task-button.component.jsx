@@ -2,9 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTaskContext } from '../../../contexts/tasks.context';
 import Button from '@mui/joy/Button';
 import { Plus } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 
 
-const NewTaskButton = () => {
+
+const NewTaskButton = ({addForTommorow}) => {
+  const uniqueId = uuidv4();
+
   const { state, dispatch } = useTaskContext();
   const [ counter, setCounter ] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -20,18 +24,21 @@ const NewTaskButton = () => {
   }
 
   const addNewTask = () => {
+    const dateToSet = addForTommorow ? new Date() : new Date(); // Default to today's date
+    if (addForTommorow) {
+      dateToSet.setDate(dateToSet.getDate() + 1); // Add 1 day if for tomorrow
+    }
+  
     const newTask = {
-      id: counter,
+      id: uniqueId,
       taskName: inputValue,
       description: '',
-      date: '',
+      date: dateToSet,
       list: 'None',
       tags: [],
     };
-
-
+  
     dispatch({ type: 'ADD_TASK', payload: newTask });
-    setCounter(counter+1);
   };
 
 

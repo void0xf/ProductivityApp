@@ -4,7 +4,7 @@ import { useTaskContext } from "./tasks.context";
 export const TaskFilter = createContext();
 
 const INITIAL_STATE = {
-  filter: '',
+  filter: 'Upcoming',
   listFilter: '',
   tagsFilter: [],
 };
@@ -33,7 +33,6 @@ export const filtrTasks = (tasks, filter) => {
   //   if(filter.listFilter.length)
   //   {
   //     taskList = taskList.map((task) => {
-  //       console.log(filter.listFilter)
   //       if(task.list == filter.listFilter)
   //         return task
   //     })

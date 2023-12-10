@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTaskContext } from '../../contexts/tasks.context';
+import { X } from 'lucide-react';
 
 const TaskInfoBar = () => {
   const { state, dispatch } = useTaskContext();
@@ -24,6 +25,7 @@ const TaskInfoBar = () => {
   const handleOnDeleteTaskClick = () => {
     if (activeTask) {
       dispatch({ type: 'REMOVE_TASK_ID', payload: activeTask.id });
+      dispatch({ type: 'CLOSE_TASK_TAB', payload: '' });
     }
   };
 
@@ -38,11 +40,14 @@ const TaskInfoBar = () => {
   const handleListChange = (event) => {
     const selectedValue = event.target.value
     listRef.current.value = selectedValue;
-    console.log(listRef.current.value)
   }
 
   const handleDateChange = (event) => {
     setNewDate(event.target.value)
+  }
+
+  const handleCloseTaskInfo = () => {
+    dispatch({type: 'CLOSE_TASK_TAB', payload: ''})
   }
 
   if (!activeTask) {
@@ -56,17 +61,22 @@ const TaskInfoBar = () => {
         id: activeTask.id,
         taskName: taskNameRef.current.value,
         description: descRef.current.value,
-        date: dateRef.current.value,
+        date: new Date(dateRef.current.value),
         list: listRef.current.value 
       }
     });
+    dispatch({ type: 'CLOSE_TASK_TAB', payload: '' });
   };
   
 
   return (
-    <div className='task-info-bar border-l-2 p-2 w-1/5 ml-5 flex flex-col justify-between'>
+    <div className='border-2 rounded-xl p-2 flex flex-col justify-between sm:mx-2'>
       <div>
+        <div className='flex justify-between items-center'>
         <span className='text-2xl text-gray-700'> Task: </span>
+          <button onClick={() => {handleCloseTaskInfo()}}><X /></button>
+        </div>
+        
         <div>
           <input type="text"
             value={newTaskName}
@@ -87,37 +97,41 @@ const TaskInfoBar = () => {
           />
         </div>
 
-        <div className='grid grid-cols-2'>
-          <div>List: </div> 
-          <div>
-            {
-              <select name="" id="" onChange={handleListChange} ref={listRef}>
-                 <option value='None'>None</option>
-                  {state.lists.map((listName) => (
-                    <option value={listName.name}>{listName.name}</option>
-                  ))}
-              </select>
-            }
-              
+        <div className='flex flex-col mt-5'>
+          <div className='flex'>
+          <div className='mr-5'>List: </div> 
+            <div>
+              {
+                <select name="" id="" onChange={handleListChange} ref={listRef}>
+                  <option value='None'>None</option>
+                    {state.lists.map((listName) => (
+                      <option value={listName.name}>{listName.name}</option>
+                    ))}
+                </select>
+              }
+                
+            </div>
           </div>
 
-          <div> <p>Date: </p> </div>
-          <div> <input type="date" value={newDate} ref={dateRef} onChange={handleDateChange}/> </div>
+          <div className='flex'>
+            <div className='mr-2'> <p>Date: </p> </div>
+            <div> <input type="date" value={newDate} ref={dateRef} onChange={handleDateChange}/> </div>
+          </div>
         </div>
       </div>
       
 
-      <div className='flex justify-between mb-2'>
+      <div className='flex justify-between mb-2 mt-5'>
         <div>
           <button
-            className='py-2 px-5 border-2 rounded-lg border-gray-200 font-semibold' 
+            className='py-2 px-2 border-2 rounded-lg border-gray-200 font-semibold' 
             onClick={handleOnDeleteTaskClick}>
             Delete Task
           </button>
         </div>
         <div>
           <button 
-          className='py-2 px-5  rounded-lg  bg-yellow-300 font-semibold' 
+          className='py-2 px-2 rounded-lg  bg-yellow-300 font-semibold' 
           onClick={handleSaveChangesClick}>Save Changes</button>
         </div>
       </div>

@@ -7,8 +7,15 @@ module.exports = {
     extend: {
       colors: {
         customBlack: '#312F2F',
-        customWhite: '#FFFEFF'
-      }
+        customWhite: '#FFFEFF',
+        GrayWhite: '#dddddd',
+        DarkerGrayWhite: '#a6a6a6'
+
+      },
+      fontFamily: {
+        'sans': ['Poppins', 'sans']
+      },
+
        
     }
   },

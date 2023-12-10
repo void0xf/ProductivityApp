@@ -16,7 +16,7 @@ root.render(
     <TaskProvider>
       
         <App />
-      
+  
     </TaskProvider>
     </FilterProvider>
   </React.StrictMode>

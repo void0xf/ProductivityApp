@@ -12,6 +12,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  /* font-family: 'Circe Bold Bold';
+  src: url("assets/fonts/CirceBold.otf") format("opentype");
+  font-family: 'Circe Bold';
+  src: url("assets/fonts/CirceBoldBold.ttf") format("opentype"); */
+  
+  font-family: 'Poppins', sans-serif;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

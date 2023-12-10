@@ -1,37 +1,29 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
+import { MoreVertical, ChevronLast, ChevronFirst, Menu } from "lucide-react"
 import { useContext, createContext, useState } from "react"
-// import SidebarContext from "../../contexts/sidebar.context"
 import Logo from '../../assets/logo.svg';
-
-export const SidebarContext = createContext();
+import { SidebarContext } from "../../App";
 
 export default function Sidebar({ children }) {
-  
-  const [expanded, setExpanded] = useState(true)
+  const setIsSideBarActive  = useContext(SidebarContext);
+
   return (
-    <div className="h-screen">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src={Logo}
-            className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
-            alt="logo"
-          />
-          <button
-            onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </button>
+    <div className="h-full">
+      <nav className="h-full flex flex-col bg-white border-r shadow-sm justify-between">
+        <div>
+          <div className=" pb-2 flex justify-between items-center">
+            <div className="ml-2 font-semibold text-xl">Menu</div>
+            <button
+              onClick={() => {setIsSideBarActive(false)}}
+              className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            >
+            <Menu />
+            </button>
+          </div>
+          <div className="">{children}</div>
         </div>
-
-        <SidebarContext.Provider value={ {expanded} }>
-          <ul className="flex-1 px-3">{children}</ul>
-        </SidebarContext.Provider>
-
-        <div className="border-t flex p-3">
+        
+        <button>
+        <div className=" flex p-3">
           <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
             alt=""
@@ -40,16 +32,16 @@ export default function Sidebar({ children }) {
           <div
             className={`
               flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+              overflow-hidden transition-all w-52 ml-3
           `}
           >
             <div className="leading-4">
               <h4 className="font-semibold">John Doe</h4>
               <span className="text-xs text-gray-600">johndoe@gmail.com</span>
             </div>
-            <MoreVertical size={20} />
           </div>
         </div>
+        </button>
       </nav>
     </div>
   )
