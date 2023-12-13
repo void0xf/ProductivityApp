@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getNameOfMonth, getTodayDate, getTodayDay, getTodayMonth, getTodayYear } from '../../utils/date.utils'
+import { getDates, getDayName, getNameOfMonth, getTodayDate, getTodayDay, getTodayMonth, getTodayYear } from '../../utils/date.utils'
 import TodayTab from './tabs/today-tab.component'
 import WeekTab from './tabs/week-tab.component'
 import MonthTab from './tabs/month-tab.component'
@@ -54,10 +54,34 @@ const Calendar = () => {
         setCalendarHeader(`${todayDay + nextDay} ${nameOfTodayMonth} ${todayYear}`)
       }
       if(isWeekButtonActive) {
-        setCalendarHeader(``)
+        const startOfTheWeek = new Date();
+        const endOfTheWeek = new Date();
+        endOfTheWeek.setDate(startOfTheWeek.getDate() + 7)
+
+        setCalendarHeader(`
+        ${getDayName(startOfTheWeek)}
+        ${startOfTheWeek.getMonth() + 1}
+        ${startOfTheWeek.getFullYear()} 
+        - 
+        ${getDayName(endOfTheWeek)}
+        ${endOfTheWeek.getMonth() + 1}
+        ${endOfTheWeek.getFullYear()}
+        `)
       }
       if(isMonthButtonActive) {
+        const startOfTheWeek = new Date();
+        const endOfTheWeek = new Date();
+        endOfTheWeek.setDate(startOfTheWeek.getDate() + 30)
 
+        setCalendarHeader(`
+        ${getDayName(startOfTheWeek)}
+        ${startOfTheWeek.getMonth() + 1}
+        ${startOfTheWeek.getFullYear()} 
+        - 
+        ${getDayName(endOfTheWeek)}
+        ${endOfTheWeek.getMonth() + 1}
+        ${endOfTheWeek.getFullYear()}
+        `)
       }
   }, [isDayButtonActive, isWeekButtonActive, isMonthButtonActive, nextDay, nextMonth, nextWeek])
 
@@ -66,42 +90,45 @@ const Calendar = () => {
       <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
       <div className='flex flex-col items-center'>
        
-        <div className='bg-GrayWhite rounded-lg p-1'>
-          <button 
-            className={`px-3 py-1 mx-1 bg-white rounded-lg ${isDayButtonActive ? 'bg-DarkerGrayWhite font-semibold' : ''}`}
-            onClick={() => {
-              setIsDayButtonActive(true); setIsWeekButtonActive(false); setIsMonthButtonActive(false);
-            }}>
-              Day
-          </button>
-          <button 
-            className={`px-3 py-1 mx-1 bg-white rounded-lg ${isWeekButtonActive ? 'bg-DarkerGrayWhite font-semibold' : ''}`}
-            onClick={() => {
-              setIsDayButtonActive(false); setIsWeekButtonActive(true); setIsMonthButtonActive(false);
-            }}>
-            Week
-          </button>
-          <button 
-            className={`px-3 py-1 mx-1 rounded-lg ${isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold ' : 'bg-white'}`}
-            onClick={() => {
-              setIsDayButtonActive(false); setIsWeekButtonActive(false); setIsMonthButtonActive(true);
-          }}>
-            Month
-          </button>
-        </div>
-        <div className='hidden'>
-          <button 
-            onClick={() => {handleLeftArrowClick()}}
-          >
-            <ChevronLeft />
-            </button>
-          <button
-            onClick={() => {handleRightArrowClick()}}
-          >
-            <ChevronRight />
-            </button>
-        </div>
-      </div>
+      <div className='bg-gray-200 rounded-lg p-1'>
+      <button
+        className={`px-3 py-1 mx-1 bg-white rounded-lg transition-all duration-300 ${
+          isDayButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
+        }`}
+        onClick={() => {
+          setIsDayButtonActive(true);
+          setIsWeekButtonActive(false);
+          setIsMonthButtonActive(false);
+        }}
+      >
+        Day
+      </button>
+      <button
+        className={`px-3 py-1 mx-1 bg-white rounded-lg transition-all duration-300 ${
+          isWeekButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
+        }`}
+        onClick={() => {
+          setIsDayButtonActive(false);
+          setIsWeekButtonActive(true);
+          setIsMonthButtonActive(false);
+        }}
+      >
+        Week
+      </button>
+      <button
+        className={`px-3 py-1 mx-1 rounded-lg bg-white transition-all duration-300 ${
+          isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : 'bg-white'
+        }`}
+        onClick={() => {
+          setIsDayButtonActive(false);
+          setIsWeekButtonActive(false);
+          setIsMonthButtonActive(true);
+        }}
+      >
+        Month
+      </button>
+    </div>
+    </div>
 
       {
         isDayButtonActive ? <TodayTab nextDayNumber={nextDay} /> : null

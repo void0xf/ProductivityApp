@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { getTodayDay } from '../../../utils/date.utils';
+import { getDayName, getTodayDay } from '../../../utils/date.utils';
 import { TasksContext } from '../../../contexts/tasks.context';
 import { getTasksForToday } from '../../../utils/task.utils';
 
@@ -41,9 +41,12 @@ const TodayTab = ( { nextDayNumber }) => {
           </>
           ))} */}
 
-            <div class="flex flex-col mt-5 sm: min-w-full">
+            <div class="flex flex-col mt-5 sm:max-w-xl mx-auto ">
+              <div className='flex items-start'>
+                <div className='font-semibold'>{getDayName(today)}</div>
+              </div>
                 {tasks.map((task) => (
-                    <div className='flex border-2 max-h-96 rounded-lg my-2 bg-blue-200 sm:max-w-2xl mx-auto min-w-[32rem]'>
+                    <div className='flex border-2 max-h-96 rounded-lg my-2 bg-blue-200'>
                       <div className='p-2 flex'>
                           {
                             <div>

@@ -10,7 +10,6 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
   const handleClick = () => {
 
     if(clickType !== 'list') {
-      payload === state.filter ? payload='' : payload=payload
 
       dispatch({type:'UPDATE_FILTER', 
       payload:{
@@ -18,11 +17,10 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
         listFilter:'',
         tagsFilter:[]
       }})
-      console.log(payload)
     }
     if(clickType == 'list') {
       //handle button toggle
-      payload === state.listFilter ? payload='' : payload=payload
+      payload === state.listFilter ? payload='None' : payload=payload
       
       dispatch({type:'UPDATE_FILTER_LIST', 
         payload:{
@@ -40,10 +38,16 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
         relative flex items-center py-2 px-3 my-1
         font-medium rounded-md cursor-pointer
         transition-colors group
-        ${
-          active
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+        ${  
+        active
+            ? " text-white-400"
             : "hover:bg-indigo-50 text-gray-600"
+        }
+        ${
+          state.listFilter == payload 
+            ? ""
+            : ''
+
         }
 
       
@@ -52,8 +56,8 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
       {icon}
       <span
         className={`overflow-hidden transition-all ${
-           "w-52 ml-3"
-        }`}
+           "w-52 ml-3" 
+        } ${active ? 'font-semibold' : ''}`}
       >
         {text}
       </span>

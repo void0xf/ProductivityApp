@@ -48,18 +48,23 @@ const WeekTab = ({nextWeekNumber}) => {
   
   const datesBettween = getDates(today, endDateOfTheWeek);
   return (
-    <div>
+    <div className='mt-5'>
     {datesBettween.map((date) => {
       const tasksForDate = getTaskForDate(state.tasks, date);
       return (
       <div>
-        <div>{getDayName(date)}</div>
-          <div>
-            {tasksForDate.map((task) => (
-              <p>{task.taskName}</p>
-            ))}
-          </div>
-      </div>
+        <div className='text-start mx-2'>
+          <div className='font-semibold'>{getDayName(date)}</div>
+            
+            <div className='bg-gray-200 rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto'>
+              {tasksForDate.map((task) => (
+                <div className='bg-blue-300 rounded-lg my-2 px-2 pb-5 flex flex-col'> 
+                  <p className='font-semibold'>{task.taskName}</p> <p className='pt-2'>{task.date.getHours()} : {task.date.getMinutes()}</p>
+                </div>
+              ))}
+            </div>
+        </div>
+        </div>
       )
       
       })}      

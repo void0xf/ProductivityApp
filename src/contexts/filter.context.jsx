@@ -5,7 +5,7 @@ export const TaskFilter = createContext();
 
 const INITIAL_STATE = {
   filter: 'Upcoming',
-  listFilter: '',
+  listFilter: 'None',
   tagsFilter: [],
 };
 

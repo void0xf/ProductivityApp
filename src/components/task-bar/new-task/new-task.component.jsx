@@ -36,9 +36,8 @@ const NewTask = ({ taskId, task }) => {
       <div className='container flex flex-row border-b-2 justify-between min-w-40'>
         <div className='flex flex-row'>
           <div className='p-2'>
-            <input type="checkbox" />
           </div>
-          <div className='p-2'>
+          <div className='p-2 flex flex-col m-24'>
             <span className='text-gray-700 font-semibold'>{taskTitle}</span>
             {IconComponent !== null ? (
               <div className='flex items-baseline rounded-md border-2 mx-1 px-2'>

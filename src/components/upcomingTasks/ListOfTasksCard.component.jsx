@@ -14,7 +14,7 @@ const ListOfTasksCard = ({tasks, name, addForTommorow}) => {
           {tasks.map((task) => (
             task 
             ?
-            <TaskElement key={task.id} taskName={task.taskName} id={task.id}/> 
+            <TaskElement key={task.id} taskName={task.taskName} id={task.id} listName={task.list} date={task.date}/> 
             :
             null
           ))}

@@ -3,8 +3,7 @@ import { createContext, useReducer } from "react";
 export const StickyWallContext = createContext();
 
 const INITIAL_STATE = {
-  StickyNote: [
-  ]
+  StickyNote: []
 }
 
 const stickyWallReducer = (state, action) => {
@@ -14,6 +13,8 @@ const stickyWallReducer = (state, action) => {
         ...state,
         StickyNote: [...state.StickyNote, action.payload]
       }
+      default:
+        return state;
   }
 }
 

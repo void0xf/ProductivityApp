@@ -2,19 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import ListOfTasksCard from './ListOfTasksCard.component'
 import { TasksContext } from '../../contexts/tasks.context'
 import { getTasksForThisWeek, getTasksForToday, getTasksForTommorow } from '../../utils/task.utils';
+import { TaskFilter } from '../../contexts/filter.context';
 
 const Upcoming = () => {
   const {state} = useContext(TasksContext);
+  const {state: filterState} = useContext(TaskFilter);
   const [todayTasks, setTodayTasks] = useState([])
   const [tommorowTasks, setTommorowTasks] = useState([])
   const [thisWeekTasks, setThisWeekTasks] = useState([])
 
   useEffect(() => {
-    setTodayTasks(getTasksForToday(state.tasks));
-    setTommorowTasks(getTasksForTommorow(state.tasks));
-    setThisWeekTasks(getTasksForThisWeek(state.tasks));
+    setTodayTasks(getTasksForToday(state.tasks, filterState.listFilter));
+    setTommorowTasks(getTasksForTommorow(state.tasks, filterState.listFilter));
+    setThisWeekTasks(getTasksForThisWeek(state.tasks, filterState.listFilter));
 
-  }, [state.tasks])
+  }, [state.tasks, filterState])
 
   return (
     <div className='sm: mx-4'>

@@ -1,4 +1,4 @@
-import { MoreVertical, ChevronLast, ChevronFirst, Menu } from "lucide-react"
+import { MoreVertical, ChevronLast, ChevronFirst, Menu, Settings } from "lucide-react"
 import { useContext, createContext, useState } from "react"
 import Logo from '../../assets/logo.svg';
 import { SidebarContext } from "../../App";
@@ -35,10 +35,15 @@ export default function Sidebar({ children }) {
               overflow-hidden transition-all w-52 ml-3
           `}
           >
-            <div className="leading-4">
+            <div className="leading-4 flex flex-col items-start">
               <h4 className="font-semibold">John Doe</h4>
               <span className="text-xs text-gray-600">johndoe@gmail.com</span>
             </div>
+          <div>
+            <button>
+              <Settings strokeWidth={1.7} size={20} />
+            </button>
+          </div>
           </div>
         </div>
         </button>

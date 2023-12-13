@@ -50,6 +50,21 @@ export const getTodayYear = () => {
   return year
 }
 
+export const isDateOlder = (dateToCheck) => {
+  // Create a Date object for the date you want to check
+  const dateToCheckObj = new Date(dateToCheck);
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Set the time for both dates to midnight (00:00:00)
+  dateToCheckObj.setHours(0, 0, 0, 0);
+  currentDate.setHours(0, 0, 0, 0);
+
+  // Compare the two dates
+  return dateToCheckObj < currentDate;
+}
+
 export const getDayName = (date = new Date(), locale = 'en-En') => {
   return date.toLocaleDateString(locale, {weekday: 'long'})
 }

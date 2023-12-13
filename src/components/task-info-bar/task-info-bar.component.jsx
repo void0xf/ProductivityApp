@@ -6,20 +6,22 @@ const TaskInfoBar = () => {
   const { state, dispatch } = useTaskContext();
   const [ newDescription, setDescription] = useState('');
   const [ newTaskName, setTaskName] = useState('');
-  const [ newDate, setNewDate] = useState('');
+  const [ newDate, setNewDate] = useState(new Date());
+  const [ newList, setNewList] = useState('');
   const taskNameRef = useRef();
   const descRef = useRef();
   const listRef = useRef();
   const dateRef = useRef();
 
   const activeTask = state.tasks.find((task) => task.id === state.activeTaskId);
+  const today = new Date();
 
-  const { taskName = '', description = '', date='' } = activeTask || {};
-
+  const { taskName = '', description = '', date='', listName='' } = activeTask || {};
   useEffect(()=>{
-    setNewDate(date);
+    setNewDate(new Date(date));
     setDescription(description);
     setTaskName(taskName);
+    setNewList(listName)
   }, [date, description, taskName])
 
   const handleOnDeleteTaskClick = () => {
@@ -40,10 +42,11 @@ const TaskInfoBar = () => {
   const handleListChange = (event) => {
     const selectedValue = event.target.value
     listRef.current.value = selectedValue;
+    setNewList(event.target.value);
   }
 
   const handleDateChange = (event) => {
-    setNewDate(event.target.value)
+    setNewDate(new Date(event.target.value))
   }
 
   const handleCloseTaskInfo = () => {
@@ -61,7 +64,7 @@ const TaskInfoBar = () => {
         id: activeTask.id,
         taskName: taskNameRef.current.value,
         description: descRef.current.value,
-        date: new Date(dateRef.current.value),
+        date: (dateRef.current.value == '' ? activeTask.date : new Date(dateRef.current.value)),
         list: listRef.current.value 
       }
     });
@@ -102,7 +105,7 @@ const TaskInfoBar = () => {
           <div className='mr-5'>List: </div> 
             <div>
               {
-                <select name="" id="" onChange={handleListChange} ref={listRef}>
+                <select name="" id="" onChange={handleListChange} ref={listRef} value={newList}>
                   <option value='None'>None</option>
                     {state.lists.map((listName) => (
                       <option value={listName.name}>{listName.name}</option>
@@ -115,7 +118,16 @@ const TaskInfoBar = () => {
 
           <div className='flex'>
             <div className='mr-2'> <p>Date: </p> </div>
-            <div> <input type="date" value={newDate} ref={dateRef} onChange={handleDateChange}/> </div>
+            <div> 
+              <input 
+                type="date" 
+                value={newDate.toISOString().split('T')[0]} 
+                ref={dateRef} 
+                onChange={handleDateChange}
+                min={today.toISOString().split('T')[0]}
+                /> 
+                
+              </div>
           </div>
         </div>
       </div>
