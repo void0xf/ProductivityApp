@@ -1,11 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getDayName, getTodayDay } from '../../../utils/date.utils';
 import { TasksContext } from '../../../contexts/tasks.context';
 import { getTasksForToday } from '../../../utils/task.utils';
+import { TaskFilter } from '../../../contexts/filter.context';
+import { SearchContext } from '../../../contexts/search.context';
 
 const TodayTab = ( { nextDayNumber }) => {
   const {state} = useContext(TasksContext);
+  const {state: filterState} = useContext(TaskFilter);
+  const {state: searchState} = useContext(SearchContext)
+  const [todayTasks, setTodayTasks] = useState([])
   
+  useEffect(() => {
+    setTodayTasks(getTasksForToday(state.tasks, filterState.listFilter, searchState.search));
+  }, [state.tasks, filterState, searchState])
+
 
   const options = {
     weekday: 'long',
@@ -14,12 +23,11 @@ const TodayTab = ( { nextDayNumber }) => {
   const today = new Date()
   const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + nextDayNumber);
 
-  const tasks = getTasksForToday(state.tasks)
 
   return (
     <div>
       {
-      tasks.length == 0 
+      todayTasks.length == 0 
       ? 
       <div className='m-5'>No Tasks to Display</div> 
       :
@@ -41,16 +49,16 @@ const TodayTab = ( { nextDayNumber }) => {
           </>
           ))} */}
 
-            <div class="flex flex-col mt-5 sm:max-w-xl mx-auto ">
+            <div class="flex flex-col mt-5 max-h-96 sm:max-w-xl mx-auto overflow-y-auto">
               <div className='flex items-start'>
                 <div className='font-semibold'>{getDayName(today)}</div>
               </div>
-                {tasks.map((task) => (
-                    <div className='flex border-2 max-h-96 rounded-lg my-2 bg-blue-200'>
+                {todayTasks.map((task) => (
+                    <div className='flex border-2 max-h-96 rounded-lg my-2 bg-[#D8D9DA]'>
                       <div className='p-2 flex'>
                           {
                             <div>
-                            <div className='text-left text-lg font-semibold'><p>{task.taskName}</p>
+                            <div className='text-left text-lg font-semibold text-[#272829]'><p>{task.taskName}</p>
                             </div>
                             
                             <div className='flex mt-2'>

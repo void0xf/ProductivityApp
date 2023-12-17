@@ -63,7 +63,7 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
       </span>
       {numberOfAlerts > 0 &&  (
         <div className={`  ${
-          "bg-customBlack w-6 h-6 rounded-xl text-center"
+          "bg-[#415A77] w-6 h-6 rounded-xl text-center"
           }`}>
           {<div className="antialiased font-semibold text-customWhite">{numberOfAlerts }</div>}
           

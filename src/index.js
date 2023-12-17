@@ -7,6 +7,7 @@ import { TaskProvider } from './contexts/tasks.context';
 import { FilterProvider } from './contexts/filter.context';
 import '@fontsource/inter';
 import StickWallProvider from './contexts/sticky-wall.context';
+import SearchProvider from './contexts/search.context';
 
 
 
@@ -14,11 +15,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <FilterProvider>
-      <StickWallProvider>
+    <StickWallProvider>
     <TaskProvider>
+    <SearchProvider>
       
         <App />
-  
+        
+    </SearchProvider>
     </TaskProvider>
     </StickWallProvider>
     </FilterProvider>

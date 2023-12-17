@@ -51,11 +51,11 @@ const MonthTab = ({ nextMonthNumber }) => {
         </button>
       </div>
     ))}
-  </div>
-      <div className='bg-gray-200 rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto mt-5'>
+      </div>
+      <div className=' rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto mt-5 sm: max-h-96'>
       {tasksForDate.map((task) => (
-        <div className='bg-blue-300 rounded-lg my-2 px-2 pb-5 flex flex-col items-start'> 
-          <p className='font-semibold'>{task.taskName}</p> <p className='pt-1'>{task.date.getHours()} : {task.date.getMinutes()}</p>
+        <div className='bg-[#D8D9DA] rounded-lg my-2 px-2 pb-5 flex flex-col items-start'> 
+          <p className='font-semibold sm:text-2xl'>{task.taskName}</p> <p className='pt-1'>{task.date.getHours()}:{task.date.getMinutes()}</p>
         </div>
       ))}
       </div>

@@ -4,7 +4,7 @@ import Logo from '../../assets/logo.svg';
 import { SidebarContext } from "../../App";
 
 export default function Sidebar({ children }) {
-  const setIsSideBarActive  = useContext(SidebarContext);
+  const {isSideBarActive, setIsSideBarActive}  = useContext(SidebarContext);
 
   return (
     <div className="h-full">
@@ -13,7 +13,7 @@ export default function Sidebar({ children }) {
           <div className=" pb-2 flex justify-between items-center">
             <div className="ml-2 font-semibold text-xl">Menu</div>
             <button
-              onClick={() => {setIsSideBarActive(false)}}
+              onClick={() => { setIsSideBarActive(false) }}
               className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
             >
             <Menu />
