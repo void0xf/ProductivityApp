@@ -17,8 +17,9 @@ const NewTaskButton = ({addForTommorow}) => {
     setInputValue(e.target.value);
   };
 
-  const handleKeyPress = (key) => {
-    if(key === 'Enter') {
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter') {
+      event.preventDefault();
       addNewTask();
     }
   }
@@ -49,7 +50,7 @@ const NewTaskButton = ({addForTommorow}) => {
           type="text"
           value={inputValue}
           onChange={(e) => handleInputChange(e)}
-          onKeyDown={(e) => handleKeyPress(e.key)}
+          onKeyDown={(e) => handleKeyPress(e)}
           placeholder='Add New Task'
           className='pl-10 pr-4 py-2 border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40'
         />
