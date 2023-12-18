@@ -1,8 +1,5 @@
+import { useFilterContext } from "../../contexts/filter.context";
 
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
-import { useContext, createContext, useState, useEffect } from "react"
-import { filtrTasks, useFilterContext } from "../../../contexts/filter.context"
-import { useTaskContext } from "../../../contexts/tasks.context"
 
 export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickType, payload }) {
   const { state, dispatch } = useFilterContext();

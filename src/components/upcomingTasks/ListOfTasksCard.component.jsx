@@ -1,6 +1,6 @@
 import React from 'react'
 import NewTaskButton from '../task-bar/new-task-button/new-task-button.component'
-import TaskElement from '../taskElement.component'
+import TaskElement from '../task-bar/taskElement.component'
 
 const ListOfTasksCard = ({tasks, name, addForTommorow}) => {
  

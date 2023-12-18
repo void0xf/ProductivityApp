@@ -2,12 +2,12 @@ import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote } from 'lucide-react';
-import Sidebar from '../menu-bar/menu-bar.component';
-import { SidebarItem } from '../menu-bar/menu-item/menu-item.component';
 import { getTasksForToday } from '../../utils/task.utils';
-import AddNewList from '../input/addNewList.component';
+import AddNewList from '../task-bar/input/addNewList.component';
 import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
+import Sidebar from './sidebar.component';
+import { SidebarItem } from './sidebar-item.component';
 
 const componentMap = {
   'Personal': User,
@@ -23,7 +23,7 @@ const ComputerSidebar = () => {
 
   return (
     
-    <div className={`relative z-20 h-screen transition-all duration-700 ease-in-out overflow-hidden ${isSideBarActive ? 'max-w-xs' : 'max-w-0'}`}>
+    <div className={`relative z-20 h-screen transition-all duration-700 ease-in-out overflow-hidden ${isSideBarActive ? 'max-w-[280px]' : 'max-w-0'}`}>
         <Sidebar>
          <SearchTask />
           <div><p className='text-sm font-semibold ml-3'>Tasks</p></div>
@@ -56,7 +56,7 @@ const ComputerSidebar = () => {
               clickType={'Notes'} 
               payload={'Notes'}
               />
-          <div className='border-t-2 border-b-2 my-4 py-2 max-h-64 overflow-y-auto'>
+          <div className='border-t-2 border-b-2 my-4 py-2 max-h-64 overscroll-y-auto'>
             <div><p className='text-sm font-semibold ml-3'>Lists</p></div>
             {state.lists.map((listItem) => {
               const IconComponent = componentMap[listItem.name];

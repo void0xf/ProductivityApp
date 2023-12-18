@@ -1,7 +1,7 @@
-import { Briefcase, CalendarClock, ChevronRight, User } from 'lucide-react'
+import { Briefcase, CalendarClock, Check, ChevronRight, User } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
-import { TasksContext } from '../contexts/tasks.context';
-import { isDateOlder } from '../utils/date.utils';
+import { TasksContext } from '../../contexts/tasks.context';
+import { isDateOlder } from '../../utils/date.utils';
 
 function getIcon(type) {
   const icons = {
@@ -16,7 +16,7 @@ const TaskElement = ({ id, taskName, listName, date }) => {
   const { dispatch } = useContext(TasksContext);
   const [IconComponent, setIconComponent] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
-  const ANIMATION_DURATION = 300
+  const ANIMATION_DURATION = 700
 
   const handleCheckedTask = () => {
     setIsChecked(true);
@@ -40,18 +40,21 @@ const TaskElement = ({ id, taskName, listName, date }) => {
 
   return (
     <div
-      className={`flex justify-between border-b-2 py-2 rounded-md transition-opacity duration-${ANIMATION_DURATION} ${
-        isChecked ? 'opacity-0' : 'opacity-100'
-      }`}
-    >
-      <div className='flex items-center'>
+      className={`flex justify-between border-b-2 py-2 rounded-md transition-opacity duration-
+      ${ANIMATION_DURATION} 
+      ${isChecked ? 'opacity-0' : 'opacity-100'}`}>
+      <div className='flex items-center  z-50'>
         <div className='px-2'>
-          <input
-            type="checkbox"
-            onChange={() => {
-              handleCheckedTask();
-            }}
-          />
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              onChange={() => {handleCheckedTask()}}
+              className="hidden"
+            />
+            <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center bg-white">
+              {isChecked && (<Check />)}
+            </div>
+          </label>
         </div>
         <div className='flex flex-col'>
           <div>

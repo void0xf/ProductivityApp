@@ -1,7 +1,6 @@
-import { MoreVertical, ChevronLast, ChevronFirst, Menu, Settings } from "lucide-react"
-import { useContext, createContext, useState } from "react"
-import Logo from '../../assets/logo.svg';
+import { Menu, Settings } from "lucide-react";
 import { SidebarContext } from "../../App";
+import { useContext } from "react";
 
 export default function Sidebar({ children }) {
   const {isSideBarActive, setIsSideBarActive}  = useContext(SidebarContext);

@@ -1,20 +1,13 @@
-import TaskBar from './components/task-bar/task-bar.component';
 import TaskInfoBar from './components/task-info-bar/task-info-bar.component';
-import { TasksContext, useTaskContext } from './contexts/tasks.context';
-import Sidebar from './components/menu-bar/menu-bar.component';
-import { SidebarItem } from './components/menu-bar/menu-item/menu-item.component';
-import { ChevronsRight, ListChecks, CalendarDays, StickyNote, User, Briefcase, Menu, CircleDot, Search, ChevronRight, Tally1, PanelLeftClose, ChevronLeft } from 'lucide-react';
-import { GetTodayTasks } from './contexts/tasks.context';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { TaskFilter, filtrTasks } from './contexts/filter.context'
+import { TasksContext, } from './contexts/tasks.context';
+import { User, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { TaskFilter } from './contexts/filter.context'
 import StickWall from './components/sticky-wall/stick-wall.component'
-import StickWallProvider from './contexts/sticky-wall.context';
 import Calendar from './components/calendar/calendar.component';
 import Upcoming from './components/upcomingTasks/upcoming.component';
 import TodayTasks from './components/todayTasks/today-Tasks.component';
 import { getTasksForToday } from './utils/task.utils';
-import AddNewList from './components/input/addNewList.component';
-import { Notes } from '@mui/icons-material';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 

@@ -9,7 +9,7 @@ const StickWall = () => {
   const {state} = useContext(StickyWallContext);
 
   return (
-    <div className='m-5'>
+    <div className='m-5 mx-auto'>
       <div className='flex justify-between items-baseline'>
         <div className='mb-2'><Plus /></div>
         <div><PenSquare size={16} strokeWidth={1.5} /></div>
@@ -28,7 +28,6 @@ const StickWall = () => {
           <div className='font-semibold text-2xl'>Some Content here</div>
           <div className=' text-sm'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati suscipit dolores eos aut quod saepe reprehenderit officia accusantium voluptate excepturi minus consectetur eligendi nesciunt, dolore, earum assumenda in est voluptatibus!</div>
           <div className=' text-right'>{new Date().toISOString().split('T')[0]}</div>
-
         </div>
       </div>
     </div>

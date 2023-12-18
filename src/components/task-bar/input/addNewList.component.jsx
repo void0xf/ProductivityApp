@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react'
 import React, { useContext, useState } from 'react'
-import { TasksContext } from '../../contexts/tasks.context';
+import { TasksContext } from '../../../contexts/tasks.context';
 
 const AddNewList = () => {
   const { dispatch } = useContext(TasksContext)

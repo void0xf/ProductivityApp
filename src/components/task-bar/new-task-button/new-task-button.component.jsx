@@ -42,10 +42,15 @@ const NewTaskButton = ({addForTommorow}) => {
     dispatch({ type: 'ADD_TASK', payload: newTask });
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent form submission
+    // Handle form submission here
+  };
 
   return (
     <div className=''>
       <div className="relative w-full">
+        <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={inputValue}
@@ -54,6 +59,7 @@ const NewTaskButton = ({addForTommorow}) => {
           placeholder='Add New Task'
           className='pl-10 pr-4 py-2 border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40'
         />
+        </form>
        <div class="absolute inset-y-0 left-0 pl-3  
                     flex items-center  
                     pointer-events-none"> 
