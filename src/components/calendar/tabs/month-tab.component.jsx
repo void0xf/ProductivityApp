@@ -27,10 +27,10 @@ const MonthTab = ({ nextMonthNumber }) => {
   const {state: filterState} = useContext(TaskFilter);
   const {state: searchState} = useContext(SearchContext);
   endOfTheMonth.setDate(startOfTheMonth.getDate() + 30)
-  const [dateToShow, setDateToShow] = useState();
+  const [dateToShow, setDateToShow] = useState(new Date());
   const [tasksForDate, setTasksForDate] = useState([])
   const dates = getDates(startOfTheMonth, endOfTheMonth)
-
+  console.log(dates);
   const handleClickOnDate = (date) => {
     const d = new Date(date);
     setDateToShow(d);
@@ -55,8 +55,8 @@ const MonthTab = ({ nextMonthNumber }) => {
         <div 
         className={`${compareDate(date, dateToShow) ? 'bg-[#D8D9DA] rounded-lg p-1' : ''}`}
         >
-          <button onClick={
-            () => {handleClickOnDate(date)}}>
+          <button 
+            onClick={() => {handleClickOnDate(date)}}>
             <div 
             className={`
               ${getTaskForDate(state.tasks, date, filterState.listFilter, searchState.search).length === 0 

@@ -52,6 +52,8 @@ export const gettimeDifferenceToDisplay = (dateDifferenceString) => {
   if(minutes != 0) {
     return `${minutes}Min`
   }
+
+  return 'Now';
 }
 
 export const getTodayDay = () => {
