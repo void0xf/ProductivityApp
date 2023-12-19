@@ -18,16 +18,17 @@ const NewTaskButton = ({addForTommorow}) => {
   };
 
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter') {
+    if(event.key === 'Enter' && inputValue.trim() !== '') {
+      console.log(inputValue);
       event.preventDefault();
       addNewTask();
     }
   }
 
   const addNewTask = () => {
-    const dateToSet = addForTommorow ? new Date() : new Date(); // Default to today's date
+    const dateToSet =  new Date();
     if (addForTommorow) {
-      dateToSet.setDate(dateToSet.getDate() + 1); // Add 1 day if for tomorrow
+      dateToSet.setDate(dateToSet.getDate() + 1); 
     }
   
     const newTask = {
@@ -43,8 +44,7 @@ const NewTaskButton = ({addForTommorow}) => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission
-    // Handle form submission here
+    event.preventDefault();
   };
 
   return (

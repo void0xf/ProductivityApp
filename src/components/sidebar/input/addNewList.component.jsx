@@ -11,7 +11,7 @@ const AddNewList = () => {
   };
   
   const handleKeyPress = (key) => {
-    if(key === 'Enter') {
+    if(key === 'Enter' && inputValue.trim() !== '') {
       addNewList();
     }
   }

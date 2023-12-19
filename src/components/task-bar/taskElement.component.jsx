@@ -66,7 +66,7 @@ const TaskElement = ({ id, taskName, listName, date }) => {
               <div className='inline pr-2'>{listName}</div>
             </div>
           ) : (
-            <div></div>
+            null
           )}
           {
             isDateOlder(date) ? 
@@ -76,7 +76,7 @@ const TaskElement = ({ id, taskName, listName, date }) => {
               <div className='inline pr-2 text-sm'>{`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`}</div>
             </div>
             )
-            : <div></div>
+            : null
           }
         </div>
       </div>

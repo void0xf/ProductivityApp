@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import MonthTabCard from './month-tab-card.component'
-import { getDates, getDayName, getTodayDay } from '../../../utils/date.utils'
+import { compareDate, getDates, getDayName, getTodayDay } from '../../../utils/date.utils'
 import { Dot } from 'lucide-react'
 import { TasksContext } from '../../../contexts/tasks.context'
 import { getTaskForDate } from '../../../utils/task.utils'
+import CalendarTaskCard from '../calendar-task-card-component'
+import { TaskFilter } from '../../../contexts/filter.context'
+import { SearchContext } from '../../../contexts/search.context'
 
 const nameOfWeekToNumber = {
   'Monday': 0,
@@ -21,6 +24,8 @@ const MonthTab = ({ nextMonthNumber }) => {
   const startOfTheMonth = new Date();
   const endOfTheMonth = new Date();
   const {state} = useContext(TasksContext)
+  const {state: filterState} = useContext(TaskFilter);
+  const {state: searchState} = useContext(SearchContext);
   endOfTheMonth.setDate(startOfTheMonth.getDate() + 30)
   const [dateToShow, setDateToShow] = useState();
   const [tasksForDate, setTasksForDate] = useState([])
@@ -32,30 +37,48 @@ const MonthTab = ({ nextMonthNumber }) => {
   }
 
   useEffect(() => {
-    const tasks = getTaskForDate(state.tasks, dateToShow)
+    const tasks = getTaskForDate(state.tasks, dateToShow, filterState.listFilter, searchState.search)
     setTasksForDate(tasks);
-  }, [dateToShow])
+  }, [dateToShow, filterState, searchState])
 
   return (
     <div>
-   <div className='grid grid-cols-7 mt-5'>
-    <div className='font-semibold'>M</div><div className='font-semibold'>T</div><div className='font-semibold'>W</div><div className='font-semibold'>T</div><div className='font-semibold'>F</div><div className='font-semibold'>S</div><div className='font-semibold'>S</div>
+   <div className='grid grid-cols-7 mt-5 rounded-xl p-1 '>
+    {
+      dates.slice(0,7).map((date) => (
+        <div className='font-semibold'>{date.toLocaleString('EN-en', {weekday:"long"}).slice(0,2)}</div>
+      ))
+    }
+
     {dates.map((date) => (
-      
-      <div className='flex flex-col items-center  m-1'>
-        <button onClick={() => {handleClickOnDate(date)}}>
-          <div className={`
-            ${getTaskForDate(state.tasks, date).length === 0 ? 'font-base': 'font-semibold'}
-          `}>{date.getDate()}</div>
-          <div>{getTaskForDate(state.tasks, date).length === 0 ? <p></p> : <Dot size={22} strokeWidth={3} />}</div>
-        </button>
+      <div className='flex flex-col items-center m-1'>
+        <div 
+        className={`${compareDate(date, dateToShow) ? 'bg-[#D8D9DA] rounded-lg p-1' : ''}`}
+        >
+          <button onClick={
+            () => {handleClickOnDate(date)}}>
+            <div 
+            className={`
+              ${getTaskForDate(state.tasks, date, filterState.listFilter, searchState.search).length === 0 
+                ? 'font-base'
+                : 'font-semibold'}
+              `}>
+              {date.getDate()}
+            </div>
+            <div>
+              {getTaskForDate(state.tasks, date, filterState.listFilter, searchState.search).length === 0 
+              ? null 
+              : <Dot size={22} strokeWidth={3} />}
+            </div>
+          </button>
+        </div>
       </div>
     ))}
       </div>
-      <div className=' rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto mt-5 sm: max-h-96'>
+      <div className='rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto mt-5 sm: max-h-96'>
       {tasksForDate.map((task) => (
-        <div className='bg-[#D8D9DA] rounded-lg my-2 px-2 pb-5 flex flex-col items-start'> 
-          <p className='font-semibold sm:text-2xl'>{task.taskName}</p> <p className='pt-1'>{task.date.getHours()}:{task.date.getMinutes()}</p>
+        <div className='mb-4'>
+          <CalendarTaskCard taskToRender={task}/>
         </div>
       ))}
       </div>

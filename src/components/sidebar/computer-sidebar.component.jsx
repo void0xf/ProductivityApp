@@ -3,7 +3,7 @@ import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote } from 'lucide-react';
 import { getTasksForToday } from '../../utils/task.utils';
-import AddNewList from '../task-bar/input/addNewList.component';
+import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';

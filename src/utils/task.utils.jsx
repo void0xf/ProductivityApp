@@ -69,9 +69,10 @@ export const getTasksForThisWeek = (tasks, filter='None', searchContent='') => {
 }
 
 export const getTaskForDate = (tasks, date, filter='None', searchContent='') => {
-  if(date == undefined) {
+  if(date === undefined) {
     return []
   }
+
   const tasksForThatDate = []
   tasks.map((task) => {
     if(compareDate(task.date, date) && task.list == filter) {

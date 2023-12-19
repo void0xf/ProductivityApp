@@ -26,6 +26,34 @@ export const compareDate = (date, date2) => {
           date.getFullYear() == date2.getFullYear()
 }
 
+export const getDifferenceBetweenTwoDates = (date, date2) => {
+  let differenceInMilliseconds = date - date2;
+  differenceInMilliseconds = differenceInMilliseconds < 0 ? differenceInMilliseconds * -1 : differenceInMilliseconds;
+
+  const differenceInSeconds = differenceInMilliseconds / 1000;
+  const differenceInMinutes = differenceInSeconds / 60;
+  const differenceInHours = differenceInMinutes / 60;
+  const differenceInDays = differenceInHours / 24;
+  
+  return `${Math.round(differenceInDays)}:${Math.round(differenceInHours)}:${Math.round(differenceInMinutes)}`;
+}
+
+export const gettimeDifferenceToDisplay = (dateDifferenceString) => {
+  const days = parseInt(dateDifferenceString.split(':')[0]);
+  const hours = parseInt(dateDifferenceString.split(':')[1]);
+  const minutes = parseInt(dateDifferenceString.split(':')[2]); 
+
+  if(days != 0) {
+    return `${days}Days`
+  }
+  if(hours != 0) {
+    return `${hours}Hrs`
+  }
+  if(minutes != 0) {
+    return `${minutes}Min`
+  }
+}
+
 export const getTodayDay = () => {
   const date = new Date();
   

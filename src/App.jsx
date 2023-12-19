@@ -41,8 +41,12 @@ function App() {
     else{
       setIsMobile(false)
     }
-    console.log(state.tasks);
   }, [state.tasks]);
+
+  useEffect(() => {
+    console.log(filterState, state)
+
+  }, [filterState, state])
 
   const handleResizeWindow = (width) => {
     if(width > 640) {
@@ -52,7 +56,6 @@ function App() {
       setIsMobile(true);
     }    
   }
-  console.log(isMobile);
   useEffect(() => {
     window.addEventListener('resize', () => {handleResizeWindow(window.innerWidth)});
   }, [])

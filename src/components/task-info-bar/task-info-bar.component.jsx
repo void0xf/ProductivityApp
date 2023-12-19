@@ -84,7 +84,6 @@ const TaskInfoBar = () => {
           <span className='text-2xl text-gray-700'> Task: </span>
           <button onClick={() => handleCloseTaskInfo()}><X /></button>
         </div>
-
         <div>
           <input
             type="text"
@@ -130,6 +129,7 @@ const TaskInfoBar = () => {
                 onChange={handleDateChange}
                 min={today.toISOString().slice(0, 10)}
                 className=' bg-inherit'
+                required
               />
             </div>
           </div>
@@ -142,6 +142,7 @@ const TaskInfoBar = () => {
                 value={newTime}
                 onChange={handleTimeChange}
                 className=' bg-inherit'
+                required
               />
             </div>
           </div>

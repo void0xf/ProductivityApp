@@ -4,6 +4,7 @@ import { getTaskForDate } from '../../../utils/task.utils';
 import { TasksContext } from '../../../contexts/tasks.context';
 import { SearchContext } from '../../../contexts/search.context';
 import { TaskFilter } from '../../../contexts/filter.context';
+import CalendarTaskCard from '../calendar-task-card-component';
 
 const nameOfWeekToNumber = {
   'Monday': 0,
@@ -32,21 +33,19 @@ const WeekTab = ({ nextWeekNumber }) => {
     <div className='mt-5'>
       {reRender}
       {datesBetween.map((date) => {
-        const tasks = getTaskForDate(state.tasks, date, filterState.filterState, searchState.search);
+        const tasks = getTaskForDate(state.tasks, date, filterState.listFilter, searchState.search);
         return (
           <div>
             <div className='text-start mx-2'>
               <div className='font-semibold'>{getDayName(date)}</div>
-              <div className=' rounded-md my-2 py-2 px-1 max-h-56 overflow-y-auto'>
+              <div className='rounded-md py-2 px-1 max-h-56 overflow-y-auto border-t-2 border-b-2'>
                 {tasks.map((task) => (
-                  <div className='bg-[#D8D9DA] rounded-lg my-2 px-2 pb-5 flex flex-col'>
-                    <p className='font-semibold'>{task.taskName}</p>
-                    <p className='font-nomral'>{task.description}</p>
-                    <p className='pt-2'>{task.date.getHours()}:{task.date.getMinutes()}</p>
+                  <div className='my-2'>
+                    <CalendarTaskCard taskToRender={task} />
                   </div>
                 ))}
-              </div>
             </div>
+          </div>
           </div>
         )
       })}

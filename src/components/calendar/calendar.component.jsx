@@ -74,12 +74,10 @@ const Calendar = () => {
         endOfTheWeek.setDate(startOfTheWeek.getDate() + 30)
 
         setCalendarHeader(`
-        ${getDayName(startOfTheWeek)}
-        ${startOfTheWeek.getMonth() + 1}
+        ${startOfTheWeek.toLocaleDateString('En-en', {month:'long'})}
         ${startOfTheWeek.getFullYear()} 
         - 
-        ${getDayName(endOfTheWeek)}
-        ${endOfTheWeek.getMonth() + 1}
+        ${endOfTheWeek.toLocaleDateString('En-en', {month:'long'})}
         ${endOfTheWeek.getFullYear()}
         `)
       }
