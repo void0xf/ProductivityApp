@@ -45,7 +45,6 @@ function App() {
 
   useEffect(() => {
     console.log(filterState, state)
-
   }, [filterState, state])
 
   const handleResizeWindow = (width) => {
