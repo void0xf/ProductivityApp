@@ -33,8 +33,14 @@ const TaskElement = ({ id, taskName }) => {
     }, ANIMATION_DURATION);
   };
 
+  const handleTaskDone = () => {
+    setIsChecked(true);
+    setTimeout(() => {
+      dispatch({ type: 'MARK_TASK_AS_DONE', payload: id });
+    }, ANIMATION_DURATION);
+  }
+
   const handleSwiping = (eventData) => {
-    console.log(eventData.event, eventData.initial);
     setOffsetX(eventData.deltaX);
   };
 
@@ -44,7 +50,7 @@ const TaskElement = ({ id, taskName }) => {
     }
 
     if (offsetX > MAX_OFFSET_X) {
-      handleDeleteTask() //ToDo make TaskDone;
+      handleTaskDone() //ToDo make TaskDone;
     }
     if(offsetX < -MAX_OFFSET_X) {
       setOffsetX(-MAX_OFFSET_X - 300);

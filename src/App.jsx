@@ -10,6 +10,7 @@ import TodayTasks from './components/todayTasks/today-Tasks.component';
 import { getTasksForToday } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
+import StatisticsTab from './components/statistics/statisticsTab.component';
 
 const componentMap = {
   'Personal': User,
@@ -98,14 +99,16 @@ function App() {
     </div> 
     :
     null}
-    
+
+
       <div className='relative h-screen w-full p-2 z-10 mx-auto max-w-3xl'>
-          <div className={`${state.isTaskTabOpen ? 'absolute blur-lg' : ''}
+          <div className={`${state.isTaskTabOpen || (isSideBarActive && isMobile) ? 'absolute blur-[4px]' : ''}
           ${isSideBarActive ? '' : ''}`}>
             {filterState.filter == 'Upcoming' && <Upcoming />}
             {filterState.filter == 'Today' && <TodayTasks />}
             {filterState.filter == 'Calendar' && <Calendar />}
             {filterState.filter == 'Notes' && <StickWall />}
+            {filterState.filter == 'Statistics' && <StatisticsTab />}
           </div>
           <div className={`transition-transform duration-700 z-50
             ${state.isTaskTabOpen

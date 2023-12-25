@@ -7,6 +7,7 @@ const initialState = {
   isTaskTabOpen: false,
   activeTaskId: 0,
   lists: [{name:'Personal', icon:'User'}, {name:'Work', icon: 'Briefcase'}],
+  completedTask: []
 };
 
 // const taskInformation = {
@@ -38,6 +39,10 @@ const updateTaskInfo = (tasksElements, newTaskInfo) => {
 
 const removeTaskFromTaskList = (taskElements, taskid) => {
   return taskElements.filter((task) => task.id !== taskid);
+}
+
+const getTaskFromID = ( taskElements, taskid) => {
+  return taskElements.filter((task) => task.id === taskid)[0];
 }
 
 const taskReducer = (state, action) => {
@@ -86,6 +91,12 @@ const taskReducer = (state, action) => {
       return {
         ...state,
         lists: [...state.lists, {name: action.payload, icon:'User'}]
+      }
+    case 'MARK_TASK_AS_DONE':
+      return {
+        ...state,
+        completedTask: [...state.completedTask, getTaskFromID(state.tasks, action.payload)],
+        tasks: removeTaskFromTaskList(state.tasks, action.payload),
       }
     default:
       return state;

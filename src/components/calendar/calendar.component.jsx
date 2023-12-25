@@ -4,10 +4,9 @@ import TodayTab from './tabs/today-tab.component'
 import WeekTab from './tabs/week-tab.component'
 import MonthTab from './tabs/month-tab.component'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useSwipeable } from 'react-swipeable'
 
-function incrementDate(date, day=false, month=false, year=false) {
 
-}
 
 const Calendar = () => {
   const [isDayButtonActive, setIsDayButtonActive] = useState(true)
@@ -24,30 +23,46 @@ const Calendar = () => {
   const todayYear = getTodayYear();
   const nameOfTodayMonth = getNameOfMonth(todayMonth);
 
-  const handleLeftArrowClick = () => {
-    if(isDayButtonActive) {
-      setNextDay((prev) => prev-1)
-    }
-    if(isWeekButtonActive) {
-      setNextWeek((prev) => prev-1)
-    }
-    if(isMonthButtonActive) {
-      setNextMonth((prev) => prev-1)
-    }
-  }
-  
-  const handleRightArrowClick = () => {
-    if(isDayButtonActive) {
-      setNextDay((prev) => prev+1)
-    }
-    if(isWeekButtonActive) {
-      setNextWeek((prev) => prev+1)
-    }
-    if(isMonthButtonActive) {
-      setNextMonth((prev) => prev+1)
+  const swipeHandlers = useSwipeable({
+    // onSwiping: (eventData) => handleSwiping(eventData),
+    onSwiped: (eventData) => handleSwiped(eventData),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  })
+ 
+  const handleSwiped = (eventData) => {
+    if(eventData.velocity > 0.8){
+      if(eventData.dir === 'Left') {
+        handleLeftSwipe();
+      }
+      else {
+        handleRightSwipe();
+      }
     }
   }
 
+  const handleLeftSwipe = () => {
+    if(isDayButtonActive) {
+      setIsDayButtonActive(false)
+      setIsWeekButtonActive(true);
+    }
+    if(isWeekButtonActive) {
+      setIsWeekButtonActive(false);
+      setIsMonthButtonActive(true);
+    }
+  }
+ 
+  const handleRightSwipe = () => {
+    if(isMonthButtonActive) {
+      setIsWeekButtonActive(true);
+      setIsMonthButtonActive(false)
+    }
+    if(isWeekButtonActive) {
+      setIsWeekButtonActive(false);
+      setIsDayButtonActive(true);
+    }
+  }
+ 
   useEffect(() => {
       if(isDayButtonActive) {
 
@@ -84,7 +99,7 @@ const Calendar = () => {
   }, [isDayButtonActive, isWeekButtonActive, isMonthButtonActive, nextDay, nextMonth, nextWeek])
 
   return (
-    <div className='items-center align-baseline text-center'>
+    <div className='items-center align-baseline text-center' {...swipeHandlers}>
       <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
       <div className='flex flex-col items-center'>
        

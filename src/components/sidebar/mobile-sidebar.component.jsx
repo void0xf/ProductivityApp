@@ -1,7 +1,7 @@
 import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
-import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote } from 'lucide-react';
+import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart } from 'lucide-react';
 import { getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
@@ -42,6 +42,13 @@ const MobileSidebar = ({IconSize}) => {
               clickType={'Today'}
               payload={'Today'}
               numberOfAlerts={todayTasksCount}
+              />
+              <SidebarItem 
+              icon={<LineChart  size={SIZE_OF_SIDEBAR_ICONS} alert/>} 
+              text="Statistics"
+              alert
+              clickType={'Statistics'}
+              payload={'Statistics'}
               />
             <SidebarItem 
               icon={<CalendarDays size={SIZE_OF_SIDEBAR_ICONS}/>} 

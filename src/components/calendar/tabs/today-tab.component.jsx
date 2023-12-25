@@ -30,7 +30,7 @@ const TodayTab = ( { nextDayNumber }) => {
       {
       todayTasks.length == 0 
       ? 
-      <div className='m-5'>No Tasks to Display</div> 
+      <div className='m-5'>No Tasks for Today</div> 
       :
       <div className=''>
             <div class="flex flex-col mt-5 max-h-96 sm:max-w-xl mx-auto overflow-y-auto">
