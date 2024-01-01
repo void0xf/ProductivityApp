@@ -93,9 +93,11 @@ const taskReducer = (state, action) => {
         lists: [...state.lists, {name: action.payload, icon:'User'}]
       }
     case 'MARK_TASK_AS_DONE':
+      const completedTask = getTaskFromID(state.tasks, action.payload);
+      completedTask['taskDoneDate'] = new Date();
       return {
         ...state,
-        completedTask: [...state.completedTask, getTaskFromID(state.tasks, action.payload)],
+        completedTask: [...state.completedTask, completedTask],
         tasks: removeTaskFromTaskList(state.tasks, action.payload),
       }
     default:

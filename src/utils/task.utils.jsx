@@ -86,3 +86,39 @@ export const getTaskForDate = (tasks, date, filter='None', searchContent='') => 
 
   return tasksForThatDate;
 }
+
+export const getTasksForThatTime = (tasks, time) => {
+  const tasksForThatHour = [] 
+  tasks.map((task) => {
+    if(task.taskDoneDate.getHours() === time.getHours() &&
+        task.taskDoneDate.getMinutes() === time.getMinutes() ) {
+      tasksForThatHour.push(task);
+    } 
+  })
+  return tasksForThatHour;
+
+}
+
+export const getTasksForThisMonth = (tasks, filter='None', searchContent='') => {
+  const tasksForThisMonth = [];
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateOfTheMonth = new Date(currentYear, currentMonth, day);
+
+    tasks.forEach((task) => {
+      if (compareDate(task.date, dateOfTheMonth) && task.list === filter) {
+        tasksForThisMonth.push(task);
+      }
+    });
+  }
+
+  if (searchContent !== '') {
+    return searchForTasks(tasksForThisMonth, searchContent);
+  }
+
+  return tasksForThisMonth;
+}

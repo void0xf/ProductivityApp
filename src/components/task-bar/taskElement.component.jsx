@@ -93,8 +93,8 @@ const TaskElement = ({ id, taskName }) => {
             </div>
           </label>
         </div>
-        <div className='flex flex-col'>
-          <div>
+        <div className='flex max-w-min'>
+          <div className=''>
             <p>{taskName}</p>
           </div>
         </div>

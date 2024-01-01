@@ -45,7 +45,6 @@ function App() {
   }, [state.tasks]);
 
   useEffect(() => {
-    console.log(filterState, state)
   }, [filterState, state])
 
   const handleResizeWindow = (width) => {
@@ -110,9 +109,9 @@ function App() {
             {filterState.filter == 'Notes' && <StickWall />}
             {filterState.filter == 'Statistics' && <StatisticsTab />}
           </div>
-          <div className={`transition-transform duration-700 z-50
+          <div className={`transition-transform duration-700 z-50 
             ${state.isTaskTabOpen
-              ? 'transform opacity-100'
+              ? 'transform opacity-100 h-screen'
               : 'absolute -translate-y-full transform opacity-0'}
             `}>
             {state.isTaskTabOpen && <TaskInfoBar />}

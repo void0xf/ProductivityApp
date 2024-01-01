@@ -30,7 +30,6 @@ const MonthTab = ({ nextMonthNumber }) => {
   const [dateToShow, setDateToShow] = useState(new Date());
   const [tasksForDate, setTasksForDate] = useState([])
   const dates = getDates(startOfTheMonth, endOfTheMonth)
-  console.log(dates);
   const handleClickOnDate = (date) => {
     const d = new Date(date);
     setDateToShow(d);
