@@ -1,9 +1,14 @@
 import { Menu, Settings } from "lucide-react";
 import { SidebarContext } from "../../App";
 import { useContext } from "react";
+import { UserContext } from "../../contexts/user.context";
 
 export default function Sidebar({ children }) {
   const {isSideBarActive, setIsSideBarActive}  = useContext(SidebarContext);
+  const {dispatch} = useContext(UserContext)
+  const handleSettings = () => {
+    dispatch({type: 'TOGGLE_SETTINGS_CARD'})
+  }
 
   return (
     <div className="h-full">
@@ -21,7 +26,7 @@ export default function Sidebar({ children }) {
           <div className="">{children}</div>
         </div>
         
-        <button>
+        <button onClick={() => {handleSettings()}}>
         <div className=" flex p-3">
           <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"

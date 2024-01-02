@@ -11,6 +11,8 @@ import { getTasksForToday } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 import StatisticsTab from './components/statistics/statisticsTab.component';
+import SettingCard from './components/setting/setting-card.component';
+import { UserContext } from './contexts/user.context';
 
 const componentMap = {
   'Personal': User,
@@ -31,6 +33,7 @@ function App() {
   const [ isSideBarActive, setIsSideBarActive] = useState(false);
   const [ isMobile, setIsMobile] = useState(false);
   const [windowSize, setWindowSize] = useState(window.innerWidth);
+  const { state:userState} = useContext(UserContext)
 
   useEffect(() => {
     setTodayTasksCount(0);
@@ -60,7 +63,6 @@ function App() {
   }, [])
 
 
-
   return (
     <div className={`app-container font-sans ${isSideBarActive ? 'overflow-auto' : ''} ${!isMobile ? 'flex' : ''}`}>
     
@@ -74,7 +76,13 @@ function App() {
       }
     </SidebarContext.Provider>
 
-   
+    {
+      userState.isSettingsCardOpen
+      ?
+      <SettingCard isMobile={isMobile}/>
+      :
+      null
+    }
     
     
     {!isMobile

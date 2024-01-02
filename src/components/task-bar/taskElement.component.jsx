@@ -3,9 +3,13 @@ import { useSwipeable } from 'react-swipeable';
 import { Check, ChevronRight, Trash } from 'lucide-react';
 import { TasksContext } from '../../contexts/tasks.context';
 import { useSpring, animated } from 'react-spring';
+import { UserContext } from '../../contexts/user.context';
+
+
 
 const TaskElement = ({ id, taskName }) => {
   const { dispatch } = useContext(TasksContext);
+  const {state} = useContext(UserContext)
   const [isChecked, setIsChecked] = useState(false);
   const ANIMATION_DURATION = 300;
   const [offsetX, setOffsetX] = useState(0);
@@ -38,6 +42,11 @@ const TaskElement = ({ id, taskName }) => {
     setTimeout(() => {
       dispatch({ type: 'MARK_TASK_AS_DONE', payload: id });
     }, ANIMATION_DURATION);
+    if(state.vibrationOnTaskDone) {
+      if('vibrate' in navigator) {
+        navigator.vibrate(200); 
+      }
+    }
   }
 
   const handleSwiping = (eventData) => {

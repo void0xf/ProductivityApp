@@ -3,6 +3,7 @@ import { useTaskContext } from '../../../contexts/tasks.context';
 import Button from '@mui/joy/Button';
 import { Plus } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import { TaskFilter } from '../../../contexts/filter.context';
 
 
 
@@ -10,6 +11,7 @@ const NewTaskButton = ({addForTommorow}) => {
   const uniqueId = uuidv4();
 
   const { state, dispatch } = useTaskContext();
+  const {state:filterState} = useContext(TaskFilter)
   const [ counter, setCounter ] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
@@ -36,7 +38,7 @@ const NewTaskButton = ({addForTommorow}) => {
       taskName: inputValue,
       description: '',
       date: dateToSet,
-      list: 'None',
+      list: filterState.listFilter,
       createDate: new Date(),
       doneDate: null,
       tags: [],

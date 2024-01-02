@@ -16,14 +16,15 @@ const TaskInfoBar = () => {
   const activeTask = state.tasks.find((task) => task.id === state.activeTaskId);
   const today = new Date();
 
-  const { taskName = '', description = '', date = '', listName = '' } = activeTask || {};
+  const { taskName = '', description = '', date = '', list = '' } = activeTask || {};
   useEffect(() => {
     setNewDate(new Date(date).toISOString().slice(0, 10));
     setNewTime(`${new Date(date).getHours()}:${new Date(date).getMinutes()}`);
     setDescription(description);
     setTaskName(taskName);
-    setNewList(listName);
-  }, [date, description, taskName]);
+    setNewList(list);
+    console.log(state);
+  }, [date, description, taskName, list]);
 
   const handleOnDeleteTaskClick = () => {
     if (activeTask) {

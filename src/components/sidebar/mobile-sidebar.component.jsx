@@ -25,7 +25,7 @@ const MobileSidebar = ({IconSize}) => {
 
   return (
     <div>
-    <div className={` max-w-min absolute z-50 transform transition-transform duration-700 h-screen ${!isSideBarActive ? '-translate-x-full absolute z-50' : ''}`}>
+    <div className={` max-w-min absolute z-30 z transform transition-transform duration-700 h-screen ${!isSideBarActive ? '-translate-x-full absolute z-30' : ''}`}>
         <Sidebar>
           <SearchTask/>
           <div><p className='text-sm font-semibold ml-3'>Tasks</p></div>
@@ -88,7 +88,7 @@ const MobileSidebar = ({IconSize}) => {
     <div className={`sm:hidden
       ${!isSideBarActive 
       ? 
-      'sticky z-40 transform transition-transform duration-700 translate-y-0 top-0' 
+      'sticky z-30 transform transition-transform duration-700 translate-y-0 top-0' 
       : 
       '-translate-y-full transform transition-transform duration-700'} pl-2 pt-2 flex justify-between border-b-2 pb-3 bg-slate-100 absolute w-full`
       }>
