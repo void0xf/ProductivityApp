@@ -8,6 +8,7 @@ import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';
 import { SidebarItem } from './sidebar-item.component';
+import { StickyWallContext } from '../../contexts/sticky-wall.context';
 
 const componentMap = {
   'Personal': User,
@@ -18,6 +19,7 @@ const MobileSidebar = ({IconSize}) => {
   const SIZE_OF_SIDEBAR_ICONS  = IconSize;
   const {state} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
+  const {state: StickyWallState} = useContext(StickyWallContext);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
 
@@ -98,7 +100,9 @@ const MobileSidebar = ({IconSize}) => {
           <span className='text-xl pr-5 font-semibold'>{filterState.filter}</span>
           <span className='p-1 px-2 text-base border-2 rounded-lg bg-gray-100'>
             {filterState.filter == 'Upcoming' ? state.tasks.length :
-            filterState.filter == 'Today'    ? todayTasksCount    : 0 }
+             filterState.filter == 'Today'    ? todayTasksCount    : 
+             filterState.filter == 'Notes'    ? StickyWallState.StickyNote.length : '-'
+              }
           </span>
           </>
           :
