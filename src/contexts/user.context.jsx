@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   user: null,
   isSettingsCardOpen: false,
   vibrationOnTaskDone: false,
+  NOD: false
 }
 
 const userReducer = (state, action) => {
@@ -21,6 +22,16 @@ const userReducer = (state, action) => {
       return {
         ...state,
         vibrationOnTaskDone: !state.vibrationOnTaskDone  
+      }
+    case 'TOGGLE_NOD':
+      return {
+          ...state,
+          NOD: !state.NOD  
+        }
+    case 'TOGGLE_NOD_OFF':
+      return {
+        ...state,
+        NOD: false
       }
     default:
       return state

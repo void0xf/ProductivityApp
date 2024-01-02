@@ -7,12 +7,13 @@ import StickWall from './components/sticky-wall/stick-wall.component'
 import Calendar from './components/calendar/calendar.component';
 import Upcoming from './components/upcomingTasks/upcoming.component';
 import TodayTasks from './components/todayTasks/today-Tasks.component';
-import { getTasksForToday } from './utils/task.utils';
+import { getTasksForToday, getTasksForTommorow } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 import StatisticsTab from './components/statistics/statisticsTab.component';
 import SettingCard from './components/setting/setting-card.component';
 import { UserContext } from './contexts/user.context';
+import { getDifferenceBetweenTwoDates } from './utils/date.utils';
 
 const componentMap = {
   'Personal': User,
@@ -22,12 +23,23 @@ const componentMap = {
 
 export const SidebarContext = createContext();
 
+const handleCheckNOD = (tasks) => {
+  const tasksForTommorow = getTasksForTommorow(tasks);
+  
+  if(tasksForTommorow.length > 0) {
+    const notification = new Notification('Task For Tommorow', {
+      body: `You have ${tasksForTommorow.length} upcoming Task For Tommorow`,
+    });
+  
+  }
+}
 
 function App() {
   const SIZE_OF_SIDEBAR_ICONS = 19
 
   const { state, dispatch } = useContext(TasksContext);
   const { state:filterState } = useContext(TaskFilter);
+  const { state:userContext } = useContext(UserContext)
   const [ todayTasksCount, setTodayTasksCount] = useState(0);
   const [ isStickWallActive, setIsStickWallActive ] = useState(true);
   const [ isSideBarActive, setIsSideBarActive] = useState(false);
@@ -63,10 +75,26 @@ function App() {
   }, [])
 
 
+  useEffect(() => {
+    if(userContext.NOD){
+      handleCheckNOD(state.tasks);
+    }
+  }, [userContext.NOD, state.tasks])
+
+
   return (
     <div className={`app-container font-sans ${isSideBarActive ? 'overflow-auto' : ''} ${!isMobile ? 'flex' : ''}`}>
+      
+      {
+        userState.isSettingsCardOpen
+        ?
+        <SettingCard isMobile={isMobile}/>
+        :
+        null
+      }
     
     <SidebarContext.Provider value={{isSideBarActive, setIsSideBarActive, isMobile}}>
+      <div className={`${userState.isSettingsCardOpen ? 'blur-[6px]' : ''}`}>
       {
         isMobile
         ?
@@ -74,16 +102,9 @@ function App() {
         :
         <ComputerSidebar/>
       }
+      </div>
     </SidebarContext.Provider>
 
-    {
-      userState.isSettingsCardOpen
-      ?
-      <SettingCard isMobile={isMobile}/>
-      :
-      null
-    }
-    
     
     {!isMobile
     ?
@@ -109,7 +130,10 @@ function App() {
 
 
       <div className='relative h-screen w-full p-2 z-10 mx-auto max-w-3xl'>
-          <div className={`${state.isTaskTabOpen || (isSideBarActive && isMobile) ? 'absolute blur-[4px]' : ''}
+          <div 
+          className={`${state.isTaskTabOpen || (isSideBarActive && isMobile) || userState.isSettingsCardOpen  
+            ? 'absolute blur-[4px]' 
+            : ''}
           ${isSideBarActive ? '' : ''}`}>
             {filterState.filter == 'Upcoming' && <Upcoming />}
             {filterState.filter == 'Today' && <TodayTasks />}
@@ -125,8 +149,7 @@ function App() {
             {state.isTaskTabOpen && <TaskInfoBar />}
           </div>
 
-      </div>
-      
+        </div>
     </div>
   );
 }
