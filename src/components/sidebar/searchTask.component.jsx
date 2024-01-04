@@ -14,7 +14,8 @@ const SearchTask = () => {
             <div className='relative left-7 top-[7px]'><Search size={20} strokeWidth={3} color='gray'/></div>
             <input 
               type="text" 
-              className='border-2 rounded-md px-8 py-1 w-full' placeholder='Search...'
+              className='border-2 rounded-md px-8 py-1 w-full bg-bkg border-bordercolor' 
+              placeholder='Search...'
               onChange={handleTaskSearch}
             />
     </div>

@@ -74,7 +74,7 @@ const TaskElement = ({ id, taskName }) => {
     <animated.div
       {...swipeHandlers}
       className=
-      {`relative flex justify-between border-b-2 py-2 rounded-md transition-opacity duration-${ANIMATION_DURATION} 
+      {`relative flex justify-between border-b-2 border-bordercolor py-2 rounded-md transition-opacity duration-${ANIMATION_DURATION} 
       ${
         isChecked ? 'opacity-0' : 'opacity-100'
       }
@@ -97,7 +97,7 @@ const TaskElement = ({ id, taskName }) => {
               }}
               className="hidden"
             />
-            <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center bg-white">
+            <div className="w-5 h-5 rounded-full border-2 border-bordercolor flex items-center justify-center bg-bkg">
               {isChecked && <Check />}
             </div>
           </label>

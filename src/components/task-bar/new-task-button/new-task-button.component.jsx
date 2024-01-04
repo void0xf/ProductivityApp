@@ -61,7 +61,7 @@ const NewTaskButton = ({addForTommorow}) => {
           onChange={(e) => handleInputChange(e)}
           onKeyDown={(e) => handleKeyPress(e)}
           placeholder='Add New Task'
-          className='pl-10 pr-4 py-2 border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40'
+          className='pl-10 pr-4 py-2 border rounded-lg border-bordercolor w-full placeholder-grey-200 border-opacity-40 bg-bkg'
           maxLength={20}
         />
         </form>

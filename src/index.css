@@ -13,12 +13,29 @@ body {
 }
 
 @font-face {
-  /* font-family: 'Circe Bold Bold';
-  src: url("assets/fonts/CirceBold.otf") format("opentype");
-  font-family: 'Circe Bold';
-  src: url("assets/fonts/CirceBoldBold.ttf") format("opentype"); */
-  
   font-family: 'Poppins', sans-serif;
+}
+
+@layer base {
+  :root{
+    --color-bkg: 0deg 9% 98%;
+    --color-text: 210deg 10% 13%;
+    --border-outline: 216deg 12% 84%;
+    --color-acent: 197deg 100% 45%;
+    
+
+  }
+  @media(prefers-color-scheme: dark) {
+    :root{
+      /* --color-bkg: 210deg 10% 13%;
+      --color-text: 0deg 9% 98%;
+      --border-outline: 216deg 12% 24%; */
+    }
+  }
+}
+
+body {
+  @apply bg-bkg
 }
 
 code {

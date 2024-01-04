@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const SettingsCartElement = ({name, valueToSet, setterFunction}) => {
   return (
-    <div className='flex justify-between border-gray-400 border-b-2 p-2 rounded-lg'>
+    <div className='flex justify-between border-bordercolor border-b-2 p-2 '>
     <div>{name}</div>
     <button onClick={() => {setterFunction()}}>
       <div className='w-12 h-6 rounded-full bg-slate-500'>

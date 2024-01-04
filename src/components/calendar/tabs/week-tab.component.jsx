@@ -37,8 +37,8 @@ const WeekTab = ({ nextWeekNumber }) => {
         return (
           <div>
             <div className='text-start mx-2'>
-              <div className='font-semibold'>{getDayName(date)}</div>
-              <div className='rounded-md py-2 px-1 max-h-56 overflow-y-auto border-t-2 border-b-2'>
+              <div className='font-semibold text-textcolor'>{getDayName(date)}</div>
+              <div className='rounded-md py-2 px-1 max-h-56 overflow-y-auto border-t-2 border-b-2 border-bordercolor'>
                 {tasks.map((task) => (
                   <div className='my-2'>
                     <CalendarTaskCard taskToRender={task} />

@@ -18,6 +18,22 @@ const StatisticsTabToday = () => {
     TasksDone: value
   }));
 
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const time = payload[0].payload['Time'];
+      const tasksDone = payload[0].payload['TasksDone']
+      const color = payload[0].stroke;
+      return (
+        <div className="bg-gray-800 text-white p-4 rounded shadow-md">
+          <p className="mb-2"><strong>Time:</strong> {time}</p>
+          <p className={`text-[${color}]`}><strong>Tasks Done:</strong> {tasksDone}</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div className='flex flex-col'>
       <div className='relative right-6'>
@@ -27,7 +43,7 @@ const StatisticsTabToday = () => {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="Time" />
             <YAxis tickCount={1} />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
           </LineChart>
         </ResponsiveContainer>
       </div>

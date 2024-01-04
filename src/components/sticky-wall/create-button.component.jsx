@@ -59,10 +59,10 @@ const StickyNoteInfo = () => {
   };
 
   return (
-    <div className='border-2 rounded-xl p-2 flex flex-col justify-between sm:mx-2'>
+    <div className='border-2 border-bordercolor rounded-xl p-2 flex flex-col justify-between sm:mx-2 sm:max-w-full'>
       <div>
         <div className='flex justify-between items-center'>
-          <span className='text-2xl text-gray-700'>Sticky Note: </span>
+          <span className='text-2xl text-textcolor'>Sticky Note: </span>
           <button onClick={handleCloseStickyNoteInfo}><X /></button>
         </div>
         <form action="">
@@ -72,7 +72,7 @@ const StickyNoteInfo = () => {
               value={stickNoteName}
               placeholder={'Type your name for this Task'}
               onChange={handleNameChange}
-              className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
+              className='border border-bordercolor bg-bkg rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
               required
               minLength={3}
               maxLength={10}
@@ -84,7 +84,7 @@ const StickyNoteInfo = () => {
               value={stickNoteContent}
               placeholder={stickNoteContent === '' ? 'Type Your content Here' : stickNoteContent}
               onChange={handleContentChange}
-              className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
+              className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
               required
               minLength={3}
             />
@@ -98,7 +98,7 @@ const StickyNoteInfo = () => {
 
         <div className='flex justify-between mb-2 mt-5'>
           <button
-            className='py-2 px-2 rounded-lg bg-[#778DA9] font-semibold'
+            className='py-2 px-2 rounded-lg bg-acent font-semibold'
             onClick={handleAddStickyNote}>
             Add / Save
           </button>

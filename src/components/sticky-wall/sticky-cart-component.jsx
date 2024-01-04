@@ -14,7 +14,7 @@ const StickyCart = ({ stickyNote }) => {
   }
 
   return (
-    <div className=' bg-slate-400 rounded-md py-1 px-4 w-full shadow-2xl mb-4'>
+  <div className=' bg-[acent] rounded-md py-1 px-4 w-full shadow-2xl mb-4'>
       <div className='flex justify-between'>
         <div className='font-semibold text-2xl'>{header}</div>
      

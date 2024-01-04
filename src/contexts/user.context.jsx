@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   user: null,
   isSettingsCardOpen: false,
   vibrationOnTaskDone: false,
-  NOD: false
+  NOD: false,
+  darkMode: false,
 }
 
 const userReducer = (state, action) => {
@@ -33,6 +34,11 @@ const userReducer = (state, action) => {
         ...state,
         NOD: false
       }
+    case 'TOGGLE_DARKMODE':
+      return {
+          ...state,
+          darkMode: !state.darkMode
+    }
     default:
       return state
   }

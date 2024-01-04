@@ -103,9 +103,9 @@ const Calendar = () => {
       <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
       <div className='flex flex-col items-center'>
        
-      <div className='bg-gray-200 rounded-lg p-1'>
+      <div className='bg-gray-600 rounded-lg p-1'>
       <button
-        className={`px-3 py-1 mx-1 bg-white rounded-lg transition-all duration-300 ${
+        className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 text-textcolor ${
           isDayButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
         }`}
         onClick={() => {
@@ -117,7 +117,7 @@ const Calendar = () => {
         Day
       </button>
       <button
-        className={`px-3 py-1 mx-1 bg-white rounded-lg transition-all duration-300 ${
+        className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 ${
           isWeekButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
         }`}
         onClick={() => {
@@ -129,8 +129,8 @@ const Calendar = () => {
         Week
       </button>
       <button
-        className={`px-3 py-1 mx-1 rounded-lg bg-white transition-all duration-300 ${
-          isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : 'bg-white'
+        className={`px-3 py-1 mx-1 rounded-lg bg-bkg transition-all duration-300 ${
+          isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : 'bg-bkg'
         }`}
         onClick={() => {
           setIsDayButtonActive(false);

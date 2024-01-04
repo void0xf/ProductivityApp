@@ -21,10 +21,10 @@ const Upcoming = () => {
   }, [state.tasks, filterState, searchState])
 
   return (
-    <div className='sm: mx-4'>
+    <div className='sm: mx-4 h-screen'>
       <div className='hidden sm:flex flex-row py-2 visible'>
-        <span className='text-3xl pr-5 font-semibold'>Upcoming</span>
-        <span className='p-1 px-3 text-2xl border-2 rounded-lg bg-gray-100'>{state.tasks.length}</span>
+        <span className='text-3xl pr-5 font-semibold text-textcolor'>Upcoming</span>
+        <span className='p-1 px-3 text-2xl border-2 rounded-lg bg-bkg'>{state.tasks.length}</span>
       </div>
       
       <ListOfTasksCard name={"Today"} tasks={todayTasks} addForTommorow={false}/>

@@ -9,8 +9,8 @@ const CalendarTaskCard = ({ taskToRender }) => {
   const timeDifferenceToDisplay = gettimeDifferenceToDisplay(timeDifference);
 
   return (
-    <div className="flex items-center border rounded-lg p-4 shadow-md bg-white">
-      <div className="w-2 h-24 bg-slate-400 rounded-md mr-4"></div>
+    <div className="flex items-center border rounded-lg p-4 shadow-md bg-bkg border-bordercolor">
+      <div className="w-2 h-24 bg-acent rounded-md mr-4"></div>
       <div className="text-left">
         <p className="font-semibold text-lg">{taskToRender.taskName}</p>
         <div className='flex'>
@@ -26,8 +26,7 @@ const CalendarTaskCard = ({ taskToRender }) => {
           }
         </div>
         <div className='flex items-baseline'>
-          <div className="text-sm text-gray-500">
-            {/* {`${taskToRender.date.getHours()}:${taskToRender.date.getMinutes()}`} */}
+          <div className="text-sm text-gray-500 mr-1">
             {`${taskToRender.date.toLocaleTimeString('PL-pl').split(':')[0]}:${taskToRender.date.toLocaleTimeString('PL-pl').split(':')[1]}`}
           </div>
           <div className=" text-xs font-semibold">({timeDifferenceToDisplay})</div>

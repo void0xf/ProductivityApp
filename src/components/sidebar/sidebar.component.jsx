@@ -12,13 +12,13 @@ export default function Sidebar({ children }) {
 
   return (
     <div className="h-full">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm justify-between">
+      <nav className="h-full flex flex-col bg-bkg border-bordercolor border-r shadow-sm justify-between">
         <div>
           <div className=" pb-2 flex justify-between items-center">
-            <div className="ml-2 font-semibold text-xl">Menu</div>
+            <div className="ml-2 font-semibold text-xl text-textcolor">Menu</div>
             <button
               onClick={() => { setIsSideBarActive(false) }}
-              className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+              className="p-1.5 rounded-lg bg-bkg hover:bg-text"
             >
             <Menu />
             </button>

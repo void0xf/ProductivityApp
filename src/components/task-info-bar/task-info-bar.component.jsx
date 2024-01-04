@@ -23,7 +23,6 @@ const TaskInfoBar = () => {
     setDescription(description);
     setTaskName(taskName);
     setNewList(list);
-    console.log(state);
   }, [date, description, taskName, list]);
 
   const handleOnDeleteTaskClick = () => {
@@ -79,10 +78,10 @@ const TaskInfoBar = () => {
   };
 
   return (
-    <div className='border-2 rounded-xl p-2 flex flex-col justify-between sm:mx-2'>
+    <div className='border-2 border-bordercolor rounded-xl p-2 flex flex-col justify-between sm:mx-2'>
       <div>
         <div className='flex justify-between items-center'>
-          <span className='text-2xl text-gray-700'> Task: </span>
+          <span className='text-2xl text-textcolor'> Task: </span>
           <button onClick={() => handleCloseTaskInfo()}><X /></button>
         </div>
         <div>
@@ -92,7 +91,7 @@ const TaskInfoBar = () => {
             placeholder={'Type your name for this Task'}
             onChange={handleTaskNameChange}
             ref={taskNameRef}
-            className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
+            className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
           />
         </div>
         <div>
@@ -102,7 +101,7 @@ const TaskInfoBar = () => {
             placeholder={description === '' ? 'Type Your Description Here' : description}
             onChange={handleDescriptionChange}
             ref={descRef}
-            className='border rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
+            className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
           />
         </div>
 
@@ -111,8 +110,8 @@ const TaskInfoBar = () => {
             <div className='mr-5'>List: </div>
             <div>
               {
-                <select name="" id="" onChange={handleListChange} ref={listRef} value={newList} className=' bg-inherit'>
-                  <option value='None'>None</option>
+                <select name="" id="" onChange={handleListChange} ref={listRef} value={newList} className='bg-bkg rounded-md'>
+                  <option value='None' className=''>None</option>
                   {state.lists.map((listName) => (
                     <option value={listName.name}>{listName.name}</option>
                   ))}
@@ -121,7 +120,7 @@ const TaskInfoBar = () => {
             </div>
           </div>
 
-          <div className='flex'>
+          <div className='flex mt-2'>
             <div className='mr-2'> <p>Date: </p> </div>
             <div>
               <input
@@ -129,20 +128,20 @@ const TaskInfoBar = () => {
                 value={newDate}
                 onChange={handleDateChange}
                 min={today.toISOString().slice(0, 10)}
-                className=' bg-inherit'
+                className='bg-bkg'
                 required
               />
             </div>
           </div>
 
-          <div className='flex'>
+          <div className='flex mt-2'>
             <div className='mr-2'> <p>Time: </p> </div>
             <div>
               <input
                 type="time"
                 value={newTime}
                 onChange={handleTimeChange}
-                className=' bg-inherit'
+                className='bg-bkg'
                 required
               />
             </div>
@@ -153,14 +152,14 @@ const TaskInfoBar = () => {
       <div className='flex justify-between mb-2 mt-5'>
         <div>
           <button
-            className='py-2 px-2 border-2 rounded-lg border-gray-200 font-semibold'
+            className='py-2 px-2 border-2 rounded-lg text-textcolor border-bordercolor font-semibold'
             onClick={handleOnDeleteTaskClick}>
             Delete Task
           </button>
         </div>
         <div>
           <button
-            className='py-2 px-2 rounded-lg  bg-[#778DA9] font-semibold'
+            className='py-2 px-2 rounded-lg  bg-acent font-semibold'
             onClick={handleSaveChangesClick}>Save Changes</button>
         </div>
       </div>

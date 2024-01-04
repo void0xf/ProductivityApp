@@ -83,8 +83,7 @@ function App() {
 
 
   return (
-    <div className={`app-container font-sans ${isSideBarActive ? 'overflow-auto' : ''} ${!isMobile ? 'flex' : ''}`}>
-      
+    <div className={`app-container bg-bkg text-textcolor font-sans ${isSideBarActive ? 'overflow-auto' : ''} ${!isMobile ? 'flex' : ''}`}>
       {
         userState.isSettingsCardOpen
         ?
@@ -130,9 +129,10 @@ function App() {
 
 
       <div className='relative h-screen w-full p-2 z-10 mx-auto max-w-3xl'>
+
           <div 
           className={`${state.isTaskTabOpen || (isSideBarActive && isMobile) || userState.isSettingsCardOpen  
-            ? 'absolute blur-[4px]' 
+            ? 'absolute blur-[22px]' 
             : ''}
           ${isSideBarActive ? '' : ''}`}>
             {filterState.filter == 'Upcoming' && <Upcoming />}
@@ -141,6 +141,7 @@ function App() {
             {filterState.filter == 'Notes' && <StickWall />}
             {filterState.filter == 'Statistics' && <StatisticsTab />}
           </div>
+
           <div className={`transition-transform duration-700 z-50 
             ${state.isTaskTabOpen
               ? 'transform opacity-100 h-screen'
@@ -148,6 +149,7 @@ function App() {
             `}>
             {state.isTaskTabOpen && <TaskInfoBar />}
           </div>
+
 
         </div>
     </div>
