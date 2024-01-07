@@ -7,7 +7,7 @@ import StickWall from './components/sticky-wall/stick-wall.component'
 import Calendar from './components/calendar/calendar.component';
 import Upcoming from './components/upcomingTasks/upcoming.component';
 import TodayTasks from './components/todayTasks/today-Tasks.component';
-import { getTasksForToday, getTasksForTommorow, synchonizeCompletedTasks, synchonizeTasks } from './utils/task.utils';
+import { getTasksForToday, getTasksForTommorow, synchonizeCompletedTasks, synchonizeNotes, synchonizeTasks } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 import StatisticsTab from './components/statistics/statisticsTab.component';
@@ -19,8 +19,9 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { firebaseConfig } from './firebase/firebaseConfig';
-import { addTasksToFirebase, getTasksByUID } from './firebase/firestore';
+import { addDataToFirebase, getTasksByUID } from './firebase/firestore';
 import Login from './components/loginpage/login.component';
+import { StickyWallContext } from './contexts/sticky-wall.context';
 
 const componentMap = {
   'Personal': User,
@@ -46,7 +47,8 @@ function App() {
 
   const { state, dispatch } = useContext(TasksContext);
   const { state:filterState } = useContext(TaskFilter);
-  const { state:userContext } = useContext(UserContext)
+  const { state:userContext } = useContext(UserContext);
+  const { state:stickyWallState, dispatch: dispatchNotes } = useContext(StickyWallContext);
   const [ todayTasksCount, setTodayTasksCount] = useState(0);
   const [ isStickWallActive, setIsStickWallActive ] = useState(true);
   const [ isSideBarActive, setIsSideBarActive] = useState(false);
@@ -76,17 +78,18 @@ function App() {
   useEffect(() => {
     if(user && !isLoggedFirstTime) {
       const uid = user.uid;
-      addTasksToFirebase(firestore, uid, state.tasks, state.completedTask);
+      addDataToFirebase(firestore, uid, state.tasks, state.completedTask, stickyWallState.StickyNote);
     }
-  }, [state.tasks, state.completedTask])
+  }, [state.tasks, state.completedTask, stickyWallState])
 
   useEffect(() => {
-    if(user){
+    if(user && isLoggedFirstTime){
       const uid = user.uid;
       const synchronize = async () => {
         const resSynchonizeTasks = await synchonizeTasks(firestore, uid, dispatch);
         const resSynchronizeCompletedTasks = await synchonizeCompletedTasks(firestore, uid, dispatch);
-        if(resSynchonizeTasks === 'Success' && resSynchronizeCompletedTasks === 'Success') {
+        const resSynchronzieNotes = await synchonizeNotes(firestore, uid, dispatchNotes)
+        if(resSynchonizeTasks === 'Success' && resSynchronizeCompletedTasks === 'Success' && resSynchronzieNotes === 'Success') {
           setIsLoggedFirstTime(false);
         }
       }

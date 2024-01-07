@@ -31,6 +31,11 @@ const stickyWallReducer = (state, action) => {
           ...state,
           StickyNote: [...state.StickyNote, action.payload]
         }
+    case 'UPDATE_NOTES':
+      return {
+        ...state,
+        StickyNote: action.payload
+      }
     case 'EDIT_STICKY_NOTE':
       const stickyNotesWithUpdatedStickyNote = updateStickyNote(state.StickyNote, state.activeStickNoteToEdit, action.payload)
       return {

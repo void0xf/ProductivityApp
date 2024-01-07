@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { TasksContext, useTaskContext } from '../contexts/tasks.context'
 import { compareDate } from './date.utils';
-import { getCompletedTasksByUID, getTasksByUID } from '../firebase/firestore';
+import { getCompletedTasksByUID, getNotesbyUID, getTasksByUID } from '../firebase/firestore';
 
 export const searchForTasks = (tasks, search) => {
   const results = []
@@ -139,6 +139,18 @@ export const synchonizeCompletedTasks = async (firestore, uid, dispatch) => {
   try {
     const tasks = await getCompletedTasksByUID(firestore, uid);
     await dispatch({ type: 'UPDATE_COMPLETED_TASKS', payload: tasks });
+    return 'Success'
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    return error
+  }
+}
+
+export const synchonizeNotes = async (firestore, uid, dispatch) => {
+  try {
+    const notes = await getNotesbyUID(firestore, uid);
+    await dispatch({ type: 'UPDATE_NOTES', payload: notes });
+    console.log(notes);
     return 'Success'
   } catch (error) {
     console.error('Error fetching tasks:', error);
