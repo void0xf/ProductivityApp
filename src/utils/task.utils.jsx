@@ -150,7 +150,6 @@ export const synchonizeNotes = async (firestore, uid, dispatch) => {
   try {
     const notes = await getNotesbyUID(firestore, uid);
     await dispatch({ type: 'UPDATE_NOTES', payload: notes });
-    console.log(notes);
     return 'Success'
   } catch (error) {
     console.error('Error fetching tasks:', error);

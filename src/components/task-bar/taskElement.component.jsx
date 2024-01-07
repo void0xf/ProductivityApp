@@ -93,7 +93,7 @@ const TaskElement = ({ id, taskName }) => {
             <input
               type="checkbox"
               onChange={() => {
-                handleDeleteTask();
+                handleTaskDone();
               }}
               className="hidden"
             />
