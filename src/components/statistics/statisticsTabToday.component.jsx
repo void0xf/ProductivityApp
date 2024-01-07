@@ -9,7 +9,6 @@ const StatisticsTabToday = () => {
   const todayTasks = getTasksForToday(state.completedTask);
   const chartData = {};
 
-  console.log(todayTasks);
   todayTasks.forEach((task) => {
     const tasksCompletedInThatTime = getTasksForThatTime(todayTasks, task.taskDoneDate);
     chartData[`${task.taskDoneDate.toLocaleTimeString('PL-pl', {hour: '2-digit', minute: '2-digit'})}`] = tasksCompletedInThatTime.length;
@@ -24,15 +23,15 @@ const StatisticsTabToday = () => {
   return (
     <div className='flex flex-col'>
       <div className='relative right-6'>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={data}>
-            <Line type="monotone" dataKey="TasksDone" stroke="var(--color-acent)" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="Time" />
-            <YAxis tickCount={1} />
-            <Tooltip content={<CustomTooltip />} />
-          </LineChart>
-        </ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={data}>
+        <Line type="monotone" dataKey="TasksDone" stroke="#aaaaaa" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <XAxis dataKey="Time" />
+          <YAxis tickCount={1} />
+          <Tooltip content={<CustomTooltip />} />
+        </LineChart>
+      </ResponsiveContainer>
       </div>
       <div className='flex justify-center items-center text-center'>
       </div>

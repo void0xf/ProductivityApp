@@ -29,7 +29,7 @@ const StatisticsTabWeek = () => {
       <div className='relative right-6'>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={data}>
-            <Line type="monotone" dataKey="TasksDone" stroke="#8884d8" />
+          <Line type="monotone" dataKey="TasksDone" stroke="#aaaaaa" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="Day" />
             <YAxis />
