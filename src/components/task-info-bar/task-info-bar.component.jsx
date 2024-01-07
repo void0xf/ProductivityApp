@@ -91,7 +91,7 @@ const TaskInfoBar = () => {
             placeholder={'Type your name for this Task'}
             onChange={handleTaskNameChange}
             ref={taskNameRef}
-            className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
+            className='border rounded-lg focus:outline-acent border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
           />
         </div>
         <div>
@@ -101,7 +101,7 @@ const TaskInfoBar = () => {
             placeholder={description === '' ? 'Type Your Description Here' : description}
             onChange={handleDescriptionChange}
             ref={descRef}
-            className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
+            className='border rounded-lg focus:outline-acent border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
           />
         </div>
 
@@ -110,7 +110,7 @@ const TaskInfoBar = () => {
             <div className='mr-5'>List: </div>
             <div>
               {
-                <select name="" id="" onChange={handleListChange} ref={listRef} value={newList} className='bg-bkg rounded-md'>
+                <select name="" id="" onChange={handleListChange} ref={listRef} value={newList} className='bg-bkg rounded-md focus:outline-acent'>
                   <option value='None' className=''>None</option>
                   {state.lists.map((listName) => (
                     <option value={listName.name}>{listName.name}</option>
@@ -128,7 +128,7 @@ const TaskInfoBar = () => {
                 value={newDate}
                 onChange={handleDateChange}
                 min={today.toISOString().slice(0, 10)}
-                className='bg-transparent'
+                className='bg-transparent focus:outline-acent'
                 required
               />
             </div>
@@ -141,7 +141,7 @@ const TaskInfoBar = () => {
                 type="time"
                 value={newTime}
                 onChange={handleTimeChange}
-                className='bg-transparent'
+                className='bg-transparent focus:outline-acent'
                 required
               />
             </div>

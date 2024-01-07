@@ -30,7 +30,7 @@ const AddNewList = () => {
           onChange={(e) => {handleInputChange(e)}}
           onKeyDown={(e) => {handleKeyPress(e.key)}}
           placeholder='Add New List'
-          className='pl-11 pr-4 py-2 rounded-lg border-2 border-bordercolor w-full placeholder-grey-200 border-opacity-40 bg-bkg'
+          className='pl-11 pr-4 py-2 rounded-lg border-2 border-bordercolor focus:outline-acent w-full placeholder-grey-200 border-opacity-40 bg-bkg'
         />
       <div class="absolute inset-y-0 left-0 pl-4  
                     flex items-center  

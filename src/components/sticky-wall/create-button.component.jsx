@@ -72,7 +72,7 @@ const StickyNoteInfo = () => {
               value={stickNoteName}
               placeholder={'Type your name for this Task'}
               onChange={handleNameChange}
-              className='border border-bordercolor bg-bkg rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1'
+              className='border border-bordercolor bg-bkg rounded-lg border-gray-400 w-full placeholder-grey-200 border-opacity-40 py-2 px-1 my-1 focus:outline-acent'
               required
               minLength={3}
               maxLength={10}
@@ -84,7 +84,7 @@ const StickyNoteInfo = () => {
               value={stickNoteContent}
               placeholder={stickNoteContent === '' ? 'Type Your content Here' : stickNoteContent}
               onChange={handleContentChange}
-              className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1'
+              className='border rounded-lg border-bordercolor bg-bkg w-full placeholder-grey-200 border-opacity-40 pb-32 px-1 my-1 focus:outline-acent'
               required
               minLength={3}
             />
