@@ -2,6 +2,7 @@ import { X } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import SettingsCartElement from './settings-cart-element.component'
 import { UserContext } from '../../contexts/user.context'
+import { logOutUser } from '../../firebase/auth'
 
 const SettingCard = ({isMobile}) => {
   const {state, dispatch} = useContext(UserContext)
@@ -64,6 +65,7 @@ const SettingCard = ({isMobile}) => {
         }
         <SettingsCartElement name={'Notify On DeadLine'} valueToSet={state.NOD} setterFunction={handleNOD}/>
         <SettingsCartElement name={'Toogle Dark Mode'} valueToSet={state.darkMode} setterFunction={handleDarkMode}/>
+        <button onClick={()=>{logOutUser()}}>Log Out</button>
         {/* 
         <div>LogOut</div> */}
       </div>

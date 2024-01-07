@@ -114,3 +114,16 @@ export function getDates(startDate, stopDate) {
   }
   return dateArray;
 }
+
+export function convertTimestampToDate(task) {
+  return {
+    createDate: task.createDate.toDate(),
+    date: task.date.toDate(),
+    taskDoneDate: task.taskDoneDate ? task.taskDoneDate.toDate() : null,
+    description: task.description,
+    list: task.list,
+    id: task.id,
+    taskName: task.taskName
+
+  }
+}

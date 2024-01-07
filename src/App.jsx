@@ -1,19 +1,26 @@
 import TaskInfoBar from './components/task-info-bar/task-info-bar.component';
 import { TasksContext, } from './contexts/tasks.context';
-import { User, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
+import { User, Briefcase, ChevronRight, ChevronLeft, LogIn } from 'lucide-react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { TaskFilter } from './contexts/filter.context'
 import StickWall from './components/sticky-wall/stick-wall.component'
 import Calendar from './components/calendar/calendar.component';
 import Upcoming from './components/upcomingTasks/upcoming.component';
 import TodayTasks from './components/todayTasks/today-Tasks.component';
-import { getTasksForToday, getTasksForTommorow } from './utils/task.utils';
+import { getTasksForToday, getTasksForTommorow, synchonizeCompletedTasks, synchonizeTasks } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 import StatisticsTab from './components/statistics/statisticsTab.component';
 import SettingCard from './components/setting/setting-card.component';
 import { UserContext } from './contexts/user.context';
-import { getDifferenceBetweenTwoDates } from './utils/date.utils';
+import Register from './components/loginpage/register.component';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { firebaseConfig } from './firebase/firebaseConfig';
+import { addTasksToFirebase, getTasksByUID } from './firebase/firestore';
+import Login from './components/loginpage/login.component';
 
 const componentMap = {
   'Personal': User,
@@ -44,8 +51,15 @@ function App() {
   const [ isStickWallActive, setIsStickWallActive ] = useState(true);
   const [ isSideBarActive, setIsSideBarActive] = useState(false);
   const [ isMobile, setIsMobile] = useState(false);
+  const [ isLoggedFirstTime, setIsLoggedFirstTime] = useState(true)
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const { state:userState} = useContext(UserContext)
+  const [ clickedLogin, setClickedLogin] = useState(false)
+  
+  const firebaseApp = initializeApp(firebaseConfig);
+  const firestore = getFirestore(firebaseApp);
+  const auth = getAuth(firebaseApp);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     setTodayTasksCount(0);
@@ -60,7 +74,28 @@ function App() {
   }, [state.tasks]);
 
   useEffect(() => {
-  }, [filterState, state])
+    if(user && !isLoggedFirstTime) {
+      const uid = user.uid;
+      addTasksToFirebase(firestore, uid, state.tasks, state.completedTask);
+    }
+  }, [state.tasks, state.completedTask])
+
+  useEffect(() => {
+    if(user){
+      const uid = user.uid;
+      const synchronize = async () => {
+        const resSynchonizeTasks = await synchonizeTasks(firestore, uid, dispatch);
+        const resSynchronizeCompletedTasks = await synchonizeCompletedTasks(firestore, uid, dispatch);
+        if(resSynchonizeTasks === 'Success' && resSynchronizeCompletedTasks === 'Success') {
+          setIsLoggedFirstTime(false);
+        }
+      }
+      synchronize();
+    }
+
+  }, [user]);
+  
+
 
   const handleResizeWindow = (width) => {
     if(width > 640) {
@@ -81,8 +116,20 @@ function App() {
     }
   }, [userContext.NOD, state.tasks])
 
-
+  
   return (
+    user === null
+    ?
+    <div className='h-screen w-full bg-slate-600'>
+      {clickedLogin 
+      ?
+      <Login setLogin={setClickedLogin}/>
+      :  
+      <Register setLogin={setClickedLogin}/>
+      }
+    </div>
+    :
+    (true &&
     <div className={`app-container bg-bkg text-textcolor font-sans ${isSideBarActive ? 'overflow-auto' : ''} ${!isMobile ? 'flex' : ''}`}>
       {
         userState.isSettingsCardOpen
@@ -153,6 +200,7 @@ function App() {
 
         </div>
     </div>
+    )
   );
 }
 

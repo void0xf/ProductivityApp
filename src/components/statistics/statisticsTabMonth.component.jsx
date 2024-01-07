@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { TasksContext } from '../../contexts/tasks.context';
 import { getTaskForDate, getTasksForThisMonth } from '../../utils/task.utils';
+import CustomTooltip from './customTooltip.component';
 
 const StatisticsTabMonth = () => {
   const { state } = useContext(TasksContext);
   const monthTasks = getTasksForThisMonth(state.completedTask);
   const chartData = {};
-  console.log(state)
   const options = {
     weekday: 'long',
     month: 'long',
@@ -34,7 +34,7 @@ const StatisticsTabMonth = () => {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="Day" />
             <YAxis />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
           </LineChart>
         </ResponsiveContainer>
       </div>

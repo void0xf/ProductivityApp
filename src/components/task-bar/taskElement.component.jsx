@@ -103,7 +103,7 @@ const TaskElement = ({ id, taskName }) => {
           </label>
         </div>
         <div className='flex max-w-min'>
-          <div className=''>
+          <div className={`${isChecked ? 'line-through' : ''}`}>
             <p>{taskName}</p>
           </div>
         </div>

@@ -128,7 +128,7 @@ const TaskInfoBar = () => {
                 value={newDate}
                 onChange={handleDateChange}
                 min={today.toISOString().slice(0, 10)}
-                className='bg-bkg'
+                className='bg-transparent'
                 required
               />
             </div>
@@ -141,7 +141,7 @@ const TaskInfoBar = () => {
                 type="time"
                 value={newTime}
                 onChange={handleTimeChange}
-                className='bg-bkg'
+                className='bg-transparent'
                 required
               />
             </div>
@@ -159,7 +159,7 @@ const TaskInfoBar = () => {
         </div>
         <div>
           <button
-            className='py-2 px-2 rounded-lg  bg-acent font-semibold'
+            className='py-2 px-2 rounded-lg bg-acent font-semibold'
             onClick={handleSaveChangesClick}>Save Changes</button>
         </div>
       </div>

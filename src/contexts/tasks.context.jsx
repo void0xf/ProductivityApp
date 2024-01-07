@@ -52,6 +52,16 @@ const taskReducer = (state, action) => {
       ...state,
       tasks:[...state.tasks, action.payload]
     }
+    case 'UPDATE_TASKS':
+      return {
+        ...state,
+        tasks: action.payload
+      }
+    case 'UPDATE_COMPLETED_TASKS':
+      return {
+        ...state,
+        completedTask: action.payload
+      }
     case 'OPEN_TASK_TAB':
       if(action.payload !== state.activeTaskId){
         return{

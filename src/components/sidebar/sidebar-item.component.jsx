@@ -42,7 +42,7 @@ export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickTy
     >
       {icon}
       <span
-        className={`overflow-hidden transition-all  w-52 ml-3  ${active ? 'font-bold' : ''}`}
+        className={`overflow-hidden transition-all  w-52 ml-3  ${active ? 'font-bold text-textcolor' : ''}`}
       >
         {text}
       </span>
