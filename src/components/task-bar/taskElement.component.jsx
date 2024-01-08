@@ -119,9 +119,9 @@ const TaskElement = ({ id, taskName }) => {
       )
       :
       (
-        <button className='p-2 transition' onClick={() => handleOpenTaskTab(id)}>
-        <ChevronRight />
-        </button>
+          <button className='p-2 transition' onClick={() => handleOpenTaskTab(id)}>
+          <ChevronRight />
+          </button>
       )
       }
     </animated.div>
