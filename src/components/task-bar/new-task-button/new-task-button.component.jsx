@@ -6,6 +6,7 @@ import axios from 'axios';
 import { RiBardFill } from "react-icons/ri";
 import { Plus } from 'lucide-react';
 import { askAi } from '../../../suggestionAI/data';
+import { getTasksForThisMonth } from '../../../utils/task.utils';
 
 
 const NewTaskButton = ({addForTommorow}) => {
@@ -16,6 +17,7 @@ const NewTaskButton = ({addForTommorow}) => {
   const [ inputValue, setInputValue] = useState('')
   const [ oldSuggestions, setOldSuggestions] = useState([]);
   const [ isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const [ currentFilterState, setCurrentFilterState] = useState('None')
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -31,17 +33,32 @@ const NewTaskButton = ({addForTommorow}) => {
 
   const handleAISuggestion = async () => {
     setIsWaitingForResponse(true);
+
+    const tasks = getTasksForThisMonth(state.tasks, filterState.listFilter);
+    const taskNames = tasks.map((task) => task.taskName);
+    const taskNamesWithOldSuggestions = [...taskNames, ...oldSuggestions]
+    
     const prompt = filterState.listFilter == 'None' 
-    ? `Suggest Me RandomTask suggest 1 task based on that REPLY ONLY WITH TASK WITH NO SPECIAL CHARACTERS MAX CHARACTERS IS 20 HERE IS THE TASKS I ALREADY HAVE ${oldSuggestions}`
-    : `Im Making ToDoList Called ${filterState.listFilter} suggest 1 task based on that REPLY ONLY WITH TASK IN PLAIN TEXT WITH NO SPECIAL CHARACTERS MAX CHARACTERS IS 20 LAST RESPOSNE HERE IS THE TASKS I ALREADY HAVE ${oldSuggestions}`
-    console.log(oldSuggestions);
+    ? `Suggest Me one Random task REPLY ONLY WITH TASK WITH NO SPECIAL CHARACTERS HERE IS THE TASKS I ALREADY HAVE 
+    ${oldSuggestions}`
+    : `Im Making ToDoList Called ${filterState.listFilter} suggest one random task based on that REPLY ONLY WITH TASK IN PLAIN TEXT WITH NO SPECIAL CHARACTERS AND NO BOILER PLATE LIKE 'HERE IS RANDOM TASK, Create a task to, Add a task, ETC' 
+    ${taskNamesWithOldSuggestions.length > 0 
+      ? `HERE IS THE TASKS I ALREADY HAVE ${taskNamesWithOldSuggestions}` 
+      : ''}`
+    
+    console.log(prompt);
     const newSuggestion = await askAi(prompt);
     setOldSuggestions((prev) => [...prev, newSuggestion])
-    setIsWaitingForResponse(false);
-    setInputValue(oldSuggestions[oldSuggestions.length - 1])
-    
+    setIsWaitingForResponse(false);    
   }
+  
+  useEffect(() => {
+    setOldSuggestions([]);
+  }, [filterState.listFilter])
 
+  useEffect(() => {
+    setInputValue(oldSuggestions[oldSuggestions.length - 1])
+  }, [oldSuggestions])
 
   const addNewTask = () => {
     const dateToSet =  new Date();
