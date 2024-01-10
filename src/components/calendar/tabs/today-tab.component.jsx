@@ -33,7 +33,7 @@ const TodayTab = ( { nextDayNumber }) => {
       <div className='m-5'>No Tasks for Today</div> 
       :
       <div className=''>
-            <div class="flex flex-col mt-5 max-h-96 sm:max-w-xl mx-auto overflow-y-auto">
+            <div class="flex flex-col mt-5 max-h-96 sm:max-w-full mx-auto overflow-y-auto">
               <div className='flex items-start'>
                 <div className='font-semibold'>{getDayName(today)}</div>
               </div>

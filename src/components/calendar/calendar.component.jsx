@@ -5,6 +5,7 @@ import WeekTab from './tabs/week-tab.component'
 import MonthTab from './tabs/month-tab.component'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSwipeable } from 'react-swipeable'
+import ComputerTitleCard from '../category-title-card/computer-title-card'
 
 
 
@@ -99,61 +100,64 @@ const Calendar = () => {
   }, [isDayButtonActive, isWeekButtonActive, isMonthButtonActive, nextDay, nextMonth, nextWeek])
 
   return (
-    <div className='items-center align-baseline text-center' {...swipeHandlers}>
-      <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
-      <div className='flex flex-col items-center'>
-       
-      <div className='bg-gray-600 rounded-lg p-1'>
-      <button
-        className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 text-textcolor ${
-          isDayButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
-        }`}
-        onClick={() => {
-          setIsDayButtonActive(true);
-          setIsWeekButtonActive(false);
-          setIsMonthButtonActive(false);
-        }}
-      >
-        Day
-      </button>
-      <button
-        className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 ${
-          isWeekButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
-        }`}
-        onClick={() => {
-          setIsDayButtonActive(false);
-          setIsWeekButtonActive(true);
-          setIsMonthButtonActive(false);
-        }}
-      >
-        Week
-      </button>
-      <button
-        className={`px-3 py-1 mx-1 rounded-lg bg-bkg transition-all duration-300 ${
-          isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : 'bg-bkg'
-        }`}
-        onClick={() => {
-          setIsDayButtonActive(false);
-          setIsWeekButtonActive(false);
-          setIsMonthButtonActive(true);
-        }}
-      >
-        Month
-      </button>
-    </div>
-    </div>
+    <div>
+      <ComputerTitleCard name={"Calendar"} numberOfNotifictaions={"-"} />
+      <div className='items-center align-baseline text-center' {...swipeHandlers}>
+        <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
+        <div className='flex flex-col items-center'>
+        
+        <div className='bg-gray-600 rounded-lg p-1'>
+        <button
+          className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 text-textcolor ${
+            isDayButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
+          }`}
+          onClick={() => {
+            setIsDayButtonActive(true);
+            setIsWeekButtonActive(false);
+            setIsMonthButtonActive(false);
+          }}
+        >
+          Day
+        </button>
+        <button
+          className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 ${
+            isWeekButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : ''
+          }`}
+          onClick={() => {
+            setIsDayButtonActive(false);
+            setIsWeekButtonActive(true);
+            setIsMonthButtonActive(false);
+          }}
+        >
+          Week
+        </button>
+        <button
+          className={`px-3 py-1 mx-1 rounded-lg bg-bkg transition-all duration-300 ${
+            isMonthButtonActive ? 'bg-DarkerGrayWhite font-semibold transform scale-105' : 'bg-bkg'
+          }`}
+          onClick={() => {
+            setIsDayButtonActive(false);
+            setIsWeekButtonActive(false);
+            setIsMonthButtonActive(true);
+          }}
+        >
+          Month
+        </button>
+      </div>
+      </div>
 
-      {
-        isDayButtonActive ? <TodayTab nextDayNumber={nextDay} /> : null
-      }
-      {
-        isWeekButtonActive ? <WeekTab nextMonthNumber={nextWeek}/> : null
-      }
-      {
-        isMonthButtonActive ? <MonthTab nextMonthNumber={ nextMonth }/> : null
-      }
+        {
+          isDayButtonActive ? <TodayTab nextDayNumber={nextDay} /> : null
+        }
+        {
+          isWeekButtonActive ? <WeekTab nextMonthNumber={nextWeek}/> : null
+        }
+        {
+          isMonthButtonActive ? <MonthTab nextMonthNumber={ nextMonth }/> : null
+        }
 
 
+      </div>
     </div>
   )
 }

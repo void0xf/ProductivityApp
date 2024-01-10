@@ -7,6 +7,7 @@ import { getDayName, getNameOfMonth, getTodayDate, getTodayDay, getTodayMonth, g
 import StatisticsTabToday from './statisticsTabToday.component';
 import StatisticsTabMonth from './statisticsTabMonth.component';
 import StatisticsTabWeek from './statisticsTabWeek.component';
+import ComputerTitleCard from '../category-title-card/computer-title-card';
 
 
 const StatisticsTab = () => {
@@ -101,6 +102,8 @@ const StatisticsTab = () => {
 
   return (
     <div>
+      <ComputerTitleCard name={"Statistics"} numberOfNotifictaions={"-"} />
+    <div>
         <div className='items-center align-baseline text-center' {...swipeHandlers}>
       <div className='font-semibold text-2xl p-5'><p>{calendarHeader}</p></div>
       <div className='flex flex-col items-center'>
@@ -159,6 +162,7 @@ const StatisticsTab = () => {
     </div>
   
 
+    </div>
     </div>
   );
 }

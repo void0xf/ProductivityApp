@@ -1,7 +1,7 @@
 import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
-import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart } from 'lucide-react';
+import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit } from 'lucide-react';
 import { getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
@@ -22,6 +22,10 @@ const MobileSidebar = ({IconSize}) => {
   const {state: StickyWallState} = useContext(StickyWallContext);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
+  const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(false);
+  const handleListDelete = (name) => {
+    console.log(name);
+  }
 
   return (
     <div>
@@ -67,17 +71,34 @@ const MobileSidebar = ({IconSize}) => {
                 payload={'Notes'}
                 />
             <div className='border-t-2 border-b-2 border-bordercolor my-4 py-2 max-h-64 overflow-y-scroll'>
-              <div><p className='text-sm font-semibold ml-3'>Lists</p></div>
+              <div className='flex justify-between items-center'>
+                <p className='text-sm font-semibold ml-3'>Lists</p> 
+                <button 
+                onClick={() => {setIsDeleteButtonActive(!isDeleteButtonActive)}}>
+                  <p className='mr-2'><Edit size={20}/></p>
+                </button>
+              </div>
               {state.lists.map((listItem) => {
                 const IconComponent = componentMap[listItem.name];
                 return (
-                  <SidebarItem 
-                    icon={IconComponent ? <IconComponent size={SIZE_OF_SIDEBAR_ICONS} /> : <CircleDot size={SIZE_OF_SIDEBAR_ICONS} />} 
-                    text={listItem.name}
-                    clickType={'list'}
-                    payload={listItem.name}
-                    active={filterState.listFilter == listItem.name ? 1 : 0}
-                  /> 
+                  <div className='flex justify-between items-baseline'>
+                    <SidebarItem 
+                      icon={IconComponent ? <IconComponent size={SIZE_OF_SIDEBAR_ICONS} /> : <CircleDot size={SIZE_OF_SIDEBAR_ICONS} />} 
+                      text={listItem.name}
+                      clickType={'list'}
+                      payload={listItem.name}
+                      active={filterState.listFilter == listItem.name ? 1 : 0}
+                    /> 
+                    <div className='mr-2'>
+                      {
+                        isDeleteButtonActive
+                        ?
+                        <button onClick={() => {handleListDelete(listItem.name)}}><p><X size={SIZE_OF_SIDEBAR_ICONS}/></p></button>
+                        :
+                        null
+                      }
+                    </div>
+                  </div>
                 );
               }
               )}

@@ -5,6 +5,7 @@ import { StickyWallContext } from '../../contexts/sticky-wall.context';
 import { PenSquare, Plus } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import StickyNoteInfo from './create-button.component';
+import ComputerTitleCard from '../category-title-card/computer-title-card';
 
 
 const StickWall = () => {
@@ -28,6 +29,7 @@ const StickWall = () => {
 
   return (
     <div className='m-5'>
+      <ComputerTitleCard name={"Notes"} numberOfNotifictaions={state.StickyNote.length > 0 ? state.StickyNote.length : "-"}/>
         <div className={`absolute right-0 z-20 w-full shadow-2xl transition-all ${state.activeStickNoteToEdit !== null ? 'opacity-100' : ' opacity-0 translate-y-full '}`}>
           <StickyNoteInfo />
         </div>
