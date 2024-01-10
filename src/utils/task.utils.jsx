@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { TasksContext, useTaskContext } from '../contexts/tasks.context'
 import { compareDate } from './date.utils';
-import { getCompletedTasksByUID, getNotesbyUID, getTasksByUID } from '../firebase/firestore';
+import { getCompletedTasksByUID, getListsByUID, getNotesbyUID, getTasksByUID } from '../firebase/firestore';
 
 export const searchForTasks = (tasks, search) => {
   const results = []
@@ -141,7 +141,7 @@ export const synchonizeCompletedTasks = async (firestore, uid, dispatch) => {
     await dispatch({ type: 'UPDATE_COMPLETED_TASKS', payload: tasks });
     return 'Success'
   } catch (error) {
-    console.error('Error fetching tasks:', error);
+    console.error('Error fetching Completed tasks:', error);
     return error
   }
 }
@@ -152,7 +152,19 @@ export const synchonizeNotes = async (firestore, uid, dispatch) => {
     await dispatch({ type: 'UPDATE_NOTES', payload: notes });
     return 'Success'
   } catch (error) {
-    console.error('Error fetching tasks:', error);
+    console.error('Error fetching Notes:', error);
+    return error
+  }
+}
+export const synchronizeLists = async (firestore, uid, dispatch) => {
+  try {
+    const listsFromDB = await getListsByUID(firestore, uid);
+    if(listsFromDB.length > 0){
+      await dispatch({type: 'UPDATE_LIST', payload: listsFromDB});
+    }
+    return 'Success'
+  } catch (error) {
+    console.error('Error fetching Lists:', error);
     return error
   }
 }

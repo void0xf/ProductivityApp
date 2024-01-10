@@ -7,7 +7,7 @@ import StickWall from './components/sticky-wall/stick-wall.component'
 import Calendar from './components/calendar/calendar.component';
 import Upcoming from './components/upcomingTasks/upcoming.component';
 import TodayTasks from './components/todayTasks/today-Tasks.component';
-import { getTasksForToday, getTasksForTommorow, synchonizeCompletedTasks, synchonizeNotes, synchonizeTasks } from './utils/task.utils';
+import { getTasksForToday, getTasksForTommorow, synchonizeCompletedTasks, synchonizeNotes, synchonizeTasks, synchronizeLists } from './utils/task.utils';
 import MobileSidebar from './components/sidebar/mobile-sidebar.component';
 import ComputerSidebar from './components/sidebar/computer-sidebar.component';
 import StatisticsTab from './components/statistics/statisticsTab.component';
@@ -78,9 +78,9 @@ function App() {
   useEffect(() => {
     if(user && !isLoggedFirstTime) {
       const uid = user.uid;
-      addDataToFirebase(firestore, uid, state.tasks, state.completedTask, stickyWallState.StickyNote);
+      addDataToFirebase(firestore, uid, state.tasks, state.completedTask, stickyWallState.StickyNote, state.lists);
     }
-  }, [state.tasks, state.completedTask, stickyWallState])
+  }, [state.tasks, state.completedTask, stickyWallState, state.lists])
 
   useEffect(() => {
     if(user && isLoggedFirstTime){
@@ -88,8 +88,12 @@ function App() {
       const synchronize = async () => {
         const resSynchonizeTasks = await synchonizeTasks(firestore, uid, dispatch);
         const resSynchronizeCompletedTasks = await synchonizeCompletedTasks(firestore, uid, dispatch);
-        const resSynchronzieNotes = await synchonizeNotes(firestore, uid, dispatchNotes)
-        if(resSynchonizeTasks === 'Success' && resSynchronizeCompletedTasks === 'Success' && resSynchronzieNotes === 'Success') {
+        const resSynchronzieNotes = await synchonizeNotes(firestore, uid, dispatchNotes);
+        const resSynchronizeLists = await synchronizeLists(firestore, uid, dispatch);
+        if(resSynchonizeTasks === 'Success' && 
+        resSynchronizeCompletedTasks === 'Success' && 
+        resSynchronzieNotes === 'Success' &&
+        resSynchronizeLists === 'Success') {
           setIsLoggedFirstTime(false);
         }
       }
