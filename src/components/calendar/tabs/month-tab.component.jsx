@@ -52,7 +52,7 @@ const MonthTab = ({ nextMonthNumber }) => {
     {dates.map((date) => (
       <div className='flex flex-col items-center m-1'>
         <div 
-        className={`${compareDate(date, dateToShow) ? 'bg-[#D8D9DA] rounded-lg p-1' : ''}`}
+        className={`${compareDate(date, dateToShow) ? 'bg-acent rounded-lg p-1' : ''}`}
         >
           <button 
             onClick={() => {handleClickOnDate(date)}}>

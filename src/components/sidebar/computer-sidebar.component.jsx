@@ -1,7 +1,7 @@
 import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
-import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart } from 'lucide-react';
+import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit } from 'lucide-react';
 import { getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
@@ -16,10 +16,15 @@ const componentMap = {
 
 const ComputerSidebar = () => {
   const SIZE_OF_SIDEBAR_ICONS  = 25;
-  const {state} = useContext(TasksContext);
+  const {state, dispatch} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
+  const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(false)
+
+  const handleListDelete = (name) => {
+    dispatch({type:'REMOVE_LIST', payload: name})
+  }
 
   return (
     
@@ -63,23 +68,40 @@ const ComputerSidebar = () => {
               clickType={'Notes'} 
               payload={'Notes'}
               />
-          <div className='border-t-2 border-b-2 my-4 py-2 max-h-64 overscroll-y-auto'>
-            <div><p className='text-sm font-semibold ml-3'>Lists</p></div>
-            {state.lists.map((listItem) => {
-              const IconComponent = componentMap[listItem.name];
-              return (
-                <SidebarItem 
-                  icon={IconComponent ? <IconComponent size={SIZE_OF_SIDEBAR_ICONS} /> : <CircleDot size={SIZE_OF_SIDEBAR_ICONS} />} 
-                  text={listItem.name}
-                  clickType={'list'}
-                  payload={listItem.name}
-                  active={filterState.listFilter == listItem.name ? 1 : 0}
-                /> 
-              );
-            }
-            )}
-            <AddNewList/>
-          </div>
+            <div className='border-t-2 border-b-2 border-bordercolor my-4 py-2 max-h-64 overflow-y-scroll overflow-x-hidden '>
+              <div className='flex justify-between items-center'>
+                <p className='text-sm font-semibold ml-3'>Lists</p> 
+                <button 
+                onClick={() => {setIsDeleteButtonActive(!isDeleteButtonActive)}}>
+                  <p className='mr-2'><Edit size={20}/></p>
+                </button>
+              </div>
+              {state.lists.map((listItem) => {
+                const IconComponent = componentMap[listItem.name];
+                return (
+                  <div className='flex justify-between items-baseline'>
+                    <SidebarItem 
+                      icon={IconComponent ? <IconComponent size={SIZE_OF_SIDEBAR_ICONS} /> : <CircleDot size={SIZE_OF_SIDEBAR_ICONS} />} 
+                      text={listItem.name}
+                      clickType={'list'}
+                      payload={listItem.name}
+                      active={filterState.listFilter == listItem.name ? 1 : 0}
+                    /> 
+                    <div className={`relative right-8 transition-opacity duration-600 ${isDeleteButtonActive ? 'opacity-100' : 'opacity-0'}`}>
+                      {
+                        isDeleteButtonActive && listItem.name != 'Personal' && listItem.name != 'Work'
+                        ?
+                          <button onClick={() => {handleListDelete(listItem.name)}}><p><X size={SIZE_OF_SIDEBAR_ICONS}/></p></button>
+                        :
+                        null
+                      }
+                    </div>
+                  </div>
+                );
+              }
+              )}
+              <AddNewList/>
+            </div>
         </Sidebar> 
     </div>
   )

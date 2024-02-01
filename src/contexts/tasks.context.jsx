@@ -45,6 +45,15 @@ const getTaskFromID = ( taskElements, taskid) => {
   return taskElements.filter((task) => task.id === taskid)[0];
 }
 
+const removeTasksWithListName = (tasks, listname) => {
+  return tasks.filter((task) => task.list !== listname)
+}
+
+const removeListFromLists = (lists, listName) => {
+  
+  return lists.filter((list) => list.name !== listName);
+}
+
 const taskReducer = (state, action) => {
   switch(action.type) {
     case 'ADD_TASK':
@@ -114,6 +123,14 @@ const taskReducer = (state, action) => {
         ...state,
         completedTask: [...state.completedTask, completedTask],
         tasks: removeTaskFromTaskList(state.tasks, action.payload),
+      }
+    case 'REMOVE_LIST':
+      const listsWithRemovedList = removeListFromLists(state.lists, action.payload);
+      const tasksWithoutRemovedList = removeTasksWithListName(state.tasks, action.payload)
+      return {
+        ...state,
+        lists: listsWithRemovedList,
+        tasks: tasksWithoutRemovedList
       }
     default:
       return state;

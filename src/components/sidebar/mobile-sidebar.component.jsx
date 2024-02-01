@@ -17,14 +17,14 @@ const componentMap = {
 
 const MobileSidebar = ({IconSize}) => {
   const SIZE_OF_SIDEBAR_ICONS  = IconSize;
-  const {state} = useContext(TasksContext);
+  const {state, dispatch} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
   const {state: StickyWallState} = useContext(StickyWallContext);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(false);
   const handleListDelete = (name) => {
-    console.log(name);
+    dispatch({type:'REMOVE_LIST', payload: name})
   }
 
   return (
@@ -89,9 +89,9 @@ const MobileSidebar = ({IconSize}) => {
                       payload={listItem.name}
                       active={filterState.listFilter == listItem.name ? 1 : 0}
                     /> 
-                    <div className='mr-2'>
+                    <div className={`relative mr-2 transition-opacity duration-600 ${isDeleteButtonActive ? 'opacity-100' : 'opacity-0'}`}>
                       {
-                        isDeleteButtonActive
+                        isDeleteButtonActive && listItem.name != 'Personal' && listItem.name != 'Work'
                         ?
                         <button onClick={() => {handleListDelete(listItem.name)}}><p><X size={SIZE_OF_SIDEBAR_ICONS}/></p></button>
                         :
