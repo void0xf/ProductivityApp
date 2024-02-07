@@ -2,12 +2,13 @@ import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit, CalendarClock } from 'lucide-react';
-import { getTasksForToday } from '../../utils/task.utils';
+import { getLateTasks, getTasksForThisWeek, getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';
 import { SidebarItem } from './sidebar-item.component';
+import { SearchContext } from '../../contexts/search.context';
 
 const componentMap = {
   'Personal': User,
@@ -18,6 +19,7 @@ const ComputerSidebar = () => {
   const SIZE_OF_SIDEBAR_ICONS  = 25;
   const {state, dispatch} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
+  const {state: searchState} = useContext(SearchContext);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(false)
@@ -36,7 +38,7 @@ const ComputerSidebar = () => {
               icon={<ChevronsRight size={SIZE_OF_SIDEBAR_ICONS} strokeWidth={3}/>} 
               text="Upcoming"
               alert
-              numberOfAlerts={state.tasks.length}
+              numberOfAlerts={getTasksForThisWeek(state.tasks, filterState.listFilter, searchState.search).length}
               clickType={'Upcoming'}
               payload={'Upcoming'}
               />
@@ -54,7 +56,7 @@ const ComputerSidebar = () => {
                 alert
                 clickType={'Late'}
                 payload={'Late'}
-                numberOfAlerts={todayTasksCount}
+                numberOfAlerts={getLateTasks(state.tasks, filterState.listFilter, searchState.search).length}
                 />
               <SidebarItem 
               icon={<LineChart  size={SIZE_OF_SIDEBAR_ICONS} alert/>} 
