@@ -2,7 +2,7 @@ import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit, CalendarClock } from 'lucide-react';
-import { getLateTasks, getTasksForToday } from '../../utils/task.utils';
+import { getLateTasks, getTasksForThisWeek, getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
@@ -40,7 +40,7 @@ const MobileSidebar = ({IconSize}) => {
                 icon={<ChevronsRight size={SIZE_OF_SIDEBAR_ICONS} strokeWidth={3}/>} 
                 text="Upcoming"
                 alert
-                numberOfAlerts={state.tasks.length}
+                numberOfAlerts={getTasksForThisWeek(state.tasks, filterState.listFilter, searchState.search).length}
                 clickType={'Upcoming'}
                 payload={'Upcoming'}
                 />
@@ -58,7 +58,7 @@ const MobileSidebar = ({IconSize}) => {
                 alert
                 clickType={'Late'}
                 payload={'Late'}
-                numberOfAlerts={todayTasksCount}
+                numberOfAlerts={getLateTasks(state.tasks, filterState.listFilter, searchState.search).length}
                 />
                 <SidebarItem 
                 icon={<LineChart  size={SIZE_OF_SIDEBAR_ICONS} alert/>} 
@@ -132,7 +132,7 @@ const MobileSidebar = ({IconSize}) => {
           <>
           <span className='text-xl pr-5 font-semibold'>{filterState.filter}</span>
           <span className='p-1 px-2 text-base border-2 rounded-lg bg-bkg border-bordercolor'>
-            {filterState.filter == 'Upcoming' ? state.tasks.length :
+            {filterState.filter == 'Upcoming' ? getTasksForThisWeek(state.tasks, filterState.listFilter, searchState.search).length :
              filterState.filter == 'Today'    ? todayTasksCount    : 
              filterState.filter == 'Notes'    ? StickyWallState.StickyNote.length :  
              filterState.filter == 'Late'     ? getLateTasks(state.tasks, filterState.listFilter, searchState.search).length : ''
