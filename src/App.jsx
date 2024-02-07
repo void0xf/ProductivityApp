@@ -22,6 +22,7 @@ import { firebaseConfig } from './firebase/firebaseConfig';
 import { addDataToFirebase, getTasksByUID } from './firebase/firestore';
 import Login from './components/loginpage/login.component';
 import { StickyWallContext } from './contexts/sticky-wall.context';
+import LateTasks from './components/lateTasks/LateTasks.component';
 
 const componentMap = {
   'Personal': User,
@@ -194,6 +195,7 @@ function App() {
             {filterState.filter == 'Calendar' && <Calendar />}
             {filterState.filter == 'Notes' && <StickWall />}
             {filterState.filter == 'Statistics' && <StatisticsTab />}
+            {filterState.filter == 'Late' && <LateTasks />}
           </div>
 
           <div className={`transition-transform duration-700 z-50 

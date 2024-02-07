@@ -1,14 +1,15 @@
 import React, { useContext, useState, createContext} from 'react'
 import { TasksContext } from '../../contexts/tasks.context';
 import { TaskFilter } from '../../contexts/filter.context';
-import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit } from 'lucide-react';
-import { getTasksForToday } from '../../utils/task.utils';
+import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit, CalendarClock } from 'lucide-react';
+import { getLateTasks, getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
 import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';
 import { SidebarItem } from './sidebar-item.component';
 import { StickyWallContext } from '../../contexts/sticky-wall.context';
+import { SearchContext } from '../../contexts/search.context';
 
 const componentMap = {
   'Personal': User,
@@ -20,6 +21,7 @@ const MobileSidebar = ({IconSize}) => {
   const {state, dispatch} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
   const {state: StickyWallState} = useContext(StickyWallContext);
+  const {state: searchState} = useContext(SearchContext);
   const todayTasksCount = getTasksForToday(state.tasks, filterState.filterList).length;
   const { isSideBarActive, setIsSideBarActive } = useContext(SidebarContext);
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(false);
@@ -48,6 +50,14 @@ const MobileSidebar = ({IconSize}) => {
                 alert
                 clickType={'Today'}
                 payload={'Today'}
+                numberOfAlerts={todayTasksCount}
+                />
+              <SidebarItem 
+                icon={<CalendarClock size={SIZE_OF_SIDEBAR_ICONS} alert/>} 
+                text="Late"
+                alert
+                clickType={'Late'}
+                payload={'Late'}
                 numberOfAlerts={todayTasksCount}
                 />
                 <SidebarItem 
@@ -124,7 +134,8 @@ const MobileSidebar = ({IconSize}) => {
           <span className='p-1 px-2 text-base border-2 rounded-lg bg-bkg border-bordercolor'>
             {filterState.filter == 'Upcoming' ? state.tasks.length :
              filterState.filter == 'Today'    ? todayTasksCount    : 
-             filterState.filter == 'Notes'    ? StickyWallState.StickyNote.length : '-'
+             filterState.filter == 'Notes'    ? StickyWallState.StickyNote.length :  
+             filterState.filter == 'Late'     ? getLateTasks(state.tasks, filterState.listFilter, searchState.search).length : ''
               }
           </span>
           </>

@@ -124,6 +124,38 @@ export const getTasksForThisMonth = (tasks, filter='None', searchContent='') => 
   return tasksForThisMonth;
 }
 
+export const getLateTasks = (tasks, filter='None', searchContent='') => {
+  const lateTasks = []
+
+  tasks.forEach((task) => {
+    if((task.date < new Date()) && task.list == filter) {
+      lateTasks.push(task)
+    }
+  })
+
+  if (searchContent !== '') {
+    return searchForTasks(lateTasks, searchContent);
+  }
+
+  return lateTasks;
+}
+
+export const getUpcomingTasks = (tasks, filter='None', searchContent='') => {
+  const upcomingTasks = []
+
+  tasks.forEach((task) => {
+    if((task.date >= new Date()) && task.list == filter) {
+      upcomingTasks.push(task)
+    }
+  })
+
+  if (searchContent !== '') {
+    return searchForTasks(upcomingTasks, searchContent);
+  }
+
+  return upcomingTasks;
+}
+
 export const synchonizeTasks = async (firestore, uid, dispatch) => {
     try {
       const tasks = await getTasksByUID(firestore, uid);

@@ -46,7 +46,6 @@ const NewTaskButton = ({addForTommorow}) => {
       ? `HERE IS THE TASKS I ALREADY HAVE ${taskNamesWithOldSuggestions}` 
       : ''}`
     
-    console.log(prompt);
     const newSuggestion = await askAi(prompt);
     setOldSuggestions((prev) => [...prev, newSuggestion])
     setIsWaitingForResponse(false);    

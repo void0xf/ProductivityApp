@@ -9,7 +9,7 @@ import ComputerTitleCard from '../category-title-card/computer-title-card';
 const Upcoming = () => {
   const {state} = useContext(TasksContext);
   const {state: filterState} = useContext(TaskFilter);
-  const {state: searchState} = useContext(SearchContext)
+  const {state: searchState} = useContext(SearchContext);
   const [todayTasks, setTodayTasks] = useState([])
   const [tommorowTasks, setTommorowTasks] = useState([])
   const [thisWeekTasks, setThisWeekTasks] = useState([])
