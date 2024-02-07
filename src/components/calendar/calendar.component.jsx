@@ -66,35 +66,38 @@ const Calendar = () => {
  
   useEffect(() => {
       if(isDayButtonActive) {
-
-        setCalendarHeader(`${todayDay + nextDay} ${nameOfTodayMonth} ${todayYear}`)
+        const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+        }
+        setCalendarHeader(`${new Date().toLocaleDateString('EN-en', options)}`)
       }
       if(isWeekButtonActive) {
+        const options = {
+          day: 'numeric',
+          year: 'numeric',
+          month: 'long',
+        }
         const startOfTheWeek = new Date();
         const endOfTheWeek = new Date();
         endOfTheWeek.setDate(startOfTheWeek.getDate() + 7)
 
         setCalendarHeader(`
-        ${getDayName(startOfTheWeek)}
-        ${startOfTheWeek.getMonth() + 1}
-        ${startOfTheWeek.getFullYear()} 
+        ${startOfTheWeek.toLocaleDateString('EN-en', options)}
         - 
-        ${getDayName(endOfTheWeek)}
-        ${endOfTheWeek.getMonth() + 1}
-        ${endOfTheWeek.getFullYear()}
+        ${endOfTheWeek.toLocaleDateString('EN-en', options)}
         `)
       }
       if(isMonthButtonActive) {
-        const startOfTheWeek = new Date();
-        const endOfTheWeek = new Date();
-        endOfTheWeek.setDate(startOfTheWeek.getDate() + 30)
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(startDate.getDate() + 30)
 
         setCalendarHeader(`
-        ${startOfTheWeek.toLocaleDateString('En-en', {month:'long'})}
-        ${startOfTheWeek.getFullYear()} 
+        ${startDate.toLocaleDateString('En-en', {month:'long', year:'numeric'})}
         - 
-        ${endOfTheWeek.toLocaleDateString('En-en', {month:'long'})}
-        ${endOfTheWeek.getFullYear()}
+        ${endDate.toLocaleDateString('En-en', {month:'long', year:'numeric'})}
         `)
       }
   }, [isDayButtonActive, isWeekButtonActive, isMonthButtonActive, nextDay, nextMonth, nextWeek])
