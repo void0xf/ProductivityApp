@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { SidebarContext } from "../../App";
 import { useFilterContext } from "../../contexts/filter.context";
-
+import SidebarContext from '../../contexts/sidebar.context'
 
 export function SidebarItem({ icon, text, active, alert, numberOfAlerts, clickType, payload }) {
   const { state, dispatch } = useFilterContext();

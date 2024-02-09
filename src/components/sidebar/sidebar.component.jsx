@@ -1,5 +1,5 @@
 import { Menu, Settings } from "lucide-react";
-import { SidebarContext } from "../../App";
+import SidebarContext from "../../contexts/sidebar.context";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 

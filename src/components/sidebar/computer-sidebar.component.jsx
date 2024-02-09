@@ -4,11 +4,11 @@ import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit, CalendarClock } from 'lucide-react';
 import { getLateTasks, getTasksForThisWeek, getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
-import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';
 import { SidebarItem } from './sidebar-item.component';
 import { SearchContext } from '../../contexts/search.context';
+import SidebarContext from '../../contexts/sidebar.context';
 
 const componentMap = {
   'Personal': User,
@@ -30,7 +30,8 @@ const ComputerSidebar = () => {
 
   return (
     
-    <div className={`relative z-20 h-screen transition-all duration-700 ease-in-out overflow-hidden ${isSideBarActive ? 'max-w-[280px]' : 'max-w-0'}`}>
+    <div className={`relative z-20 h-screen transition-all duration-700 ease-in-out overflow-hidden 
+    ${isSideBarActive ? 'max-w-[280px]' : 'max-w-0'}`}>
         <Sidebar>
          <SearchTask />
           <div><p className='text-sm font-semibold ml-3'>Tasks</p></div>

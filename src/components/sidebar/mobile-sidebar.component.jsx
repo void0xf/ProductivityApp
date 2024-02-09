@@ -4,12 +4,12 @@ import { TaskFilter } from '../../contexts/filter.context';
 import { CalendarDays, ChevronsRight, CircleDot, ListChecks, User, Briefcase, Menu, Search, StickyNote, LineChart, X, Edit, CalendarClock } from 'lucide-react';
 import { getLateTasks, getTasksForThisWeek, getTasksForToday } from '../../utils/task.utils';
 import AddNewList from './input/addNewList.component';
-import { SidebarContext } from '../../App';
 import SearchTask from './searchTask.component';
 import Sidebar from './sidebar.component';
 import { SidebarItem } from './sidebar-item.component';
 import { StickyWallContext } from '../../contexts/sticky-wall.context';
 import { SearchContext } from '../../contexts/search.context';
+import SidebarContext  from '../../contexts/sidebar.context';
 
 const componentMap = {
   'Personal': User,

@@ -3,10 +3,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import SettingsCartElement from './settings-cart-element.component'
 import { UserContext } from '../../contexts/user.context'
 import { logOutUser } from '../../firebase/auth'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 const SettingCard = ({isMobile}) => {
   const {state, dispatch} = useContext(UserContext)
   const [isDarkModeActive, setIsDatkModeActive] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggleVibration = () => {
     dispatch({ type: 'TOGGLE_VIBRATION' });
@@ -46,6 +48,11 @@ const SettingCard = ({isMobile}) => {
     }
 
   }
+  const handleLogOut = () => {
+    if(logOutUser()) {
+      navigate('/Auth');
+    }
+  }
 
   return (
     <div className='absolute h-screen w-screen z-40'>
@@ -65,7 +72,7 @@ const SettingCard = ({isMobile}) => {
         }
         <SettingsCartElement name={'Notify On DeadLine'} valueToSet={state.NOD} setterFunction={handleNOD}/>
         <SettingsCartElement name={'Toogle Dark Mode'} valueToSet={state.darkMode} setterFunction={handleDarkMode}/>
-        <button onClick={()=>{logOutUser()}}>Log Out</button>
+        <button onClick={()=>{handleLogOut()}}>Log Out</button>
         {/* 
         <div>LogOut</div> */}
       </div>

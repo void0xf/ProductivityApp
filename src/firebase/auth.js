@@ -21,12 +21,11 @@ export async function loginUser(email, password) {
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    // User is now logged in, you can access userCredential.user for user information
     console.log('User logged in:', userCredential.user);
-    return userCredential.user;
+    return true;
   } catch (error) {
     console.error('Error logging in:', error.message);
-    throw error; // You can handle the error as needed in your UI
+    return false;
   }
 }
 
@@ -35,7 +34,9 @@ export async function logOutUser() {
   const auth = getAuth(firebaseApp);
   try {
     signOut(auth);
+    return true
   } catch (error) {
     console.error('Error logging out:', error);
+    return false
   }
 }

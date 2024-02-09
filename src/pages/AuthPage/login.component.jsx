@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import InputRegister from './input'
 import { loginUser, registerWithEmailAndPassword } from '../../firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({setLogin}) => {
+  const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
 
   function handleSignUp() {
-    loginUser(emailInput, passwordInput);
+    if(loginUser(emailInput, passwordInput)) {
+      navigate('/App');
+    }
   }
 
   return (
