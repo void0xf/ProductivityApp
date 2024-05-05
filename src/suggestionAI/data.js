@@ -1,30 +1,33 @@
 import axios from "axios";
 
-
 export async function askAi(prompt) {
   const options = {
     method: "POST",
-    url: "https://api.edenai.run/v2/text/chat",
     headers: {
+      accept: "application/json",
+      "content-type": "application/json",
       authorization: `Bearer ${process.env.REACT_APP_EDENAI_API_KEY}`,
     },
-    data: {
-      providers: "openai",
+    body: JSON.stringify({
+      providers: "openai/gpt-3.5-turbo",
       text: prompt,
       chatbot_global_action: "Act as an assistant",
-      previous_history: [],
-      temperature: 0.5,
-      max_tokens: 1000,
-      fallback_providers: "",
-    },
+      // previous_history: [
+      //   {
+      //     role: "user",
+      //     message: "",
+      //   },
+      //   { role: "assistant", message: "" },
+      // ],
+      temperature: 0,
+      max_tokens: 100,
+    }),
   };
 
-  return axios(options).then((response) => {
-    return response.data.openai.generated_text
-  })
-  .catch((error) => {
-    console.error('Error in AI Api', error.message);
-    return ''
-  });
-
+  return fetch("https://api.edenai.run/v2/text/chat", options)
+    .then((response) => response.json())
+    .then((response) => {
+      return response["openai/gpt-3.5-turbo"].generated_text;
+    })
+    .catch((err) => console.error(err));
 }
