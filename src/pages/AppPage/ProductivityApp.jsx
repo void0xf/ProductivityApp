@@ -65,7 +65,6 @@ const ProductivityApp = () => {
   }, [state.tasks, state.completedTask, stickyWallState, state.lists]);
 
   useEffect(() => {
-    console.log("fired", user, isLoggedFirstTime);
     if (user && isLoggedFirstTime) {
       const uid = user.uid;
       const synchronize = async () => {

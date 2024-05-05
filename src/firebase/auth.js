@@ -23,9 +23,10 @@ export async function registerWithEmailAndPassword(email, password) {
     if (res.user.uid) {
       const userRef = doc(db, "users", res.user.uid);
       setDoc(userRef, { creationDate: Date.now() }, { merge: true });
+      return true;
     }
   } catch (error) {
-    console.error("Registration error:", error);
+    throw error.code;
   }
 }
 
@@ -42,8 +43,7 @@ export async function loginUser(email, password) {
 
     return true;
   } catch (error) {
-    console.error("Error logging in:", error.message);
-    return false;
+    throw error.code;
   }
 }
 
