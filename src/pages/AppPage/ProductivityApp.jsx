@@ -36,24 +36,60 @@ import { CircularProgress } from "@mui/material";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 
 const ProductivityApp = () => {
-  const { state, dispatch } = useContext(TasksContext);
-  const { state: filterState } = useContext(TaskFilter);
-  const { state: stickyWallState, dispatch: dispatchNotes } =
-    useContext(StickyWallContext);
+  // Use optional chaining to prevent errors when contexts aren't available
+  const tasksContext = useContext(TasksContext);
+  const filterContext = useContext(TaskFilter);
+  const stickyWallContext = useContext(StickyWallContext);
+  const userContext = useContext(UserContext);
+
+  // Safely extract state and dispatch
+  const state = tasksContext?.state || {
+    tasks: [],
+    completedTask: [],
+    lists: [],
+    isTaskTabOpen: false,
+  };
+  const dispatch = tasksContext?.dispatch || (() => {});
+  const filterState = filterContext?.state || { filter: "Today" };
+  const stickyWallState = stickyWallContext?.state || { StickyNote: [] };
+  const dispatchNotes = stickyWallContext?.dispatch || (() => {});
+  const userState = userContext?.state || {
+    isSettingsCardOpen: false,
+    NOD: false,
+  };
+
   const [isSideBarActive, setIsSideBarActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoggedFirstTime, setIsLoggedFirstTime] = useState(true);
   const [loading, setLoading] = useState(true);
-  const { state: userState } = useContext(UserContext);
 
-  const firebaseApp = initializeApp(firebaseConfig);
-  const firestore = getFirestore(firebaseApp);
-  const auth = getAuth(firebaseApp);
-
-  const [user] = useAuthState(auth);
+  // Firebase setup (only in browser)
+  const [firebaseApp, setFirebaseApp] = useState(null);
+  const [firestore, setFirestore] = useState(null);
+  const [auth, setAuth] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (user && !isLoggedFirstTime) {
+    // Initialize Firebase only on the client side
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const authInstance = getAuth(app);
+
+    setFirebaseApp(app);
+    setFirestore(db);
+    setAuth(authInstance);
+
+    // We'll handle auth state manually
+    return authInstance.onAuthStateChanged((user) => {
+      setUser(user);
+      if (!user) {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (user && !isLoggedFirstTime && firestore) {
       const uid = user.uid;
       addDataToFirebase(
         firestore,
@@ -64,47 +100,60 @@ const ProductivityApp = () => {
         state.lists
       );
     }
-  }, [state.tasks, state.completedTask, stickyWallState, state.lists]);
+  }, [
+    state.tasks,
+    state.completedTask,
+    stickyWallState,
+    state.lists,
+    user,
+    isLoggedFirstTime,
+    firestore,
+  ]);
 
   useEffect(() => {
-    if (user && isLoggedFirstTime) {
+    if (user && isLoggedFirstTime && firestore) {
       const uid = user.uid;
       const synchronize = async () => {
-        const resSynchonizeTasks = await synchonizeTasks(
-          firestore,
-          uid,
-          dispatch
-        );
-        const resSynchronizeCompletedTasks = await synchonizeCompletedTasks(
-          firestore,
-          uid,
-          dispatch
-        );
-        const resSynchronzieNotes = await synchonizeNotes(
-          firestore,
-          uid,
-          dispatchNotes
-        );
-        const resSynchronizeLists = await synchronizeLists(
-          firestore,
-          uid,
-          dispatch
-        );
-        if (
-          resSynchonizeTasks === "Success" &&
-          resSynchronizeCompletedTasks === "Success" &&
-          resSynchronzieNotes === "Success" &&
-          resSynchronizeLists === "Success"
-        ) {
-          setIsLoggedFirstTime(false);
+        try {
+          const resSynchonizeTasks = await synchonizeTasks(
+            firestore,
+            uid,
+            dispatch
+          );
+          const resSynchronizeCompletedTasks = await synchonizeCompletedTasks(
+            firestore,
+            uid,
+            dispatch
+          );
+          const resSynchronzieNotes = await synchonizeNotes(
+            firestore,
+            uid,
+            dispatchNotes
+          );
+          const resSynchronizeLists = await synchronizeLists(
+            firestore,
+            uid,
+            dispatch
+          );
+          if (
+            resSynchonizeTasks === "Success" &&
+            resSynchronizeCompletedTasks === "Success" &&
+            resSynchronzieNotes === "Success" &&
+            resSynchronizeLists === "Success"
+          ) {
+            setIsLoggedFirstTime(false);
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error("Error synchronizing data:", error);
           setLoading(false);
         }
       };
       synchronize();
     }
-  }, [user]);
+  }, [user, isLoggedFirstTime, firestore, dispatch, dispatchNotes]);
 
-  const handleResizeWindow = (width) => {
+  const handleWindowResize = (width) => {
     if (width > 640) {
       setIsMobile(false);
     } else {
@@ -113,14 +162,22 @@ const ProductivityApp = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
-      handleResizeWindow(window.innerWidth);
-    });
-    handleResizeWindow(window.innerWidth);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => {
+        handleWindowResize(window.innerWidth);
+      });
+      handleWindowResize(window.innerWidth);
+
+      return () => {
+        window.removeEventListener("resize", () => {
+          handleWindowResize(window.innerWidth);
+        });
+      };
+    }
   }, []);
 
   useEffect(() => {
-    if (userState.NOD) {
+    if (userState.NOD && typeof window !== "undefined") {
       handleCheckNOD(state.tasks);
     }
   }, [userState.NOD, state.tasks]);
