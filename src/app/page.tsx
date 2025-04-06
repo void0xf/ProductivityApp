@@ -2,47 +2,30 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Button, Typography, Box, Container } from "@mui/material";
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <Container
-      maxWidth="sm"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        textAlign: "center",
-        py: 4,
-      }}
-    >
-      <Typography variant="h2" component="h1" gutterBottom>
-        Productivity App
-      </Typography>
-      <Typography variant="subtitle1" sx={{ mb: 4 }}>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-16 text-center bg-bkg text-textcolor">
+      <h1 className="text-4xl font-bold mb-4 font-sans">Productivity App</h1>
+      <p className="text-lg mb-12 max-w-md">
         Manage your tasks, track your time, and boost your productivity
-      </Typography>
-      <Box sx={{ "& > *": { m: 1 } }}>
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
+      </p>
+      <div className="flex flex-wrap gap-4 justify-center">
+        <button
           onClick={() => router.push("/auth")}
+          className="px-6 py-3 rounded-md bg-acent text-white font-medium transition-all hover:opacity-90"
         >
           Sign In
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
+        </button>
+        <button
           onClick={() => router.push("/app")}
+          className="px-6 py-3 rounded-md border-2 border-bordercolor bg-transparent text-textcolor font-medium transition-all hover:bg-bordercolor/10"
         >
           View App
-        </Button>
-      </Box>
-    </Container>
+        </button>
+      </div>
+    </div>
   );
 }

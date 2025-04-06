@@ -19,13 +19,23 @@ import CustomTooltip from "./customTooltip.component";
 const StatisticsTabWeek = () => {
   const { state } = useContext(TasksContext);
   const today = new Date();
-  const weekOldTasks = state.completedTask.filter(
-    (task) =>
-      task.taskDoneDate >=
-      new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)
-  );
 
-  const [finalchar, setfinalchar] = useState();
+  console.log("All completed tasks:", state.completedTask);
+
+  // Get tasks from the last 7 days
+  const weekOldTasks = state.completedTask.filter((task) => {
+    if (!task.taskDoneDate) return false;
+
+    const taskDate = new Date(task.taskDoneDate);
+    const weekAgo = new Date();
+    weekAgo.setDate(today.getDate() - 7);
+
+    return taskDate >= weekAgo;
+  });
+
+  console.log("Week old tasks:", weekOldTasks);
+
+  const [finalchar, setfinalchar] = useState([]);
   const chartData = {};
 
   useEffect(() => {
@@ -33,11 +43,24 @@ const StatisticsTabWeek = () => {
       weekday: "long",
     };
 
+    // Initialize the chart data with all days of the week
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const day = new Date();
+      day.setDate(day.getDate() - i);
+      last7Days.push(day);
+      chartData[day.toLocaleDateString("en-EN", options)] = 0;
+    }
+
+    // Count tasks completed on each day
     weekOldTasks.forEach((task) => {
-      const day = task.taskDoneDate;
-      const tasksCompletedThatDay = getTaskForDate(state.completedTask, day);
-      chartData[day.toLocaleDateString("en-EN", options)] =
-        tasksCompletedThatDay.length;
+      if (!task.taskDoneDate) return;
+
+      const day = new Date(task.taskDoneDate);
+      const dayString = day.toLocaleDateString("en-EN", options);
+
+      // Increment the count for this day
+      chartData[dayString] = (chartData[dayString] || 0) + 1;
     });
 
     const data = Object.entries(chartData).map(([key, value]) => ({
@@ -45,8 +68,9 @@ const StatisticsTabWeek = () => {
       TasksDone: value,
     }));
 
+    console.log("Chart data:", data);
     setfinalchar(data);
-  }, [state.completedTask]);
+  }, [state.completedTask, weekOldTasks]);
 
   return (
     <div className="flex flex-col">

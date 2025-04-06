@@ -25,9 +25,16 @@ export const getTasksForToday = (
 ) => {
   const tasksForToday = [];
   const todayDate = new Date();
-  tasks.map((task) => {
-    if (compareDate(task.date, todayDate) && task.list == filter) {
-      tasksForToday.push(task);
+
+  // For statistics, we need to check taskDoneDate (for completed tasks)
+  // rather than the scheduled date
+  tasks.forEach((task) => {
+    const taskDate = task.taskDoneDate || task.date;
+    if (taskDate && compareDate(taskDate, todayDate)) {
+      // Only filter by list if it's not "None" and the task has a list
+      if (filter === "None" || task.list === filter) {
+        tasksForToday.push(task);
+      }
     }
   });
 

@@ -121,6 +121,12 @@ const taskReducer = (state, action) => {
     case "MARK_TASK_AS_DONE":
       const completedTask = getTaskFromID(state.tasks, action.payload);
       completedTask["taskDoneDate"] = new Date();
+      console.log("Marking task as done:", completedTask);
+      console.log("Current completed tasks:", state.completedTask);
+      console.log("New completed tasks:", [
+        ...state.completedTask,
+        completedTask,
+      ]);
       return {
         ...state,
         completedTask: [...state.completedTask, completedTask],
