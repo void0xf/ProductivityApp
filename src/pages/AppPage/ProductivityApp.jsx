@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { TasksContext } from "../../contexts/tasks.context";

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import InputRegister from "./input";
 import { loginUser, registerWithEmailAndPassword } from "../../firebase/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { errorCodeToMessage } from "../../utils/firebase/handleErrors";
 
 const Register = ({ setLogin }) => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [error, setError] = useState("");
-  const nav = useNavigate();
+  const router = useRouter();
 
   async function handleSignUp() {
     try {
@@ -19,7 +19,7 @@ const Register = ({ setLogin }) => {
       if (registerUser) {
         const res = await loginUser(emailInput, passwordInput);
         if (res) {
-          nav("/App");
+          router.push("/app");
         }
       }
     } catch (errorCode) {

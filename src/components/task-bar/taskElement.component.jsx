@@ -15,7 +15,7 @@ const TaskElement = ({ id, taskName }) => {
   const TRASH_THRESHOLD = 50;
 
   const offsetXSpring = useSpring({
-    from: { translateX: -150 },
+    from: { translateX: 0 },
     to: { translateX: offsetX },
     config: { tension: 300, friction: 15 },
   });

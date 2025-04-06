@@ -1,32 +1,33 @@
-import { createContext, useReducer } from "react"
+"use client";
+
+import { createContext, useReducer } from "react";
 
 export const SearchContext = createContext();
 
 const INITIAL_STATE = {
-  search:''
-}
+  search: "",
+};
 
 const searchReducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE_SEARCH_BAR':
+    case "UPDATE_SEARCH_BAR":
       return {
         ...state,
-        search: action.payload
-      }
+        search: action.payload,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 const SearchProvider = ({ children }) => {
   const [state, dispatch] = useReducer(searchReducer, INITIAL_STATE);
 
   return (
-    <SearchContext.Provider value={{state, dispatch}}>
+    <SearchContext.Provider value={{ state, dispatch }}>
       {children}
     </SearchContext.Provider>
-  )
-  
-}
+  );
+};
 
 export default SearchProvider;
