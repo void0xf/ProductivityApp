@@ -73,7 +73,7 @@ const ComputerSidebar = () => {
         <SidebarItem
           icon={<ChevronsRight size={SIZE_OF_SIDEBAR_ICONS} strokeWidth={3} />}
           text="Upcoming"
-          alert
+          alert="true"
           numberOfAlerts={
             getTasksForThisWeek(
               state.tasks,
@@ -85,17 +85,17 @@ const ComputerSidebar = () => {
           payload={"Upcoming"}
         />
         <SidebarItem
-          icon={<ListChecks size={SIZE_OF_SIDEBAR_ICONS} alert />}
+          icon={<ListChecks size={SIZE_OF_SIDEBAR_ICONS} alert="true" />}
           text="Today"
-          alert
+          alert="true"
           clickType={"Today"}
           payload={"Today"}
           numberOfAlerts={todayTasksCount}
         />
         <SidebarItem
-          icon={<CalendarClock size={SIZE_OF_SIDEBAR_ICONS} alert />}
+          icon={<CalendarClock size={SIZE_OF_SIDEBAR_ICONS} alert="true" />}
           text="Late"
-          alert
+          alert="true"
           clickType={"Late"}
           payload={"Late"}
           numberOfAlerts={
@@ -107,16 +107,16 @@ const ComputerSidebar = () => {
           }
         />
         <SidebarItem
-          icon={<LineChart size={SIZE_OF_SIDEBAR_ICONS} alert />}
+          icon={<LineChart size={SIZE_OF_SIDEBAR_ICONS} alert="true" />}
           text="Statistics"
-          alert
+          alert="true"
           clickType={"Statistics"}
           payload={"Statistics"}
         />
         <SidebarItem
           icon={<CalendarDays size={SIZE_OF_SIDEBAR_ICONS} />}
           text="Calendar"
-          alert
+          alert="true"
           clickType={"Calendar"}
           payload={"Calendar"}
         />

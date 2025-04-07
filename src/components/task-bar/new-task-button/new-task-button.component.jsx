@@ -19,7 +19,7 @@ const NewTaskButton = ({ addForTommorow }) => {
   const [currentFilterState, setCurrentFilterState] = useState("None");
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value || "");
   };
 
   const handleKeyPress = (event) => {
@@ -60,7 +60,7 @@ const NewTaskButton = ({ addForTommorow }) => {
   }, [filterState.listFilter]);
 
   useEffect(() => {
-    setInputValue(oldSuggestions[oldSuggestions.length - 1]);
+    setInputValue(oldSuggestions[oldSuggestions.length - 1] || "");
   }, [oldSuggestions]);
 
   const addNewTask = () => {
@@ -102,7 +102,7 @@ const NewTaskButton = ({ addForTommorow }) => {
           />
         </form>
         <div
-          class="absolute inset-y-0 left-0 pl-3  
+          className="absolute inset-y-0 left-0 pl-3  
                     flex items-center  
                     pointer-events-none"
         >

@@ -39,12 +39,13 @@ export default function Sidebar({ children }) {
           <div className="">{children}</div>
         </div>
 
-        <button
+        <div
           onClick={() => {
             handleSettings();
           }}
+          className="cursor-pointer"
         >
-          <div className=" flex p-3">
+          <div className="flex p-3">
             <img
               src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
               alt=""
@@ -56,9 +57,13 @@ export default function Sidebar({ children }) {
               overflow-hidden transition-all w-52 ml-3
           `}
             >
-              <div className="leading-4 flex flex-col items-start">
-                <h4 className="font-semibold">John Doe</h4>
-                <span className="text-xs text-gray-600">{user.email}</span>
+              <div className="leading-4 flex flex-col items-start w-full">
+                <h4 className="font-semibold truncate max-w-[180px]">
+                  {user ? user.displayName || "User" : "Guest"}
+                </h4>
+                <span className="text-xs text-gray-600 truncate max-w-[180px]">
+                  {user?.email || "Not logged in"}
+                </span>
               </div>
               <div>
                 <button>
@@ -67,7 +72,7 @@ export default function Sidebar({ children }) {
               </div>
             </div>
           </div>
-        </button>
+        </div>
       </nav>
     </div>
   );
