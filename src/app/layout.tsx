@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import type { Metadata } from "next";
 import "../index.css";
 import "@fontsource/inter";

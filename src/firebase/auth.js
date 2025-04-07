@@ -4,6 +4,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { firebaseConfig } from "./firebaseConfig";
 import {
@@ -56,5 +59,71 @@ export async function logOutUser() {
   } catch (error) {
     console.error("Error logging out:", error);
     return false;
+  }
+}
+
+// Google Authentication
+export async function signInWithGoogle() {
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  const db = getFirestore();
+  const googleProvider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    // Store user info in Firestore
+    if (user.uid) {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(
+        userRef,
+        {
+          creationDate: Date.now(),
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          authProvider: "google",
+        },
+        { merge: true }
+      );
+    }
+
+    return true;
+  } catch (error) {
+    throw error.code;
+  }
+}
+
+// GitHub Authentication
+export async function signInWithGithub() {
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  const db = getFirestore();
+  const githubProvider = new GithubAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, githubProvider);
+    const user = result.user;
+
+    // Store user info in Firestore
+    if (user.uid) {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(
+        userRef,
+        {
+          creationDate: Date.now(),
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          authProvider: "github",
+        },
+        { merge: true }
+      );
+    }
+
+    return true;
+  } catch (error) {
+    throw error.code;
   }
 }

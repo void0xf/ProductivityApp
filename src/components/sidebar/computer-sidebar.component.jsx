@@ -142,7 +142,10 @@ const ComputerSidebar = () => {
           {state.lists.map((listItem) => {
             const IconComponent = componentMap[listItem.name];
             return (
-              <div className="flex justify-between items-baseline">
+              <div
+                className="flex justify-between items-baseline"
+                key={listItem.name}
+              >
                 <SidebarItem
                   icon={
                     IconComponent ? (
