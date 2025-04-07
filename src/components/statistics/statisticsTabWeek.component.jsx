@@ -7,84 +7,97 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { TasksContext } from "../../contexts/tasks.context";
-import {
-  getTaskForDate,
-  getTasksForThatDay,
-  getTasksForThisWeek,
-} from "../../utils/task.utils";
 import CustomTooltip from "./customTooltip.component";
 
 const StatisticsTabWeek = () => {
   const { state } = useContext(TasksContext);
-  const today = new Date();
-
-  console.log("All completed tasks:", state.completedTask);
-
-  // Get tasks from the last 7 days
-  const weekOldTasks = state.completedTask.filter((task) => {
-    if (!task.taskDoneDate) return false;
-
-    const taskDate = new Date(task.taskDoneDate);
-    const weekAgo = new Date();
-    weekAgo.setDate(today.getDate() - 7);
-
-    return taskDate >= weekAgo;
-  });
-
-  console.log("Week old tasks:", weekOldTasks);
-
-  const [finalchar, setfinalchar] = useState([]);
-  const chartData = {};
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    const options = {
-      weekday: "long",
-    };
+    const today = new Date();
+    today.setHours(23, 59, 59, 999); // Set to end of day
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 6);
+    weekAgo.setHours(0, 0, 0, 0); // Set to start of day
 
-    // Initialize the chart data with all days of the week
-    const last7Days = [];
-    for (let i = 6; i >= 0; i--) {
-      const day = new Date();
-      day.setDate(day.getDate() - i);
-      last7Days.push(day);
-      chartData[day.toLocaleDateString("en-EN", options)] = 0;
-    }
-
-    // Count tasks completed on each day
-    weekOldTasks.forEach((task) => {
-      if (!task.taskDoneDate) return;
-
-      const day = new Date(task.taskDoneDate);
-      const dayString = day.toLocaleDateString("en-EN", options);
-
-      // Increment the count for this day
-      chartData[dayString] = (chartData[dayString] || 0) + 1;
+    // Filter tasks for the last 7 days
+    const weekTasks = state.completedTask.filter((task) => {
+      if (!task.taskDoneDate) return false;
+      const taskDate = new Date(task.taskDoneDate);
+      return taskDate >= weekAgo && taskDate <= today;
     });
 
-    const data = Object.entries(chartData).map(([key, value]) => ({
-      Day: key,
-      TasksDone: value,
-    }));
+    // Create an array of dates for the last 7 days
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      date.setHours(0, 0, 0, 0); // Set to start of day
+      dates.push(date);
+    }
+    dates.reverse(); // Sort from oldest to newest
 
-    console.log("Chart data:", data);
-    setfinalchar(data);
-  }, [state.completedTask, weekOldTasks]);
+    // Initialize data array with all days
+    const data = dates.map((date) => {
+      const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+      return {
+        name: dayName,
+        TasksDone: 0,
+        date: date, // Store the actual date for comparison
+      };
+    });
+
+    // Count tasks for each day
+    weekTasks.forEach((task) => {
+      if (!task.taskDoneDate) return;
+      const taskDate = new Date(task.taskDoneDate);
+      taskDate.setHours(0, 0, 0, 0); // Set to start of day for comparison
+
+      // Find the matching day in our data array
+      const dayIndex = data.findIndex((day) => {
+        return day.date.getTime() === taskDate.getTime();
+      });
+
+      if (dayIndex !== -1) {
+        data[dayIndex].TasksDone += 1;
+      }
+    });
+
+    // Remove the date property before setting the state
+    const finalData = data.map(({ name, TasksDone }) => ({ name, TasksDone }));
+    setChartData(finalData);
+  }, [state.completedTask]);
 
   return (
-    <div className="flex flex-col">
-      <div className="relative right-6">
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={finalchar}>
-            <Line type="monotone" dataKey="TasksDone" stroke="#aaaaaa" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="Day" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip />} />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+    <div className="w-full h-[400px] px-4">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={300}
+          data={chartData}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="TasksDone"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };

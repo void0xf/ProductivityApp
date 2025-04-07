@@ -117,66 +117,64 @@ const StatisticsTab = () => {
   }, [isDayButtonActive, isWeekButtonActive, isMonthButtonActive]);
 
   return (
-    <div>
+    <div className="flex flex-col h-full w-full">
       <ComputerTitleCard name={"Statistics"} numberOfNotifictaions={"-"} />
-      <div>
-        <div
-          className="items-center align-baseline text-center"
-          {...swipeHandlers}
-        >
+
+      <div className="flex-1 w-full">
+        <div className="flex flex-col items-center w-full">
           <div className="font-semibold text-2xl p-5">
             <p>{calendarHeader}</p>
           </div>
-          <div className="flex flex-col items-center">
-            <div className="bg-gray-600 rounded-lg p-1">
-              <button
-                className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 text-textcolor ${
-                  isDayButtonActive
-                    ? "bg-DarkerGrayWhite font-semibold transform scale-105"
-                    : ""
-                }`}
-                onClick={() => {
-                  setIsDayButtonActive(true);
-                  setIsWeekButtonActive(false);
-                  setIsMonthButtonActive(false);
-                }}
-              >
-                Day
-              </button>
-              <button
-                className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 ${
-                  isWeekButtonActive
-                    ? "bg-DarkerGrayWhite font-semibold transform scale-105"
-                    : ""
-                }`}
-                onClick={() => {
-                  setIsDayButtonActive(false);
-                  setIsWeekButtonActive(true);
-                  setIsMonthButtonActive(false);
-                }}
-              >
-                Week
-              </button>
-              <button
-                className={`px-3 py-1 mx-1 rounded-lg bg-bkg transition-all duration-300 ${
-                  isMonthButtonActive
-                    ? "bg-DarkerGrayWhite font-semibold transform scale-105"
-                    : "bg-bkg"
-                }`}
-                onClick={() => {
-                  setIsDayButtonActive(false);
-                  setIsWeekButtonActive(false);
-                  setIsMonthButtonActive(true);
-                }}
-              >
-                Month
-              </button>
-            </div>
+
+          <div className="bg-gray-600 rounded-lg p-1 mb-6">
+            <button
+              className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 text-textcolor ${
+                isDayButtonActive
+                  ? "bg-DarkerGrayWhite font-semibold transform scale-105"
+                  : ""
+              }`}
+              onClick={() => {
+                setIsDayButtonActive(true);
+                setIsWeekButtonActive(false);
+                setIsMonthButtonActive(false);
+              }}
+            >
+              Day
+            </button>
+            <button
+              className={`px-3 py-1 mx-1 bg-bkg rounded-lg transition-all duration-300 ${
+                isWeekButtonActive
+                  ? "bg-DarkerGrayWhite font-semibold transform scale-105"
+                  : ""
+              }`}
+              onClick={() => {
+                setIsDayButtonActive(false);
+                setIsWeekButtonActive(true);
+                setIsMonthButtonActive(false);
+              }}
+            >
+              Week
+            </button>
+            <button
+              className={`px-3 py-1 mx-1 rounded-lg bg-bkg transition-all duration-300 ${
+                isMonthButtonActive
+                  ? "bg-DarkerGrayWhite font-semibold transform scale-105"
+                  : "bg-bkg"
+              }`}
+              onClick={() => {
+                setIsDayButtonActive(false);
+                setIsWeekButtonActive(false);
+                setIsMonthButtonActive(true);
+              }}
+            >
+              Month
+            </button>
           </div>
-          <div className="my-6">
-            {isDayButtonActive ? <StatisticsTabToday /> : null}
-            {isWeekButtonActive ? <StatisticsTabWeek /> : null}
-            {isMonthButtonActive ? <StatisticsTabMonth /> : null}
+
+          <div className="w-full min-h-[400px]" {...swipeHandlers}>
+            {isDayButtonActive && <StatisticsTabToday />}
+            {isWeekButtonActive && <StatisticsTabWeek />}
+            {isMonthButtonActive && <StatisticsTabMonth />}
           </div>
         </div>
       </div>
