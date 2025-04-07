@@ -1,10 +1,56 @@
 "use client";
 
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext, ReactNode } from "react";
 
-export const TasksContext = createContext();
+// Define types
+interface Task {
+  id: number;
+  taskName: string;
+  description: string;
+  date: Date;
+  type: string;
+  priority: string;
+  list: string;
+  taskDoneDate?: Date;
+}
 
-const initialState = {
+interface List {
+  name: string;
+  icon: string;
+}
+
+interface TasksState {
+  tasks: Task[];
+  isTaskTabOpen: boolean;
+  activeTaskId: number;
+  lists: List[];
+  completedTask: Task[];
+}
+
+type TasksAction =
+  | { type: "ADD_TASK"; payload: Task }
+  | { type: "UPDATE_TASKS"; payload: Task[] }
+  | { type: "UPDATE_COMPLETED_TASKS"; payload: Task[] }
+  | { type: "OPEN_TASK_TAB"; payload: number }
+  | { type: "SET_TASK_ID"; payload: number }
+  | { type: "REMOVE_TASK_ID"; payload: number }
+  | { type: "UPDATE_TASK_ID"; payload: Task }
+  | { type: "CLOSE_TASK_TAB" }
+  | { type: "ADD_LIST"; payload: string }
+  | { type: "UPDATE_LIST"; payload: List[] }
+  | { type: "MARK_TASK_AS_DONE"; payload: number }
+  | { type: "REMOVE_LIST"; payload: string };
+
+interface TasksContextType {
+  state: TasksState;
+  dispatch: React.Dispatch<TasksAction>;
+}
+
+export const TasksContext = createContext<TasksContextType | undefined>(
+  undefined
+);
+
+const initialState: TasksState = {
   tasks: [],
   isTaskTabOpen: false,
   activeTaskId: 0,
@@ -15,17 +61,8 @@ const initialState = {
   completedTask: [],
 };
 
-// const taskInformation = {
-//   id,
-//   taskName,
-//   description,
-//   date,
-//   type,
-//   priority,
-// }
-
-const updateTaskInfo = (tasksElements, newTaskInfo) => {
-  const newTaskElements = tasksElements.map((taskElement) => {
+const updateTaskInfo = (tasksElements: Task[], newTaskInfo: Task): Task[] => {
+  return tasksElements.map((taskElement) => {
     if (taskElement.id === newTaskInfo.id) {
       return {
         ...taskElement,
@@ -34,30 +71,34 @@ const updateTaskInfo = (tasksElements, newTaskInfo) => {
         date: newTaskInfo.date,
         list: newTaskInfo.list,
       };
-    } else {
-      return taskElement;
     }
+    return taskElement;
   });
-  return newTaskElements;
 };
 
-const removeTaskFromTaskList = (taskElements, taskid) => {
+const removeTaskFromTaskList = (
+  taskElements: Task[],
+  taskid: number
+): Task[] => {
   return taskElements.filter((task) => task.id !== taskid);
 };
 
-const getTaskFromID = (taskElements, taskid) => {
-  return taskElements.filter((task) => task.id === taskid)[0];
+const getTaskFromID = (
+  taskElements: Task[],
+  taskid: number
+): Task | undefined => {
+  return taskElements.find((task) => task.id === taskid);
 };
 
-const removeTasksWithListName = (tasks, listname) => {
+const removeTasksWithListName = (tasks: Task[], listname: string): Task[] => {
   return tasks.filter((task) => task.list !== listname);
 };
 
-const removeListFromLists = (lists, listName) => {
+const removeListFromLists = (lists: List[], listName: string): List[] => {
   return lists.filter((list) => list.name !== listName);
 };
 
-const taskReducer = (state, action) => {
+const taskReducer = (state: TasksState, action: TasksAction): TasksState => {
   switch (action.type) {
     case "ADD_TASK":
       return {
@@ -81,13 +122,11 @@ const taskReducer = (state, action) => {
           activeTaskId: action.payload,
           isTaskTabOpen: true,
         };
-      } else {
-        return {
-          ...state,
-          isTaskTabOpen: !state.isTaskTabOpen,
-        };
       }
-
+      return {
+        ...state,
+        isTaskTabOpen: !state.isTaskTabOpen,
+      };
     case "SET_TASK_ID":
       return {
         ...state,
@@ -118,21 +157,19 @@ const taskReducer = (state, action) => {
         ...state,
         lists: action.payload,
       };
-    case "MARK_TASK_AS_DONE":
+    case "MARK_TASK_AS_DONE": {
       const completedTask = getTaskFromID(state.tasks, action.payload);
-      completedTask["taskDoneDate"] = new Date();
-      console.log("Marking task as done:", completedTask);
-      console.log("Current completed tasks:", state.completedTask);
-      console.log("New completed tasks:", [
-        ...state.completedTask,
-        completedTask,
-      ]);
-      return {
-        ...state,
-        completedTask: [...state.completedTask, completedTask],
-        tasks: removeTaskFromTaskList(state.tasks, action.payload),
-      };
-    case "REMOVE_LIST":
+      if (completedTask) {
+        completedTask.taskDoneDate = new Date();
+        return {
+          ...state,
+          completedTask: [...state.completedTask, completedTask],
+          tasks: removeTaskFromTaskList(state.tasks, action.payload),
+        };
+      }
+      return state;
+    }
+    case "REMOVE_LIST": {
       const listsWithRemovedList = removeListFromLists(
         state.lists,
         action.payload
@@ -146,12 +183,17 @@ const taskReducer = (state, action) => {
         lists: listsWithRemovedList,
         tasks: tasksWithoutRemovedList,
       };
+    }
     default:
       return state;
   }
 };
 
-export const TaskProvider = ({ children }) => {
+interface TaskProviderProps {
+  children: ReactNode;
+}
+
+export const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   return (
@@ -162,5 +204,9 @@ export const TaskProvider = ({ children }) => {
 };
 
 export function useTaskContext() {
-  return useContext(TasksContext);
+  const context = useContext(TasksContext);
+  if (context === undefined) {
+    throw new Error("useTaskContext must be used within a TaskProvider");
+  }
+  return context;
 }

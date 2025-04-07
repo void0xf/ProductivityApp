@@ -1,10 +1,37 @@
 "use client";
 
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, ReactNode } from "react";
 
-export const UserContext = createContext();
+interface User {
+  // Add user properties here when needed
+  [key: string]: any;
+}
 
-const INITIAL_STATE = {
+interface UserState {
+  user: User | null;
+  isSettingsCardOpen: boolean;
+  vibrationOnTaskDone: boolean;
+  NOD: boolean;
+  darkMode: boolean;
+}
+
+type UserAction =
+  | { type: "TOGGLE_SETTINGS_CARD" }
+  | { type: "TOGGLE_VIBRATION" }
+  | { type: "TOGGLE_NOD" }
+  | { type: "TOGGLE_NOD_OFF" }
+  | { type: "TOGGLE_DARKMODE" };
+
+interface UserContextType {
+  state: UserState;
+  dispatch: React.Dispatch<UserAction>;
+}
+
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
+
+const INITIAL_STATE: UserState = {
   user: null,
   isSettingsCardOpen: false,
   vibrationOnTaskDone: false,
@@ -12,7 +39,7 @@ const INITIAL_STATE = {
   darkMode: false,
 };
 
-const userReducer = (state, action) => {
+const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case "TOGGLE_SETTINGS_CARD":
       return {
@@ -45,7 +72,11 @@ const userReducer = (state, action) => {
   }
 };
 
-export const UserProvider = ({ children }) => {
+interface UserProviderProps {
+  children: ReactNode;
+}
+
+export const UserProvider = ({ children }: UserProviderProps) => {
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
   return (
     <UserContext.Provider value={{ state, dispatch }}>

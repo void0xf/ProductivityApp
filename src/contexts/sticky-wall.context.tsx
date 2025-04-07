@@ -1,31 +1,71 @@
 "use client";
 
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, ReactNode } from "react";
 
-export const StickyWallContext = createContext();
+interface StickyNote {
+  id: string | number;
+  header: string;
+  content: string;
+}
 
-const INITIAL_STATE = {
+interface StickyWallState {
+  StickyNote: StickyNote[];
+  activeStickNoteToEdit: string | number | null;
+  isEditButtonActive: boolean;
+}
+
+type StickyWallAction =
+  | { type: "ADD_STICKY_NOTE"; payload: StickyNote }
+  | { type: "UPDATE_NOTES"; payload: StickyNote[] }
+  | { type: "EDIT_STICKY_NOTE"; payload: { header: string; content: string } }
+  | { type: "REMOVE_STICKY_NOTE"; payload: string | number }
+  | { type: "CLOSE_STICKY_NOTE_INFO" }
+  | { type: "OPEN_STICKY_NOTE_INFO"; payload: string | number }
+  | { type: "TOGGLE_EDIT_BUTTON" };
+
+interface StickyWallContextType {
+  state: StickyWallState;
+  dispatch: React.Dispatch<StickyWallAction>;
+}
+
+export const StickyWallContext = createContext<
+  StickyWallContextType | undefined
+>(undefined);
+
+const INITIAL_STATE: StickyWallState = {
   StickyNote: [],
   activeStickNoteToEdit: null,
   isEditButtonActive: false,
 };
 
-const removeStickyNote = (stickyNotes, id) => {
-  return stickyNotes.filter((stickyNote) => {
-    return stickyNote.id !== id;
-  });
+const removeStickyNote = (
+  stickyNotes: StickyNote[],
+  id: string | number
+): StickyNote[] => {
+  return stickyNotes.filter((stickyNote) => stickyNote.id !== id);
 };
-const updateStickyNote = (stickyNotes, id, data) => {
+
+const updateStickyNote = (
+  stickyNotes: StickyNote[],
+  id: string | number,
+  data: { header: string; content: string }
+): StickyNote[] => {
   return stickyNotes.map((stickyNote) => {
     if (stickyNote.id === id) {
-      stickyNote.header = data.header;
-      stickyNote.content = data.content;
+      return {
+        ...stickyNote,
+        header: data.header,
+        content: data.content,
+      };
     }
     return stickyNote;
   });
 };
 
-const stickyWallReducer = (state, action) => {
+const stickyWallReducer = (
+  state: StickyWallState,
+  action: StickyWallAction
+): StickyWallState => {
   switch (action.type) {
     case "ADD_STICKY_NOTE":
       return {
@@ -38,6 +78,7 @@ const stickyWallReducer = (state, action) => {
         StickyNote: action.payload,
       };
     case "EDIT_STICKY_NOTE":
+      if (state.activeStickNoteToEdit === null) return state;
       const stickyNotesWithUpdatedStickyNote = updateStickyNote(
         state.StickyNote,
         state.activeStickNoteToEdit,
@@ -78,7 +119,11 @@ const stickyWallReducer = (state, action) => {
   }
 };
 
-const StickWallProvider = ({ children }) => {
+interface StickWallProviderProps {
+  children: ReactNode;
+}
+
+const StickWallProvider = ({ children }: StickWallProviderProps) => {
   const [state, dispatch] = useReducer(stickyWallReducer, INITIAL_STATE);
 
   return (
