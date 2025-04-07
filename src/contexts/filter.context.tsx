@@ -2,16 +2,15 @@
 
 import { createContext, useContext, useReducer } from "react";
 import { useTaskContext } from "./tasks.context";
-
-export const TaskFilter = createContext();
-
 const INITIAL_STATE = {
   filter: "Upcoming",
   listFilter: "None",
   tagsFilter: [],
 };
 
-export const filtrTasks = (tasks, filter) => {
+export const TaskFilter = createContext(INITIAL_STATE);
+
+export const filtrTasks = (tasks: any, filter: any) => {
   const taskList = tasks.tasks;
   const date = new Date();
 
@@ -46,7 +45,7 @@ export const filtrTasks = (tasks, filter) => {
   // })
 };
 
-const filterReducer = (state, action) => {
+const filterReducer = (state: any, action: any) => {
   const { type, payload } = action;
   const { filter, listFilter, tagsFilter } = state;
 
@@ -74,7 +73,7 @@ const filterReducer = (state, action) => {
       return state;
   }
 };
-export const FilterProvider = ({ children }) => {
+export const FilterProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(filterReducer, INITIAL_STATE);
 
   return (
