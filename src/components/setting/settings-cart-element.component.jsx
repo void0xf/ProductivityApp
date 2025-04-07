@@ -1,16 +1,44 @@
-import React, { useState } from 'react'
+import React from "react";
 
-const SettingsCartElement = ({name, valueToSet, setterFunction}) => {
+const SettingsCartElement = ({
+  name,
+  valueToSet,
+  setterFunction,
+  ariaLabel,
+}) => {
   return (
-    <div className='flex justify-between border-bordercolor border-b-2 p-2 '>
-    <div>{name}</div>
-    <button onClick={() => {setterFunction()}}>
-      <div className='w-12 h-6 rounded-full bg-slate-500'>
-       <div className={`relative w-6 h-6 rounded-full bg-blue-500 transition-transform ${valueToSet ? 'translate-x-6' : '' }`} />
+    <div className="flex items-center justify-between py-2">
+      <div className="text-sm text-textcolor pr-4" id={`${name}-label`}>
+        {name}
       </div>
-    </button>
-  </div>
-  )
-}
+      <button
+        onClick={setterFunction}
+        className="relative"
+        role="switch"
+        aria-checked={valueToSet}
+        aria-label={ariaLabel || name}
+        aria-labelledby={`${name}-label`}
+        onKeyDown={(e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            setterFunction();
+          }
+        }}
+      >
+        <div
+          className={`w-11 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+            valueToSet ? "bg-green-500" : "bg-gray-200"
+          }`}
+        >
+          <div
+            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out ${
+              valueToSet ? "translate-x-5" : "translate-x-0"
+            }`}
+          />
+        </div>
+      </button>
+    </div>
+  );
+};
 
-export default SettingsCartElement
+export default SettingsCartElement;
