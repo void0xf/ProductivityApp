@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../index.css";
 import "@fontsource/inter";
 import { Providers } from "./providers";
+import ReduxProvider from "@/redux/provider";
 
 export const metadata: Metadata = {
   title: "Productivity App",
@@ -33,7 +34,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <div id="root">
-          <Providers>{children}</Providers>
+          <ReduxProvider>
+            <Providers>{children}</Providers>
+          </ReduxProvider>
         </div>
       </body>
     </html>
